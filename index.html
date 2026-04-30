@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WildCard DEV | Mark V</title>
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-soft: #0b1024;
+      --text: #f4f7ff;
+      --muted: #aeb8d6;
+      --blue: #67d8ff;
+      --purple: #a66cff;
+      --pink: #ff79c8;
+      --line: rgba(255,255,255,0.12);
+      --glass: rgba(255,255,255,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% 10%, rgba(103,216,255,0.18), transparent 30rem),
+        radial-gradient(circle at 80% 30%, rgba(166,108,255,0.18), transparent 26rem),
+        radial-gradient(circle at 20% 55%, rgba(255,121,200,0.10), transparent 24rem),
+        linear-gradient(180deg, #040511 0%, #080b19 55%, #050712 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 22px 0 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .brand-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 0 22px rgba(103,216,255,0.7);
+    }
+
+    nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 24px auto 0;
+      width: min(420px, 100%);
+    }
+
+    nav a {
+      padding: 11px 14px;
+      border-radius: 999px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255,255,255,0.055);
+      transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      transform: translateY(-2px);
+      color: var(--text);
+      background: rgba(103,216,255,0.13);
+      outline: none;
+    }
+
+    .hero {
+      min-height: 78vh;
+      display: grid;
+      align-items: center;
+      padding: 44px 0 74px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      max-width: 920px;
+      margin: 0 auto;
+      font-size: clamp(2.4rem, 8vw, 5.9rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 690px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      line-height: 1.65;
+    }
+
+    .orbit-stage {
+      position: relative;
+      width: min(82vw, 540px);
+      height: min(82vw, 540px);
+      margin: 44px auto 0;
+      border: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(103,216,255,0.12), transparent 36%),
+        radial-gradient(circle at 50% 50%, rgba(166,108,255,0.08), transparent 58%);
+      perspective: 1000px;
+    }
+
+    .orbit-stage::before {
+      content: "";
+      position: absolute;
+      inset: 24%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.10), transparent 62%);
+      filter: blur(20px);
+    }
+
+    .orbit-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 132px;
+      min-height: 78px;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      border: 0;
+      border-radius: 24px;
+      color: var(--text);
+      font-weight: 750;
+      letter-spacing: 0.04em;
+      background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.035));
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.35),
+        0 0 32px rgba(103,216,255,0.16);
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    }
+
+    .orbit-card:hover,
+    .orbit-card:focus-visible {
+      outline: none;
+      box-shadow:
+        0 22px 52px rgba(0,0,0,0.42),
+        0 0 42px rgba(103,216,255,0.34);
+      background: linear-gradient(145deg, rgba(103,216,255,0.20), rgba(166,108,255,0.09));
+    }
+
+    .orbit-card.penny {
+      color: #ffe6f5;
+      box-shadow:
+        0 18px 45px rgba(0,0,0,0.35),
+        0 0 36px rgba(255,121,200,0.34);
+      background: linear-gradient(145deg, rgba(255,121,200,0.22), rgba(255,255,255,0.045));
+    }
+
+    .orbit-card.penny:hover,
+    .orbit-card.penny:focus-visible {
+      box-shadow:
+        0 22px 52px rgba(0,0,0,0.42),
+        0 0 52px rgba(255,121,200,0.55);
+    }
+
+    .orbit-card:nth-child(1) {
+      transform: translate(-50%, -50%) rotate(-7deg) translate(0, -190px) rotate(7deg);
+    }
+
+    .orbit-card:nth-child(2) {
+      transform: translate(-50%, -50%) rotate(64deg) translate(0, -178px) rotate(-64deg);
+    }
+
+    .orbit-card:nth-child(3) {
+      transform: translate(-50%, -50%) rotate(144deg) translate(0, -176px) rotate(-144deg);
+    }
+
+    .orbit-card:nth-child(4) {
+      transform: translate(-50%, -50%) rotate(218deg) translate(0, -184px) rotate(-218deg);
+    }
+
+    .orbit-card:nth-child(5) {
+      transform: translate(-50%, -50%) rotate(292deg) translate(0, -168px) rotate(-292deg);
+    }
+
+    section {
+      padding: 84px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    section h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: -0.05em;
+    }
+
+    section p {
+      max-width: 720px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .section-card {
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: 28px;
+      background: var(--glass);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    .section-card.penny {
+      box-shadow:
+        inset 0 0 0 1px rgba(255,121,200,0.24),
+        0 0 38px rgba(255,121,200,0.10);
+    }
+
+    footer {
+      padding: 42px 0 56px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 760px) {
+      nav {
+        display: flex;
+        justify-content: center;
+        width: auto;
+      }
+
+      nav a {
+        min-width: 96px;
+      }
+
+      .hero {
+        padding-top: 64px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .orbit-stage {
+        width: min(92vw, 380px);
+        height: min(92vw, 380px);
+      }
+
+      .orbit-card {
+        width: 104px;
+        min-height: 66px;
+        padding: 12px;
+        border-radius: 20px;
+        font-size: 0.86rem;
+      }
+
+      .orbit-card:nth-child(1) {
+        transform: translate(-50%, -50%) rotate(-8deg) translate(0, -132px) rotate(8deg);
+      }
+
+      .orbit-card:nth-child(2) {
+        transform: translate(-50%, -50%) rotate(66deg) translate(0, -126px) rotate(-66deg);
+      }
+
+      .orbit-card:nth-child(3) {
+        transform: translate(-50%, -50%) rotate(145deg) translate(0, -124px) rotate(-145deg);
+      }
+
+      .orbit-card:nth-child(4) {
+        transform: translate(-50%, -50%) rotate(218deg) translate(0, -130px) rotate(-218deg);
+      }
+
+      .orbit-card:nth-child(5) {
+        transform: translate(-50%, -50%) rotate(292deg) translate(0, -120px) rotate(-292deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span>WildCard DEV / Mark V</span>
+      </div>
+
+      <nav aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#penny">Penny</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <h1 id="hero-title">WildCard DEV builds premium web, app, and AI-assisted systems.</h1>
+          <p>Mark V rebuilds the original holographic interface idea around a free-floating orbit, not a boxed spinner.</p>
+
+          <div class="orbit-stage" aria-label="WildCard DEV orbit navigation">
+            <button class="orbit-card" type="button" data-target="about">Core</button>
+            <button class="orbit-card" type="button" data-target="work">Work</button>
+            <button class="orbit-card penny" type="button" data-target="penny">Penny</button>
+            <button class="orbit-card" type="button" data-target="contact">Contact</button>
+            <button class="orbit-card" type="button" data-target="about">Future</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <h2>About</h2>
+        <div class="section-card">
+          <p>WildCard DEV creates focused digital systems with a premium interface feel, practical structure, and a bias toward clean execution.</p>
+        </div>
+      </section>
+
+      <section id="work">
+        <h2>Work</h2>
+        <div class="section-card">
+          <p>Mark V starts lightweight: stronger foundations, cleaner navigation, and a calmer holographic identity that can scale into client work, tools, and future product demos.</p>
+        </div>
+      </section>
+
+      <section id="penny">
+        <h2>Penny</h2>
+        <div class="section-card penny">
+          <p>Penny is the pink-accented intelligence layer of the WildCard DEV experience: polished, helpful, confident, and built to make the interface feel alive without overwhelming it.</p>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <div class="section-card">
+          <p>For project conversations, collaborations, or system builds, WildCard DEV is ready to turn the next idea into a working experience.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      WildCard DEV © Mark V
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll(".orbit-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const target = document.getElementById(card.dataset.target);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  </script>
+</body>
+</html>
