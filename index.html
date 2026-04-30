@@ -15,6 +15,10 @@
       --pink: #ff79c8;
       --line: rgba(255,255,255,0.12);
       --glass: rgba(255,255,255,0.06);
+      --orbit-size: min(92vw, 420px);
+      --orbit-card-w: clamp(92px, 26vw, 152px);
+      --orbit-card-h: clamp(124px, 35vw, 204px);
+      --orbit-depth: clamp(130px, 36vw, 280px);
     }
 
     * {
@@ -23,6 +27,7 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
@@ -41,6 +46,10 @@
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    button {
+      font: inherit;
     }
 
     .page {
@@ -100,7 +109,7 @@
       min-height: 78vh;
       display: grid;
       align-items: center;
-      padding: 44px 0 74px;
+      padding: 40px 0 42px;
       text-align: center;
     }
 
@@ -122,96 +131,438 @@
 
     .orbit-stage {
       position: relative;
-      width: min(82vw, 540px);
-      height: min(82vw, 540px);
-      margin: 44px auto 0;
+      width: var(--orbit-size);
+      height: clamp(250px, 52vw, 390px);
+      margin: 28px auto 0;
       border: 0;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(103,216,255,0.12), transparent 36%),
-        radial-gradient(circle at 50% 50%, rgba(166,108,255,0.08), transparent 58%);
-      perspective: 1000px;
+      background: transparent;
+      perspective: 1200px;
+      overflow: visible;
+      user-select: none;
+      touch-action: none;
     }
 
     .orbit-stage::before {
       content: "";
       position: absolute;
-      inset: 24%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.10), transparent 62%);
-      filter: blur(20px);
+      inset: 18% 8% 16%;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(103,216,255,0.18), transparent 28%),
+        radial-gradient(circle at 42% 50%, rgba(166,108,255,0.12), transparent 44%),
+        radial-gradient(circle at 62% 48%, rgba(255,121,200,0.06), transparent 38%);
+      filter: blur(26px);
+      opacity: 0.62;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orbit-drag {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      transform-style: preserve-3d;
+      overflow: visible;
+      cursor: grab;
+      touch-action: none;
+      z-index: 2;
+    }
+
+    .orbit-drag:active {
+      cursor: grabbing;
+    }
+
+    .orbit-ring {
+      position: relative;
+      width: 1px;
+      height: 1px;
+      transform-style: preserve-3d;
+      overflow: visible;
+      transform: rotateX(-8deg) rotateY(0deg);
+      will-change: transform;
     }
 
     .orbit-card {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 132px;
-      min-height: 78px;
-      display: grid;
-      place-items: center;
-      padding: 16px;
+      width: var(--orbit-card-w);
+      height: var(--orbit-card-h);
+      padding: 0;
       border: 0;
       border-radius: 24px;
       color: var(--text);
-      font-weight: 750;
-      letter-spacing: 0.04em;
-      background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.035));
+      background:
+        linear-gradient(145deg, rgba(103,216,255,0.10), rgba(166,108,255,0.08)),
+        rgba(255,255,255,0.045);
       box-shadow:
-        0 18px 45px rgba(0,0,0,0.35),
-        0 0 32px rgba(103,216,255,0.16);
-      backdrop-filter: blur(14px);
+        0 22px 48px rgba(0,0,0,0.42),
+        0 0 28px rgba(103,216,255,0.22),
+        inset 0 0 0 1px rgba(255,255,255,0.10);
+      overflow: hidden;
       cursor: pointer;
       transform-style: preserve-3d;
-      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transition: box-shadow 180ms ease, filter 180ms ease;
+      animation: orbitCardGlow 3.8s ease-in-out infinite;
+    }
+
+    .orbit-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.18), transparent 24%),
+        linear-gradient(0deg, rgba(5,7,18,0.72), transparent 48%);
+      pointer-events: none;
+    }
+
+    .orbit-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,0.07) 0,
+          rgba(255,255,255,0.07) 1px,
+          transparent 1px,
+          transparent 9px
+        );
+      mix-blend-mode: screen;
+      opacity: 0.16;
+      pointer-events: none;
     }
 
     .orbit-card:hover,
     .orbit-card:focus-visible {
       outline: none;
+      filter: brightness(1.08);
       box-shadow:
-        0 22px 52px rgba(0,0,0,0.42),
-        0 0 42px rgba(103,216,255,0.34);
-      background: linear-gradient(145deg, rgba(103,216,255,0.20), rgba(166,108,255,0.09));
+        0 26px 56px rgba(0,0,0,0.5),
+        0 0 42px rgba(103,216,255,0.36),
+        inset 0 0 0 1px rgba(103,216,255,0.22);
     }
 
     .orbit-card.penny {
-      color: #ffe6f5;
+      background:
+        linear-gradient(145deg, rgba(255,121,200,0.18), rgba(255,255,255,0.045)),
+        rgba(255,255,255,0.045);
       box-shadow:
-        0 18px 45px rgba(0,0,0,0.35),
-        0 0 36px rgba(255,121,200,0.34);
-      background: linear-gradient(145deg, rgba(255,121,200,0.22), rgba(255,255,255,0.045));
+        0 22px 48px rgba(0,0,0,0.42),
+        0 0 38px rgba(255,121,200,0.42),
+        inset 0 0 0 1px rgba(255,121,200,0.28);
+      animation: orbitPennyGlow 3.2s ease-in-out infinite;
     }
 
     .orbit-card.penny:hover,
     .orbit-card.penny:focus-visible {
       box-shadow:
-        0 22px 52px rgba(0,0,0,0.42),
-        0 0 52px rgba(255,121,200,0.55);
+        0 26px 56px rgba(0,0,0,0.5),
+        0 0 56px rgba(255,121,200,0.62),
+        inset 0 0 0 1px rgba(255,121,200,0.44);
     }
 
-    .orbit-card:nth-child(1) {
-      transform: translate(-50%, -50%) rotate(-7deg) translate(0, -190px) rotate(7deg);
+    .orbit-card video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.86;
+      pointer-events: none;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      transform: translateZ(0);
     }
 
-    .orbit-card:nth-child(2) {
-      transform: translate(-50%, -50%) rotate(64deg) translate(0, -178px) rotate(-64deg);
+    .card-corner {
+      position: absolute;
+      z-index: 6;
+      width: 32px;
+      display: grid;
+      justify-items: center;
+      gap: 2px;
+      pointer-events: none;
     }
 
-    .orbit-card:nth-child(3) {
-      transform: translate(-50%, -50%) rotate(144deg) translate(0, -176px) rotate(-144deg);
+    .card-corner--top {
+      left: 8px;
+      top: 8px;
     }
 
-    .orbit-card:nth-child(4) {
-      transform: translate(-50%, -50%) rotate(218deg) translate(0, -184px) rotate(-218deg);
+    .card-corner--bottom {
+      right: 8px;
+      bottom: 8px;
+      transform: rotate(180deg);
     }
 
-    .orbit-card:nth-child(5) {
-      transform: translate(-50%, -50%) rotate(292deg) translate(0, -168px) rotate(-292deg);
+    .card-corner span {
+      font-family: "Orbitron", "Eurostile", "Bank Gothic", "Arial Black", system-ui, sans-serif;
+      font-size: clamp(0.92rem, 2.2vw, 1.12rem);
+      font-weight: 950;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      color: transparent;
+      filter:
+        drop-shadow(0 0 6px rgba(103,216,255,0.72))
+        drop-shadow(0 0 12px rgba(166,108,255,0.46));
+    }
+
+    .card-corner img {
+      width: clamp(15px, 3.5vw, 20px);
+      height: auto;
+      display: block;
+      filter:
+        drop-shadow(0 0 4px rgba(120,180,255,0.8))
+        drop-shadow(0 0 10px rgba(160,100,255,0.6));
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .orbit-card.penny .card-corner span {
+      background: linear-gradient(135deg, #ffe6f5, var(--pink));
+      -webkit-background-clip: text;
+      color: transparent;
+      filter:
+        drop-shadow(0 0 7px rgba(255,121,200,0.9))
+        drop-shadow(0 0 16px rgba(255,121,200,0.58));
+    }
+
+    .orbit-card.penny .card-corner img {
+      filter:
+        drop-shadow(0 0 6px rgba(255,121,200,1))
+        drop-shadow(0 0 14px rgba(255,121,200,0.7));
+    }
+
+    .orbit-label {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 4;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: rgba(244,247,255,0.94);
+      background: rgba(5,7,18,0.58);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.10);
+      font-size: clamp(0.68rem, 2vw, 0.8rem);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .orbit-card.penny .orbit-label {
+      color: #ffe6f5;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,121,200,0.28),
+        0 0 22px rgba(255,121,200,0.18);
+    }
+
+    .holo-floor {
+      position: absolute;
+      left: 50%;
+      bottom: -245px;
+      width: min(118vw, 920px);
+      height: clamp(300px, 38vw, 500px);
+      transform: translateX(-50%) rotateX(70deg);
+      pointer-events: none;
+      z-index: 0;
+      transform-style: preserve-3d;
+      overflow: visible;
+      max-width: 118vw;
+    }
+
+    .holo-floor-grid {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      filter:
+        drop-shadow(0 0 10px rgba(103,216,255,0.28))
+        drop-shadow(0 0 18px rgba(166,108,255,0.22));
+      opacity: 0.26;
+      mix-blend-mode: screen;
+      animation: floorEnergyPulse 5.5s ease-in-out infinite;
+    }
+
+    .holo-floor-grid::before,
+    .holo-floor-grid::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: floorEnergyPulse 5.5s ease-in-out infinite;
+    }
+
+    .holo-floor-grid::before {
+      inset: 12% 9% 16%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 50% 52%, transparent 0 38%, rgba(103,216,255,0.24) 39%, transparent 40.5%, transparent 52%, rgba(166,108,255,0.17) 53%, transparent 54.4%, transparent 65%, rgba(255,121,200,0.12) 66%, transparent 67.3%, transparent 100%),
+        conic-gradient(from 18deg, transparent 0deg 22deg, rgba(103,216,255,0.24) 23deg 25deg, transparent 26deg 74deg, rgba(166,108,255,0.17) 75deg 77deg, transparent 78deg 142deg, rgba(255,121,200,0.14) 143deg 145deg, transparent 146deg 214deg, rgba(103,216,255,0.16) 215deg 217deg, transparent 218deg 286deg, rgba(166,108,255,0.15) 287deg 289deg, transparent 290deg 338deg, rgba(255,121,200,0.12) 339deg 341deg, transparent 342deg 360deg);
+      opacity: 0.26;
+      mask-image: radial-gradient(ellipse at center, transparent 0%, black 20%, black 58%, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse at center, transparent 0%, black 20%, black 58%, transparent 78%);
+    }
+
+    .holo-floor-grid::after {
+      inset: 22% 17% 22%;
+      background:
+        linear-gradient(90deg, transparent 0 10%, rgba(103,216,255,0.26) 10% 10.6%, transparent 10.6% 27%, rgba(166,108,255,0.19) 27% 27.5%, transparent 27.5% 48%, rgba(255,121,200,0.16) 48% 48.55%, transparent 48.55% 73%, rgba(103,216,255,0.18) 73% 73.5%, transparent 73.5% 100%),
+        linear-gradient(0deg, transparent 0 19%, rgba(103,216,255,0.18) 19% 19.55%, transparent 19.55% 43%, rgba(255,121,200,0.14) 43% 43.5%, transparent 43.5% 68%, rgba(166,108,255,0.15) 68% 68.55%, transparent 68.55% 100%),
+        radial-gradient(circle at 10% 19%, rgba(103,216,255,0.35) 0 2px, transparent 3px),
+        radial-gradient(circle at 27% 43%, rgba(166,108,255,0.28) 0 2px, transparent 3px),
+        radial-gradient(circle at 48% 68%, rgba(255,121,200,0.26) 0 2px, transparent 3px),
+        radial-gradient(circle at 73% 19%, rgba(103,216,255,0.30) 0 2px, transparent 3px);
+      filter: blur(0.7px);
+      opacity: 0.26;
+      mask-image: radial-gradient(ellipse at center, black 0%, black 42%, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black 42%, transparent 72%);
+    }
+
+    .holo-floor-spade {
+      position: absolute;
+      left: 50%;
+      top: 18%;
+      width: 320px;
+      height: 320px;
+      transform: translate(-50%, -50%);
+      background: url("images/brands/wildcard-logo-main.png") center/contain no-repeat;
+      filter:
+        drop-shadow(0 0 18px rgba(103,216,255,0.90))
+        drop-shadow(0 0 40px rgba(166,108,255,0.68))
+        drop-shadow(0 0 70px rgba(255,121,200,0.26));
+      opacity: 0.86;
+      mix-blend-mode: screen;
+      animation: floorPulse 6s ease-in-out infinite;
+    }
+
+    .holo-floor-text {
+      position: absolute;
+      left: 50%;
+      bottom: 174px;
+      transform: translateX(-50%);
+      letter-spacing: 0.4em;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      white-space: nowrap;
+      background: linear-gradient(
+        90deg,
+        #6bdcff,
+        #a66cff,
+        #ff79c8,
+        #a66cff,
+        #6bdcff
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: floorTextShift 8s linear infinite;
+      text-shadow:
+        0 0 8px rgba(100,180,255,0.6),
+        0 0 20px rgba(255,121,200,0.4);
+    }
+
+    @keyframes orbitCardGlow {
+      0%, 100% {
+        box-shadow:
+          0 22px 48px rgba(0,0,0,0.42),
+          0 0 24px rgba(103,216,255,0.20),
+          0 0 38px rgba(166,108,255,0.10),
+          inset 0 0 0 1px rgba(255,255,255,0.10);
+      }
+
+      50% {
+        box-shadow:
+          0 24px 54px rgba(0,0,0,0.48),
+          0 0 42px rgba(103,216,255,0.36),
+          0 0 62px rgba(166,108,255,0.24),
+          inset 0 0 0 1px rgba(103,216,255,0.20);
+      }
+    }
+
+    @keyframes orbitPennyGlow {
+      0%, 100% {
+        box-shadow:
+          0 22px 48px rgba(0,0,0,0.42),
+          0 0 30px rgba(255,121,200,0.34),
+          inset 0 0 0 1px rgba(255,121,200,0.26);
+      }
+
+      50% {
+        box-shadow:
+          0 24px 54px rgba(0,0,0,0.48),
+          0 0 58px rgba(255,121,200,0.60),
+          0 0 76px rgba(255,121,200,0.24),
+          inset 0 0 0 1px rgba(255,121,200,0.42);
+      }
+    }
+
+
+    @keyframes floorEnergyPulse {
+      0%, 100% {
+        opacity: 0.26;
+        filter:
+          drop-shadow(0 0 10px rgba(103,216,255,0.28))
+          drop-shadow(0 0 18px rgba(166,108,255,0.22));
+      }
+
+      50% {
+        opacity: 0.58;
+        filter:
+          drop-shadow(0 0 18px rgba(103,216,255,0.48))
+          drop-shadow(0 0 34px rgba(166,108,255,0.42))
+          drop-shadow(0 0 42px rgba(255,121,200,0.22));
+      }
+    }
+
+    @keyframes floorPulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    @keyframes floorTextShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 300% 50%;
+      }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
     }
 
     section {
       padding: 84px 0;
       border-top: 1px solid var(--line);
+    }
+
+    .hero + section {
+      border-top: 0;
     }
 
     section h2 {
@@ -250,6 +601,13 @@
     }
 
     @media (min-width: 760px) {
+      :root {
+        --orbit-size: min(72vw, 760px);
+        --orbit-card-w: clamp(130px, 16vw, 178px);
+        --orbit-card-h: clamp(176px, 22vw, 240px);
+        --orbit-depth: clamp(220px, 28vw, 360px);
+      }
+
       nav {
         display: flex;
         justify-content: center;
@@ -261,42 +619,87 @@
       }
 
       .hero {
-        padding-top: 64px;
+        padding-top: 48px;
+      }
+
+      .orbit-stage {
+        height: clamp(320px, 34vw, 430px);
+        margin-top: 24px;
       }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 420px) {
+      :root {
+        --orbit-card-w: 86px;
+        --orbit-card-h: 116px;
+        --orbit-depth: 118px;
+      }
+
+      .page {
+        width: min(100% - 24px, 1120px);
+      }
+
       .orbit-stage {
-        width: min(92vw, 380px);
-        height: min(92vw, 380px);
+        height: 300px;
       }
 
-      .orbit-card {
-        width: 104px;
-        min-height: 66px;
-        padding: 12px;
-        border-radius: 20px;
-        font-size: 0.86rem;
+      .card-corner {
+        width: 24px;
       }
 
-      .orbit-card:nth-child(1) {
-        transform: translate(-50%, -50%) rotate(-8deg) translate(0, -132px) rotate(8deg);
+      .card-corner img {
+        width: 13px;
       }
 
-      .orbit-card:nth-child(2) {
-        transform: translate(-50%, -50%) rotate(66deg) translate(0, -126px) rotate(-66deg);
+      .holo-floor {
+        width: min(112vw, 520px);
+        height: 240px;
+        bottom: -158px;
+        max-width: 112vw;
       }
 
-      .orbit-card:nth-child(3) {
-        transform: translate(-50%, -50%) rotate(145deg) translate(0, -124px) rotate(-145deg);
+      .holo-floor-grid {
+        opacity: 0.28;
       }
 
-      .orbit-card:nth-child(4) {
-        transform: translate(-50%, -50%) rotate(218deg) translate(0, -130px) rotate(-218deg);
+      .holo-floor-spade {
+        width: 180px;
+        height: 180px;
+        top: 24%;
       }
 
-      .orbit-card:nth-child(5) {
-        transform: translate(-50%, -50%) rotate(292deg) translate(0, -120px) rotate(-292deg);
+      .holo-floor-text {
+        bottom: 110px;
+        font-size: 0.68rem;
+        letter-spacing: 0.28em;
+      }
+
+      .orbit-label {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        padding: 7px 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .orbit-ring {
+        transition: none;
+      }
+
+      .orbit-card,
+      .orbit-card.penny,
+      .holo-floor-grid,
+      .holo-floor-grid::before,
+      .holo-floor-grid::after,
+      .holo-floor-spade,
+      .holo-floor-text,
+      .card-corner img {
+        animation: none;
       }
     }
   </style>
@@ -323,12 +726,72 @@
           <h1 id="hero-title">WildCard DEV builds premium web, app, and AI-assisted systems.</h1>
           <p>Mark V rebuilds the original holographic interface idea around a free-floating orbit, not a boxed spinner.</p>
 
-          <div class="orbit-stage" aria-label="WildCard DEV orbit navigation">
-            <button class="orbit-card" type="button" data-target="about">Core</button>
-            <button class="orbit-card" type="button" data-target="work">Work</button>
-            <button class="orbit-card penny" type="button" data-target="penny">Penny</button>
-            <button class="orbit-card" type="button" data-target="contact">Contact</button>
-            <button class="orbit-card" type="button" data-target="about">Future</button>
+          <div class="orbit-stage" aria-label="WildCard DEV media orbit">
+            <div class="orbit-drag">
+              <div class="orbit-ring">
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Core">
+                  <video src="images/spinner/holo-panel-1.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Core</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="work" aria-label="Go to Work">
+                  <video src="images/spinner/holo-panel-2.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Work</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="penny" aria-label="Go to Penny">
+                  <video src="images/spinner/holo-panel-3.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Penny</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="contact" aria-label="Go to Contact">
+                  <video src="images/spinner/holo-panel-4.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Contact</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Future">
+                  <video src="images/spinner/holo-panel-5.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Future</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="work" aria-label="Go to Systems">
+                  <video src="images/spinner/holo-panel-6.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Systems</span>
+                </button>
+
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Interface">
+                  <video src="images/spinner/holo-panel-7.webm" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>A</span><img src="images/brands/wildcard-logo-main.png" alt="" /></span>
+                  <span class="orbit-label">Interface</span>
+                </button>
+
+                <button class="orbit-card penny" type="button" data-target="penny" aria-label="Go to Penny Concierge">
+                  <video src="images/penny/penny_office_working_v2.mp4" autoplay muted loop playsinline></video>
+                  <span class="card-corner card-corner--top"><span>Q</span><img src="images/brands/wildcard-logo-penny.png" alt="" /></span>
+                  <span class="card-corner card-corner--bottom"><span>Q</span><img src="images/brands/wildcard-logo-penny.png" alt="" /></span>
+                  <span class="orbit-label">Concierge</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="holo-floor">
+              <div class="holo-floor-grid"></div>
+              <div class="holo-floor-spade"></div>
+              <div class="holo-floor-text">WildCard DEV</div>
+            </div>
           </div>
         </div>
       </section>
@@ -368,12 +831,125 @@
   </div>
 
   <script>
-    document.querySelectorAll(".orbit-card").forEach((card) => {
-      card.addEventListener("click", () => {
-        const target = document.getElementById(card.dataset.target);
+    (() => {
+      const stage = document.querySelector(".orbit-stage");
+      const dragSurface = document.querySelector(".orbit-drag");
+      const ring = document.querySelector(".orbit-ring");
+      const cards = Array.from(document.querySelectorAll(".orbit-card"));
+
+      if (!stage || !dragSurface || !ring || !cards.length) return;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let rotation = 0;
+      let tilt = -8;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let startRotation = 0;
+      let startTilt = 0;
+      let lastTime = performance.now();
+      let pointerDownCard = null;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function positionCards() {
+        const count = cards.length;
+        cards.forEach((card, index) => {
+          const angle = (360 / count) * index;
+          card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))";
+        });
+      }
+
+      function render() {
+        ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)";
+      }
+
+      function animate(now) {
+        const delta = now - lastTime;
+        lastTime = now;
+
+        if (!isDragging && !reducedMotion) {
+          rotation += delta * 0.012;
+          render();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      function scrollToTarget(targetId) {
+        const target = document.getElementById(targetId);
         if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      cards.forEach((card) => {
+        card.addEventListener("click", (event) => {
+          event.preventDefault();
+        });
       });
-    });
+
+      dragSurface.addEventListener("pointerdown", (event) => {
+        isDragging = true;
+        stage.dataset.dragged = "false";
+        pointerDownCard = event.target.closest(".orbit-card");
+        startX = event.clientX;
+        startY = event.clientY;
+        startRotation = rotation;
+        startTilt = tilt;
+        dragSurface.setPointerCapture(event.pointerId);
+      });
+
+      dragSurface.addEventListener("pointermove", (event) => {
+        if (!isDragging) return;
+
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
+
+        const dragDistance = Math.hypot(deltaX, deltaY);
+
+        if (dragDistance > 10) {
+          stage.dataset.dragged = "true";
+        }
+
+        rotation = startRotation + deltaX * 0.35;
+        tilt = clamp(startTilt - deltaY * 0.15, -18, -2);
+        render();
+      });
+
+      function endDrag(event) {
+        if (!isDragging) return;
+
+        isDragging = false;
+
+        const dragDistance = Math.hypot(event.clientX - startX, event.clientY - startY);
+        const isClick = dragDistance <= 10;
+
+        if (isClick && pointerDownCard) {
+          scrollToTarget(pointerDownCard.dataset.target);
+        }
+
+        pointerDownCard = null;
+
+        if (dragSurface.hasPointerCapture(event.pointerId)) {
+          dragSurface.releasePointerCapture(event.pointerId);
+        }
+
+        window.setTimeout(() => {
+          stage.dataset.dragged = "false";
+        }, 80);
+      }
+
+      dragSurface.addEventListener("pointerup", endDrag);
+      dragSurface.addEventListener("pointercancel", endDrag);
+      dragSurface.addEventListener("pointerleave", (event) => {
+        if (isDragging) endDrag(event);
+      });
+
+      positionCards();
+      render();
+      requestAnimationFrame(animate);
+    })();
   </script>
 </body>
 </html>
