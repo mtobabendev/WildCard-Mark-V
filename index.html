@@ -18,7 +18,7 @@
       --orbit-size: min(92vw, 420px);
       --orbit-card-w: clamp(92px, 26vw, 152px);
       --orbit-card-h: clamp(124px, 35vw, 204px);
-      --orbit-depth: clamp(115px, 32vw, 240px);
+      --orbit-depth: clamp(130px, 36vw, 280px);
     }
 
     * {
@@ -430,31 +430,25 @@
     .holo-floor {
       position: absolute;
       left: 50%;
-      bottom: -260px;
+      bottom: -245px;
       width: min(118vw, 920px);
       height: clamp(300px, 38vw, 500px);
-      transform: translateX(-50%) rotateX(70deg) translateZ(70px);
+      transform: translateX(-50%) rotateX(70deg);
       pointer-events: none;
       z-index: 0;
       transform-style: preserve-3d;
-      background: transparent;
       overflow: visible;
       max-width: 118vw;
     }
 
     .holo-floor-grid {
       position: absolute;
-      inset: 18% 12% 18%;
-      background:
-        radial-gradient(ellipse at 50% 48%, rgba(103,216,255,0.24), transparent 42%),
-        radial-gradient(ellipse at 42% 52%, rgba(166,108,255,0.18), transparent 46%),
-        radial-gradient(ellipse at 58% 54%, rgba(255,121,200,0.14), transparent 44%);
-      opacity: 0.52;
+      inset: 0;
+      background: transparent;
       filter:
-        blur(16px)
-        drop-shadow(0 0 24px rgba(103,216,255,0.30))
-        drop-shadow(0 0 38px rgba(166,108,255,0.26))
-        drop-shadow(0 0 42px rgba(255,121,200,0.18));
+        drop-shadow(0 0 10px rgba(103,216,255,0.28))
+        drop-shadow(0 0 18px rgba(166,108,255,0.22));
+      opacity: 0.26;
       mix-blend-mode: screen;
       animation: floorEnergyPulse 5.5s ease-in-out infinite;
     }
@@ -464,10 +458,34 @@
       content: "";
       position: absolute;
       pointer-events: none;
-      background: transparent;
-      opacity: 0;
-      filter: none;
-      animation: none;
+      mix-blend-mode: screen;
+      animation: floorEnergyPulse 5.5s ease-in-out infinite;
+    }
+
+    .holo-floor-grid::before {
+      inset: 12% 9% 16%;
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 50% 52%, transparent 0 38%, rgba(103,216,255,0.24) 39%, transparent 40.5%, transparent 52%, rgba(166,108,255,0.17) 53%, transparent 54.4%, transparent 65%, rgba(255,121,200,0.12) 66%, transparent 67.3%, transparent 100%),
+        conic-gradient(from 18deg, transparent 0deg 22deg, rgba(103,216,255,0.24) 23deg 25deg, transparent 26deg 74deg, rgba(166,108,255,0.17) 75deg 77deg, transparent 78deg 142deg, rgba(255,121,200,0.14) 143deg 145deg, transparent 146deg 214deg, rgba(103,216,255,0.16) 215deg 217deg, transparent 218deg 286deg, rgba(166,108,255,0.15) 287deg 289deg, transparent 290deg 338deg, rgba(255,121,200,0.12) 339deg 341deg, transparent 342deg 360deg);
+      opacity: 0.26;
+      mask-image: radial-gradient(ellipse at center, transparent 0%, black 20%, black 58%, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse at center, transparent 0%, black 20%, black 58%, transparent 78%);
+    }
+
+    .holo-floor-grid::after {
+      inset: 22% 17% 22%;
+      background:
+        linear-gradient(90deg, transparent 0 10%, rgba(103,216,255,0.26) 10% 10.6%, transparent 10.6% 27%, rgba(166,108,255,0.19) 27% 27.5%, transparent 27.5% 48%, rgba(255,121,200,0.16) 48% 48.55%, transparent 48.55% 73%, rgba(103,216,255,0.18) 73% 73.5%, transparent 73.5% 100%),
+        linear-gradient(0deg, transparent 0 19%, rgba(103,216,255,0.18) 19% 19.55%, transparent 19.55% 43%, rgba(255,121,200,0.14) 43% 43.5%, transparent 43.5% 68%, rgba(166,108,255,0.15) 68% 68.55%, transparent 68.55% 100%),
+        radial-gradient(circle at 10% 19%, rgba(103,216,255,0.35) 0 2px, transparent 3px),
+        radial-gradient(circle at 27% 43%, rgba(166,108,255,0.28) 0 2px, transparent 3px),
+        radial-gradient(circle at 48% 68%, rgba(255,121,200,0.26) 0 2px, transparent 3px),
+        radial-gradient(circle at 73% 19%, rgba(103,216,255,0.30) 0 2px, transparent 3px);
+      filter: blur(0.7px);
+      opacity: 0.26;
+      mask-image: radial-gradient(ellipse at center, black 0%, black 42%, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black 42%, transparent 72%);
     }
 
     .holo-floor-spade {
@@ -650,7 +668,7 @@
         --orbit-size: min(72vw, 760px);
         --orbit-card-w: clamp(130px, 16vw, 178px);
         --orbit-card-h: clamp(176px, 22vw, 240px);
-        --orbit-depth: clamp(200px, 26vw, 320px);
+        --orbit-depth: clamp(220px, 28vw, 360px);
       }
 
       nav {
@@ -668,23 +686,30 @@
       }
 
       .orbit-stage {
-        height: clamp(320px, 34vw, 430px);
+        height: clamp(500px, 46vw, 610px);
         margin-top: 24px;
+        margin-bottom: -180px;
       }
 
-      .holo-floor {
-        bottom: -300px;
-        transform: translateX(-50%) rotateX(70deg) translateZ(70px);
+      .orbit-stage::after {
+        content: none;
       }
 
-      .holo-floor-spade {
-        top: 8%;
-        transform: translate(-50%, -50%) translateZ(18px);
+      .orbit-drag {
+        height: clamp(320px, 34vw, 430px);
+        top: 0;
+        bottom: auto;
       }
 
-      .holo-floor-text {
-        bottom: 238px;
-        transform: translateX(-50%) translateZ(14px);
+      #about h2 {
+        user-select: none;
+        pointer-events: none;
+      }
+
+      #about .section-card,
+      #about p {
+        user-select: text;
+        pointer-events: auto;
       }
     }
 
