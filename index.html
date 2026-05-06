@@ -126,6 +126,28 @@
       line-height: 1.65;
     }
 
+    .hero-interface {
+      position: relative;
+      display: block;
+      width: 100%;
+      max-width: 1280px;
+      margin: 26px auto 0;
+      padding: 0 12px;
+}
+
+    .hero-interface .orbit-stage {
+      order: 1;
+    }
+
+    .hero-interface .contact-card.matt {
+      order: 2;
+      left: -20px;
+    }
+
+    .hero-interface .contact-card.penny {
+      order: 3;
+    }
+
     .orbit-stage {
       position: relative;
       width: var(--orbit-size);
@@ -640,12 +662,33 @@
     }
 
     section {
-      padding: 84px 0;
+      padding: 88px 0;
       border-top: 1px solid var(--line);
     }
 
     .hero+section {
       border-top: 0;
+    }
+
+    #about {
+      padding-top: 66px;
+      padding-bottom: 86px;
+    }
+
+    #work {
+      padding-top: 88px;
+      padding-bottom: 102px;
+    }
+
+    #penny {
+      position: relative;
+      padding-top: 104px;
+      padding-bottom: 96px;
+      background: radial-gradient(circle at 50% 40%, rgba(255, 121, 200, 0.055), transparent 34rem), linear-gradient(180deg, transparent 0%, rgba(255, 121, 200, 0.025) 50%, transparent 100%);
+    }
+
+    #contact {
+      scroll-margin-top: 24px;
     }
 
     section h2 {
@@ -671,27 +714,23 @@
     }
 
     .section-card.penny {
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.24), 0 0 38px rgba(255, 121, 200, 0.10);
-    }
-
-    #contact {
-      padding-top: 92px;
-      padding-bottom: 96px;
+      padding: clamp(28px, 4vw, 34px);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.26), 0 0 42px rgba(255, 121, 200, 0.12);
     }
 
     .contact-grid {
       display: grid;
-      gap: clamp(22px, 4vw, 34px);
-      width: min(100%, 940px);
-      margin: 36px auto 0;
-      align-items: stretch;
+      gap: clamp(18px, 3vw, 32px);
+      width: min(100%, 1080px);
+      margin: 34px auto 0;
+      align-items: center;
     }
 
     .contact-card {
       display: flex;
       flex-direction: column;
       min-height: 100%;
-      padding: clamp(24px, 4vw, 30px);
+      padding: clamp(20px, 2.4vw, 26px);
       border-radius: 24px;
       background: var(--glass);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
@@ -867,9 +906,25 @@
         padding-top: 48px;
       }
 
+      .hero-interface {
+        position: relative;
+        display: block;
+        width: 100vw;
+        max-width: none;
+        margin: 26px calc(50% - 50vw) 0;
+        padding: 0 clamp(12px, 1.4vw, 24px);
+        transform: none;
+      }
+
+      .hero-interface .orbit-stage {
+        margin-left: auto;
+        margin-right: auto;
+        transform: none;
+      }
+
       .orbit-stage {
         height: clamp(500px, 46vw, 610px);
-        margin-top: 24px;
+        margin-top: 0;
         margin-bottom: -180px;
       }
 
@@ -895,12 +950,97 @@
       }
 
       .contact-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        align-items: stretch;
+        align-items: center;
       }
 
-      .contact-card.penny {
-        margin-top: -6px;
+      .hero-interface .contact-card {
+        width: min(100%, 238px);
+        max-width: 238px;
+        min-height: 0;
+        padding: 18px;
+        border-radius: 22px;
+        justify-self: center;
+      }
+
+      .hero-interface .contact-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 21px;
+      }
+
+      .hero-interface .contact-card h3 {
+        margin-top: 15px;
+        font-size: clamp(1.14rem, 1.65vw, 1.42rem);
+        line-height: 1.04;
+      }
+
+      .hero-interface .contact-title,
+      .hero-interface .contact-card p {
+        margin-top: 7px;
+        font-size: 0.9rem;
+        line-height: 1.46;
+      }
+
+      .hero-interface .contact-links {
+        gap: 8px;
+        margin-top: 17px;
+      }
+
+      .hero-interface .contact-links a {
+        padding: 10px 12px;
+        border-radius: 14px;
+        font-size: 0.92rem;
+      }
+
+      .hero-interface .contact-button {
+        width: 100%;
+        align-self: stretch;
+        margin-top: 18px;
+        padding: 11px 13px;
+        font-size: 0.9rem;
+        text-align: center;
+        white-space: normal;
+      }
+
+      .hero-interface .contact-card.matt {
+        position: absolute;
+        left: clamp(8px, 1.2vw, 22px);
+        top: 45%;
+        transform: translateY(-50%);
+      }
+
+      .hero-interface .contact-card.penny {
+        position: absolute;
+        right: clamp(8px, 1.2vw, 22px);
+        top: 45%;
+        transform: translateY(-50%) scale(1.015);
+        box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.34), 0 0 34px rgba(255, 121, 200, 0.16), 0 18px 44px rgba(0, 0, 0, 0.22);
+      }
+    }
+
+
+    @media (min-width: 760px) and (max-width: 980px) {
+      .hero-interface .contact-card {
+        width: min(100%, 210px);
+        max-width: 210px;
+        padding: 16px;
+      }
+
+      .hero-interface .contact-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 19px;
+      }
+
+      .hero-interface .contact-card h3 {
+        font-size: 1.12rem;
+      }
+
+      .hero-interface .contact-title,
+      .hero-interface .contact-card p,
+      .hero-interface .contact-links a,
+      .hero-interface .contact-button {
+        font-size: 0.86rem;
       }
     }
 
@@ -957,14 +1097,38 @@
         padding: 7px 8px;
       }
 
-      #contact {
-        padding-top: 72px;
+      section {
+        padding: 70px 0;
+      }
+
+      #about {
+        padding-top: 50px;
+        padding-bottom: 68px;
+      }
+
+      #work {
+        padding-top: 70px;
         padding-bottom: 78px;
+      }
+
+      #penny {
+        padding-top: 78px;
+        padding-bottom: 72px;
+        background: radial-gradient(circle at 50% 38%, rgba(255, 121, 200, 0.05), transparent 22rem), linear-gradient(180deg, transparent 0%, rgba(255, 121, 200, 0.022) 50%, transparent 100%);
+      }
+
+      .section-card.penny {
+        padding: 24px;
+      }
+
+      .hero-interface {
+        gap: 18px;
+        margin-top: 26px;
       }
 
       .contact-grid {
         gap: 18px;
-        margin-top: 30px;
+        margin-top: 26px;
       }
 
       .contact-card {
@@ -1038,6 +1202,19 @@
           <h1 id="hero-title">WildCard DEV builds premium web, app, and AI-assisted systems.</h1>
           <p>Mark V rebuilds the original holographic interface idea around a free-floating orbit, not a boxed spinner.
           </p>
+          <div id="contact" class="hero-interface contact-grid" aria-label="WildCard DEV contact operators">
+          <article class="contact-card matt">
+            <div class="contact-avatar">
+              <img src="images/matt-avatar.png" alt="Matt Tobaben" />
+            </div>
+            <h3>Matt Tobaben</h3>
+            <div class="contact-title">Owner, WildCard DEV</div>
+            <div class="contact-links" aria-label="Matt contact links">
+              <a href="#">LinkedIn</a>
+              <a href="#">GitHub</a>
+              <a href="#">Facebook</a>
+            </div>
+          </article>
           <div class="orbit-stage" aria-label="WildCard DEV media orbit">
             <div class="orbit-drag">
               <div class="orbit-ring">
@@ -1145,6 +1322,16 @@
               <div class="holo-floor-text">WildCard DEV</div>
             </div>
           </div>
+          <article class="contact-card penny">
+            <div class="contact-avatar">
+              <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
+            </div>
+            <h3>Penny — Concierge</h3>
+            <p>WildCard DEV’s pink-accented concierge system for project guidance, contact routing, and interface
+              support.</p>
+            <a class="contact-button" href="#">Enter Penny’s Office</a>
+          </article>
+          </div>
         </div>
       </section>
 
@@ -1172,32 +1359,7 @@
         </div>
       </section>
 
-      <section id="contact">
-        <h2>Contact</h2>
-        <div class="contact-grid">
-          <article class="contact-card matt">
-            <div class="contact-avatar">
-              <img src="images/matt-avatar.png" alt="Matt Tobaben" />
-            </div>
-            <h3>Matt Tobaben</h3>
-            <div class="contact-title">Owner, WildCard DEV</div>
-            <div class="contact-links" aria-label="Matt contact links">
-              <a href="#">LinkedIn</a>
-              <a href="#">GitHub</a>
-              <a href="#">Facebook</a>
-            </div>
-          </article>
-          <article class="contact-card penny">
-            <div class="contact-avatar">
-              <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
-            </div>
-            <h3>Penny — Concierge</h3>
-            <p>WildCard DEV’s pink-accented concierge system for project guidance, contact routing, and interface
-              support.</p>
-            <a class="contact-button" href="#">Enter Penny’s Office</a>
-          </article>
-        </div>
-      </section>
+
     </main>
 
     <footer>WildCard DEV © Mark V</footer>
