@@ -592,11 +592,50 @@
 
       0%,
       100% {
-        transform: scale(1);
+        box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.28), 0 0 22px rgba(103, 216, 255, 0.16), 0 0 42px rgba(166, 108, 255, 0.08);
       }
 
       50% {
-        transform: scale(1.03);
+        box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.38), 0 0 30px rgba(103, 216, 255, 0.24), 0 0 58px rgba(166, 108, 255, 0.14);
+      }
+    }
+
+    @keyframes avatarPulsePenny {
+
+      0%,
+      100% {
+        box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.42), 0 0 28px rgba(255, 121, 200, 0.24), 0 0 52px rgba(166, 108, 255, 0.12);
+      }
+
+      50% {
+        box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.58), 0 0 38px rgba(255, 121, 200, 0.34), 0 0 72px rgba(166, 108, 255, 0.20);
+      }
+    }
+
+    @keyframes avatarFloat {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @keyframes avatarShimmer {
+
+      0%,
+      100% {
+        transform: translateX(-58%);
+        opacity: 0.18;
+      }
+
+      48%,
+      52% {
+        transform: translateX(58%);
+        opacity: 0.32;
       }
     }
 
@@ -649,6 +688,7 @@
     }
 
     .contact-card.penny {
+      transform: scale(1.02);
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.28), 0 0 32px rgba(255, 121, 200, 0.12);
     }
 
@@ -658,35 +698,70 @@
       height: 84px;
       border-radius: 24px;
       overflow: hidden;
+      isolation: isolate;
       background: linear-gradient(135deg, rgba(103, 216, 255, 0.16), rgba(166, 108, 255, 0.12)), rgba(255, 255, 255, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.22), 0 0 26px rgba(103, 216, 255, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.28), 0 0 22px rgba(103, 216, 255, 0.16), 0 0 42px rgba(166, 108, 255, 0.08);
+      transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+      animation: avatarPulse 5.8s ease-in-out infinite, avatarFloat 6.2s ease-in-out infinite;
     }
 
-    .contact-avatar img,
-    .contact-avatar video {
+    .contact-avatar img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      filter: saturate(1.08) contrast(1.08) brightness(1.03);
+      transform: scale(1.01);
     }
 
+    .contact-avatar::before,
     .contact-avatar::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%), linear-gradient(0deg, rgba(5, 7, 18, 0.7), transparent 55%);
       pointer-events: none;
     }
 
-    .contact-card.penny .contact-avatar {
-      background: linear-gradient(135deg, rgba(255, 121, 200, 0.26), rgba(166, 108, 255, 0.14)), rgba(255, 255, 255, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.34), 0 0 34px rgba(255, 121, 200, 0.22);
-      animation: avatarPulse 4.5s ease-in-out infinite;
+    .contact-avatar::before {
+      z-index: 1;
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.18) 42%, rgba(103, 216, 255, 0.20) 50%, transparent 62%), repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0.06) 1px, transparent 1px, transparent 8px);
+      mix-blend-mode: screen;
+      opacity: 0.22;
+      transform: translateX(-45%);
+      animation: avatarShimmer 6.8s ease-in-out infinite;
     }
 
-    .contact-card.penny .contact-avatar video {
-      opacity: 0.92;
-      filter: saturate(1.1) contrast(1.05);
+    .contact-avatar::after {
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%), linear-gradient(0deg, rgba(5, 7, 18, 0.7), transparent 55%);
+    }
+
+    .contact-card:hover .contact-avatar,
+    .contact-card:focus-within .contact-avatar {
+      transform: translateY(-3px);
+      filter: brightness(1.1) saturate(1.08);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.42), 0 0 28px rgba(103, 216, 255, 0.28), 0 0 56px rgba(166, 108, 255, 0.16);
+    }
+
+    .contact-card.penny .contact-avatar {
+      background: linear-gradient(135deg, rgba(255, 121, 200, 0.30), rgba(166, 108, 255, 0.18)), rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.42), 0 0 28px rgba(255, 121, 200, 0.24), 0 0 52px rgba(166, 108, 255, 0.12);
+      animation: avatarPulsePenny 5.2s ease-in-out infinite, avatarFloat 5.6s ease-in-out infinite;
+    }
+
+    .contact-card.penny .contact-avatar img {
+      filter: saturate(1.12) contrast(1.06) brightness(1.05);
+    }
+
+    .contact-card.penny .contact-avatar::before {
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.20) 40%, rgba(255, 121, 200, 0.28) 50%, transparent 64%), repeating-linear-gradient(180deg, rgba(255, 121, 200, 0.08) 0, rgba(255, 121, 200, 0.08) 1px, transparent 1px, transparent 8px);
+      opacity: 0.30;
+    }
+
+    .contact-card.penny:hover .contact-avatar,
+    .contact-card.penny:focus-within .contact-avatar {
+      filter: brightness(1.13) saturate(1.14);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.62), 0 0 34px rgba(255, 121, 200, 0.38), 0 0 68px rgba(166, 108, 255, 0.20);
     }
 
     .contact-card h3 {
@@ -883,6 +958,8 @@
       .holo-floor-spade,
       .holo-floor-text,
       .card-corner img,
+      .contact-avatar,
+      .contact-avatar::before,
       .contact-card.penny .contact-avatar {
         animation: none;
       }
@@ -1050,7 +1127,7 @@
         <div class="contact-grid">
           <article class="contact-card matt">
             <div class="contact-avatar">
-              <img src="images/matt/matt-avatar.jpg" alt="Matt Tobaben" />
+              <img src="images/matt-avatar.png" alt="Matt Tobaben" />
             </div>
             <h3>Matt Tobaben</h3>
             <div class="contact-title">Owner, WildCard DEV</div>
@@ -1062,7 +1139,7 @@
           </article>
           <article class="contact-card penny">
             <div class="contact-avatar">
-              <video src="images/penny/penny-avatar-loop.mp4" autoplay muted loop playsinline></video>
+              <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
             </div>
             <h3>Penny — Concierge</h3>
             <p>WildCard DEV’s pink-accented concierge system for project guidance, contact routing, and interface
@@ -1082,183 +1159,7 @@
       const dragSurface = document.querySelector(".orbit-drag");
       const ring = document.querySelector(".orbit-ring");
       const cards = Array.from(document.querySelectorAll(".orbit-card"));
-
-      if (!stage || !dragSurface || !ring || !cards.length) return;
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let rotation = 0;
-      let rotationVelocity = 0;
-      let previousRotation = 0;
-      let previousPointerTime = 0;
-      let tilt = -8;
-      let isDragging = false;
-      let startX = 0;
-      let startY = 0;
-      let startRotation = 0;
-      let startTilt = 0;
-      let lastTime = performance.now();
-      let pointerDownCard = null;
-
-      function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-      }
-
-      function positionCards() {
-        const count = cards.length;
-
-        cards.forEach((card, index) => {
-          const angle = (360 / count) * index;
-          card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))";
-        });
-
-        updateFrontCard();
-      }
-
-      function normalizeAngle(angle) {
-        return ((angle % 360) + 360) % 360;
-      }
-
-      function frontDistance(angle) {
-        const normalized = normalizeAngle(angle);
-        return Math.min(normalized, 360 - normalized);
-      }
-
-      function updateFrontCard() {
-        const count = cards.length;
-        let frontCard = null;
-        let closestDistance = Infinity;
-
-        cards.forEach((card, index) => {
-          const baseAngle = (360 / count) * index;
-          const visualAngle = baseAngle + rotation;
-          const distance = frontDistance(visualAngle);
-
-          if (distance < closestDistance - 0.5) {
-            closestDistance = distance;
-            frontCard = card;
-          }
-        });
-
-        cards.forEach((card) => {
-          card.classList.toggle("is-front", card === frontCard);
-        });
-      }
-
-      function render() {
-        ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)";
-        updateFrontCard();
-      }
-
-      function animate(now) {
-        const delta = now - lastTime;
-        lastTime = now;
-
-        if (isDragging) {
-          requestAnimationFrame(animate);
-          return;
-        }
-
-        if (reducedMotion) {
-          requestAnimationFrame(animate);
-          return;
-        }
-
-        if (Math.abs(rotationVelocity) > 0.001) {
-          rotation += rotationVelocity * delta;
-          rotationVelocity *= 0.94;
-          render();
-        } else {
-          rotationVelocity = 0;
-          rotation += delta * 0.012;
-          render();
-        }
-
-        requestAnimationFrame(animate);
-      }
-
-      function scrollToTarget(targetId) {
-        const target = document.getElementById(targetId);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
-      cards.forEach((card) => {
-        card.addEventListener("click", (event) => {
-          event.preventDefault();
-        });
-      });
-
-      dragSurface.addEventListener("pointerdown", (event) => {
-        isDragging = true;
-        stage.dataset.dragged = "false";
-        pointerDownCard = event.target.closest(".orbit-card");
-        startX = event.clientX;
-        startY = event.clientY;
-        startRotation = rotation;
-        startTilt = tilt;
-        rotationVelocity = 0;
-        previousRotation = rotation;
-        previousPointerTime = event.timeStamp || performance.now();
-        dragSurface.setPointerCapture(event.pointerId);
-      });
-
-      dragSurface.addEventListener("pointermove", (event) => {
-        if (!isDragging) return;
-
-        const deltaX = event.clientX - startX;
-        const deltaY = event.clientY - startY;
-        const dragDistance = Math.hypot(deltaX, deltaY);
-
-        if (dragDistance > 10) {
-          stage.dataset.dragged = "true";
-        }
-
-        rotation = startRotation + deltaX * 0.35;
-
-        const currentPointerTime = event.timeStamp || performance.now();
-        const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime);
-
-        rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18);
-        previousRotation = rotation;
-        previousPointerTime = currentPointerTime;
-        tilt = clamp(startTilt - deltaY * 0.15, -18, -2);
-
-        render();
-      });
-
-      function endDrag(event) {
-        if (!isDragging) return;
-
-        isDragging = false;
-
-        const dragDistance = Math.hypot(event.clientX - startX, event.clientY - startY);
-        const isClick = dragDistance <= 10;
-
-        if (isClick && pointerDownCard) {
-          rotationVelocity = 0;
-          scrollToTarget(pointerDownCard.dataset.target);
-        }
-
-        pointerDownCard = null;
-
-        if (dragSurface.hasPointerCapture(event.pointerId)) {
-          dragSurface.releasePointerCapture(event.pointerId);
-        }
-
-        window.setTimeout(() => {
-          stage.dataset.dragged = "false";
-        }, 80);
-      }
-
-      dragSurface.addEventListener("pointerup", endDrag);
-      dragSurface.addEventListener("pointercancel", endDrag);
-
-      dragSurface.addEventListener("pointerleave", (event) => {
-        if (isDragging) endDrag(event);
-      });
-
-      positionCards();
-      render();
-      requestAnimationFrame(animate);
+      if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); let pointerDownCard = null; function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; pointerDownCard = event.target.closest(".orbit-card"); startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); if (dragDistance > 10) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; const dragDistance = Math.hypot(event.clientX - startX, event.clientY - startY); const isClick = dragDistance <= 10; if (isClick && pointerDownCard) { rotationVelocity = 0; scrollToTarget(pointerDownCard.dataset.target); } pointerDownCard = null; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
     })();
   </script>
 </body>
