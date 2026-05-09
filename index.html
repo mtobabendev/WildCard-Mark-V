@@ -695,6 +695,52 @@
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.32), 0 0 38px rgba(255, 121, 200, 0.16), 0 18px 42px rgba(0, 0, 0, 0.18);
     }
 
+
+    .interface-modes {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 360px);
+      margin: 18px auto 0;
+      pointer-events: none;
+    }
+
+    .interface-mode {
+      padding: 18px;
+      border-radius: 22px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.14), 0 0 28px rgba(103, 216, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .interface-mode[hidden] {
+      display: none;
+    }
+
+    .interface-mode__kicker {
+      margin: 0;
+      color: var(--pink);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .interface-mode h2 {
+      margin: 8px 0 0;
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .interface-mode p:not(.interface-mode__kicker) {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
     .contact-avatar {
       position: relative;
       width: 84px;
@@ -1022,17 +1068,22 @@
         order: 1;
       }
 
+      .hero-interface .interface-modes {
+        order: 2;
+        margin-top: -8px;
+      }
+
       .orbit-stage {
         margin-top: -72px;
       }
 
       .hero-interface .contact-card.matt {
-        order: 2;
+        order: 3;
         margin-top: -18px;
       }
 
       .hero-interface .contact-card.penny {
-        order: 3;
+        order: 4;
         margin-top: -6px;
       }
 
@@ -1149,6 +1200,15 @@
         margin-left: auto;
         margin-right: auto;
         transform: none;
+      }
+
+      .hero-interface .interface-modes {
+        position: absolute;
+        left: 50%;
+        top: 72%;
+        transform: translateX(-50%);
+        width: min(34vw, 360px);
+        margin: 0;
       }
 
       .orbit-stage {
@@ -1516,6 +1576,37 @@
               <div class="holo-floor-text">WildCard DEV</div>
             </div>
           </div>
+          <section class="interface-modes" aria-label="WildCard DEV interface modes">
+            <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
+              <p class="interface-mode__kicker">Active Channel</p>
+              <h2>Contact</h2>
+              <p>Direct operator access for WildCard DEV, Matt, and Penny.</p>
+            </article>
+
+            <article class="interface-mode" data-mode="systems" aria-label="Systems mode" hidden>
+              <p class="interface-mode__kicker">System Layer</p>
+              <h2>Systems</h2>
+              <p>Premium web, app, and automation systems built with cinematic precision.</p>
+            </article>
+
+            <article class="interface-mode" data-mode="portfolio" aria-label="Portfolio mode" hidden>
+              <p class="interface-mode__kicker">Proof Layer</p>
+              <h2>Portfolio</h2>
+              <p>Selected builds, experiments, client systems, and interface work.</p>
+            </article>
+
+            <article class="interface-mode" data-mode="penny" aria-label="Penny mode" hidden>
+              <p class="interface-mode__kicker">Concierge Layer</p>
+              <h2>Penny</h2>
+              <p>WildCard DEV’s AI concierge presence for routing, guidance, and interactive support.</p>
+            </article>
+
+            <article class="interface-mode" data-mode="automation" aria-label="Automation mode" hidden>
+              <p class="interface-mode__kicker">Execution Layer</p>
+              <h2>Automation</h2>
+              <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
+            </article>
+          </section>
           <article class="contact-card penny">
             <div class="contact-avatar">
               <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
