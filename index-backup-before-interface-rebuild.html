@@ -70,7 +70,7 @@
     }
 
     header {
-      padding: 22px 0 0;
+      padding: 22px 0 10px;
     }
 
     .brand {
@@ -118,13 +118,28 @@
     }
 
     .hero {
-      display: block;
-      min-height: auto;
-      padding: 8px 0 0;
+      display: grid;
+      align-items: center;
+      min-height: 78vh;
+      padding: 40px 0 42px;
       text-align: center;
     }
 
+    .hero h1 {
+      max-width: 920px;
+      margin: 0 auto;
+      font-size: clamp(2.4rem, 8vw, 5.9rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+    }
 
+    .hero p {
+      max-width: 690px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      line-height: 1.65;
+    }
 
     .hero-interface {
       position: relative;
@@ -661,15 +676,62 @@
       }
     }
 
+    section {
+      padding: 88px 0;
+      border-top: 1px solid var(--line);
+    }
 
+    .hero+section {
+      border-top: 0;
+    }
+
+    #about {
+      padding-top: 66px;
+      padding-bottom: 86px;
+    }
+
+    #work {
+      padding-top: 88px;
+      padding-bottom: 102px;
+    }
+
+    #penny {
+      position: relative;
+      padding-top: 104px;
+      padding-bottom: 96px;
+      background: radial-gradient(circle at 50% 40%, rgba(255, 121, 200, 0.055), transparent 34rem), linear-gradient(180deg, transparent 0%, rgba(255, 121, 200, 0.025) 50%, transparent 100%);
+    }
 
     #contact {
       scroll-margin-top: 24px;
     }
 
+    section h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: -0.05em;
+    }
 
+    section p {
+      max-width: 720px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
 
+    .section-card {
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: 28px;
+      background: var(--glass);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
 
+    .section-card.penny {
+      padding: clamp(28px, 4vw, 34px);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.26), 0 0 42px rgba(255, 121, 200, 0.12);
+    }
 
     .contact-grid {
       display: grid;
@@ -841,8 +903,28 @@
       height: 21px;
     }
 
+    .contact-links {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
+    }
 
+    .contact-links a {
+      padding: 12px 14px;
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
 
+    .contact-links a:hover,
+    .contact-links a:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      background: rgba(103, 216, 255, 0.10);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.24), 0 0 24px rgba(103, 216, 255, 0.14), 0 0 34px rgba(166, 108, 255, 0.10);
+    }
 
     .contact-button {
       display: inline-flex;
@@ -1007,6 +1089,12 @@
     }
 
 
+    footer {
+      padding: 42px 0 56px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
 
 
     @media (max-width: 759px) {
@@ -1149,7 +1237,7 @@
 
       .orbit-stage {
         height: clamp(500px, 46vw, 610px);
-        margin-top: -210px;
+        margin-top: 0;
         margin-bottom: -180px;
       }
 
@@ -1161,6 +1249,17 @@
         top: 0;
         bottom: auto;
         height: clamp(320px, 34vw, 430px);
+      }
+
+      #about h2 {
+        user-select: none;
+        pointer-events: none;
+      }
+
+      #about .section-card,
+      #about p {
+        user-select: text;
+        pointer-events: auto;
       }
 
       .contact-grid {
@@ -1195,7 +1294,16 @@
         line-height: 1.46;
       }
 
+      .hero-interface .contact-links {
+        gap: 8px;
+        margin-top: 17px;
+      }
 
+      .hero-interface .contact-links a {
+        padding: 10px 12px;
+        border-radius: 14px;
+        font-size: 0.92rem;
+      }
 
       .hero-interface .contact-button {
         width: 100%;
@@ -1243,6 +1351,7 @@
 
       .hero-interface .contact-title,
       .hero-interface .contact-card p,
+      .hero-interface .contact-links a,
       .hero-interface .contact-button {
         font-size: 0.86rem;
       }
@@ -1301,7 +1410,29 @@
         padding: 7px 8px;
       }
 
+      section {
+        padding: 70px 0;
+      }
 
+      #about {
+        padding-top: 50px;
+        padding-bottom: 68px;
+      }
+
+      #work {
+        padding-top: 70px;
+        padding-bottom: 78px;
+      }
+
+      #penny {
+        padding-top: 78px;
+        padding-bottom: 72px;
+        background: radial-gradient(circle at 50% 38%, rgba(255, 121, 200, 0.05), transparent 22rem), linear-gradient(180deg, transparent 0%, rgba(255, 121, 200, 0.022) 50%, transparent 100%);
+      }
+
+      .section-card.penny {
+        padding: 24px;
+      }
 
       .hero-interface {
         gap: 18px;
@@ -1331,6 +1462,7 @@
         margin-top: 8px;
       }
 
+      .contact-links,
       .contact-button {
         margin-top: 20px;
       }
@@ -1359,22 +1491,6 @@
         animation: none;
       }
     }
-     header nav {
-      position: fixed !important;
-      left: 50% !important;
-      bottom: 18px !important;
-      top: auto !important;
-      transform: translateX(-50%) !important;
-      z-index: 9999 !important;
-      display: flex !important;
-      width: auto !important;
-      margin: 0 !important;
-      padding: 8px !important;
-      border-radius: 999px !important;
-      background: rgba(5, 7, 18, 0.62) !important;
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.18), 0 0 28px rgba(103, 216, 255, 0.16);
-      backdrop-filter: blur(18px);
-    }
   </style>
 </head>
 
@@ -1386,9 +1502,9 @@
         <span>WildCard DEV</span>
       </div>
       <nav aria-label="Primary navigation">
-        <a href="#contact">Systems</a>
-        <a href="#contact">Portfolio</a>
-        <a href="#contact">Penny</a>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#penny">Penny</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -1396,6 +1512,9 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div>
+          <h1 id="hero-title">WildCard DEV builds premium web, app, and AI-assisted systems.</h1>
+          <p>Premium interfaces, intelligent systems, and cinematic web experiences built for people who notice the details.
+          </p>
           <div id="contact" class="hero-interface contact-grid" aria-label="WildCard DEV contact operators">
           <article class="contact-card matt">
             <div class="contact-avatar">
@@ -1429,7 +1548,7 @@
           <div class="orbit-stage" aria-label="WildCard DEV media orbit">
             <div class="orbit-drag">
               <div class="orbit-ring">
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Open Systems">
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Core">
                   <video src="images/spinner/holo-panel-1.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1439,9 +1558,9 @@
                     <span>A</span>
                     <img src="images/brands/wildcard-logo-main.png" alt="" />
                   </span>
-                  <span class="orbit-label">Systems</span>
+                  <span class="orbit-label">Core</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Open Portfolio">
+                <button class="orbit-card" type="button" data-target="work" aria-label="Go to Work">
                   <video src="images/spinner/holo-panel-2.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1451,9 +1570,9 @@
                     <span>A</span>
                     <img src="images/brands/wildcard-logo-main.png" alt="" />
                   </span>
-                  <span class="orbit-label">Portfolio</span>
+                  <span class="orbit-label">Work</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Open Penny">
+                <button class="orbit-card" type="button" data-target="penny" aria-label="Go to Penny">
                   <video src="images/spinner/holo-panel-3.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1477,7 +1596,7 @@
                   </span>
                   <span class="orbit-label">Contact</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Open Automation">
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Future">
                   <video src="images/spinner/holo-panel-5.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1487,9 +1606,9 @@
                     <span>A</span>
                     <img src="images/brands/wildcard-logo-main.png" alt="" />
                   </span>
-                  <span class="orbit-label">Automation</span>
+                  <span class="orbit-label">Future</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Go to Systems">
+                <button class="orbit-card" type="button" data-target="work" aria-label="Go to Systems">
                   <video src="images/spinner/holo-panel-6.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1501,7 +1620,7 @@
                   </span>
                   <span class="orbit-label">Systems</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Go to Interface">
+                <button class="orbit-card" type="button" data-target="about" aria-label="Go to Interface">
                   <video src="images/spinner/holo-panel-7.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -1513,7 +1632,7 @@
                   </span>
                   <span class="orbit-label">Interface</span>
                 </button>
-                <button class="orbit-card penny" type="button" data-target="contact" aria-label="Open Penny Concierge">
+                <button class="orbit-card penny" type="button" data-target="penny" aria-label="Go to Penny Concierge">
                   <video src="images/penny/penny_office_working_v2.mp4" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>Q</span>
@@ -1545,7 +1664,35 @@
           </div>
         </div>
       </section>
+
+      <section id="about">
+        <h2>About</h2>
+        <div class="section-card">
+          <p>WildCard DEV creates focused digital systems with a premium interface feel, practical structure, and a bias
+            toward clean execution.</p>
+        </div>
+      </section>
+
+      <section id="work">
+        <h2>Work</h2>
+        <div class="section-card">
+          <p>Mark V starts lightweight: stronger foundations, cleaner navigation, and a calmer holographic identity that
+            can scale into client work, tools, and future product demos.</p>
+        </div>
+      </section>
+
+      <section id="penny">
+        <h2>Penny</h2>
+        <div class="section-card penny">
+          <p>Penny is the pink-accented intelligence layer of the WildCard DEV experience: polished, helpful, confident,
+            and built to make the interface feel alive without overwhelming it.</p>
+        </div>
+      </section>
+
+
     </main>
+
+    <footer>WildCard DEV © Mark V</footer>
   </div>
 
 
@@ -1616,4 +1763,3 @@
 </body>
 
 </html>
-
