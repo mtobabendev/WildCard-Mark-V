@@ -950,6 +950,145 @@
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.48), 0 0 32px rgba(255, 121, 200, 0.24), 0 0 42px rgba(166, 108, 255, 0.14);
     }
 
+
+    .penny-referral {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: radial-gradient(circle at 50% 40%, rgba(255, 121, 200, 0.14), transparent 28rem), radial-gradient(circle at 35% 35%, rgba(103, 216, 255, 0.14), transparent 24rem), rgba(4, 5, 17, 0.58);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 220ms ease, visibility 220ms ease;
+    }
+
+    .penny-referral.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+    }
+
+    .penny-referral__card {
+      position: relative;
+      width: min(100%, 470px);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      padding: clamp(24px, 6vw, 34px);
+      border-radius: 30px;
+      background: linear-gradient(145deg, rgba(103, 216, 255, 0.10), rgba(255, 121, 200, 0.10)), rgba(5, 7, 18, 0.88);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 28px 80px rgba(0, 0, 0, 0.58), 0 0 44px rgba(103, 216, 255, 0.18), 0 0 68px rgba(255, 121, 200, 0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      pointer-events: auto;
+    }
+
+    .penny-referral__card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.12) 42%, rgba(255, 121, 200, 0.18) 50%, transparent 62%), repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0, rgba(255, 255, 255, 0.045) 1px, transparent 1px, transparent 10px);
+      mix-blend-mode: screen;
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    .penny-referral__close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.065);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .penny-referral__close:hover,
+    .penny-referral__close:focus-visible {
+      outline: none;
+      transform: translateY(-1px);
+      background: rgba(255, 121, 200, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.30), 0 0 22px rgba(255, 121, 200, 0.16);
+    }
+
+    .penny-referral__kicker {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--pink);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .penny-referral__title {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 0;
+      max-width: 360px;
+      font-size: clamp(2rem, 8vw, 3.25rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .penny-referral__body {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+    }
+
+    .penny-referral__button {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px 18px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff7fc;
+      font-weight: 900;
+      background: linear-gradient(135deg, rgba(103, 216, 255, 0.28), rgba(166, 108, 255, 0.24), rgba(255, 121, 200, 0.26));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 0 28px rgba(255, 121, 200, 0.14);
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    }
+
+    .penny-referral__button:hover,
+    .penny-referral__button:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      filter: brightness(1.08) saturate(1.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22), 0 0 34px rgba(255, 121, 200, 0.22), 0 0 42px rgba(103, 216, 255, 0.12);
+    }
+
+    .penny-referral__note {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      color: rgba(244, 247, 255, 0.72);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+
     footer {
       padding: 42px 0 56px;
       color: var(--muted);
@@ -1556,6 +1695,18 @@
     <footer>WildCard DEV © Mark V</footer>
   </div>
 
+
+  <div class="penny-referral" data-referral-route="from=personal-fb" aria-hidden="true">
+    <div class="penny-referral__card" role="dialog" aria-modal="false" aria-labelledby="penny-referral-title" aria-describedby="penny-referral-body">
+      <button class="penny-referral__close" type="button" aria-label="Close Penny referral message">×</button>
+      <p class="penny-referral__kicker">PENNY / PRIVATE SIGNAL DETECTED</p>
+      <h2 class="penny-referral__title" id="penny-referral-title">You found Matt’s off-hours channel.</h2>
+      <p class="penny-referral__body" id="penny-referral-body">Most visitors arrive through the front door. You came in through the interesting one. I’ll behave… mostly.</p>
+      <button class="penny-referral__button" type="button">Continue to WildCard DEV</button>
+      <p class="penny-referral__note">Operator note: curiosity is usually a good sign.</p>
+    </div>
+  </div>
+
   <script>
     (() => {
       const stage = document.querySelector(".orbit-stage");
@@ -1565,6 +1716,50 @@
       if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); let pointerDownCard = null; function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; pointerDownCard = event.target.closest(".orbit-card"); startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); if (dragDistance > 10) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; const dragDistance = Math.hypot(event.clientX - startX, event.clientY - startY); const isClick = dragDistance <= 10; if (isClick && pointerDownCard) { rotationVelocity = 0; scrollToTarget(pointerDownCard.dataset.target); } pointerDownCard = null; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
     })();
   </script>
+
+  <script>
+    (() => {
+      const referralPopup = document.querySelector(".penny-referral");
+      if (!referralPopup) return;
+
+      const routeSignature = "from=personal-fb";
+      const params = new URLSearchParams(window.location.search);
+      const sessionKey = "wildcardPersonalFbWelcomeSeen";
+      const isPersonalFbRoute = routeSignature === "from=personal-fb" && params.get("from") === "personal-fb";
+
+      let hasSeenReferral = false;
+      try {
+        hasSeenReferral = sessionStorage.getItem(sessionKey) === "true";
+      } catch (error) {
+        hasSeenReferral = false;
+      }
+
+      const closeReferral = () => {
+        try {
+          sessionStorage.setItem(sessionKey, "true");
+        } catch (error) {
+          // Session storage may be unavailable in some privacy modes.
+        }
+        referralPopup.classList.remove("is-visible");
+        referralPopup.setAttribute("aria-hidden", "true");
+      };
+
+      if (isPersonalFbRoute && !hasSeenReferral) {
+        referralPopup.classList.add("is-visible");
+        referralPopup.setAttribute("aria-hidden", "false");
+      }
+
+      referralPopup.querySelector(".penny-referral__button")?.addEventListener("click", closeReferral);
+      referralPopup.querySelector(".penny-referral__close")?.addEventListener("click", closeReferral);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && referralPopup.classList.contains("is-visible")) {
+          closeReferral();
+        }
+      });
+    })();
+  </script>
+
 </body>
 
 </html>
