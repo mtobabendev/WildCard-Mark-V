@@ -1158,47 +1158,71 @@
       .hero-interface .interface-modes {
         order: 2;
         width: min(100%, 390px);
-        margin-top: -14px;
-        padding-bottom: clamp(26px, 8vh, 74px);
+        margin-top: -24px;
+        padding-bottom: clamp(18px, 6vh, 52px);
       }
 
       .interface-mode {
-        min-height: clamp(184px, 34vh, 310px);
-        padding: 20px 18px 22px;
+        min-height: clamp(168px, 30vh, 268px);
+        padding: 16px 17px 18px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         background:
-          linear-gradient(180deg, rgba(2, 4, 12, 0.24), rgba(5, 7, 18, 0.13) 58%, rgba(5, 7, 18, 0.035)),
-          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.030), transparent 64%),
-          radial-gradient(ellipse at 72% 24%, rgba(166, 108, 255, 0.024), transparent 60%),
-          radial-gradient(ellipse at 28% 18%, rgba(255, 121, 200, 0.018), transparent 58%);
+          linear-gradient(180deg, rgba(2, 4, 12, 0.23), rgba(5, 7, 18, 0.12) 58%, rgba(5, 7, 18, 0.030)),
+          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.036), transparent 62%),
+          radial-gradient(ellipse at 72% 24%, rgba(166, 108, 255, 0.028), transparent 58%),
+          radial-gradient(ellipse at 28% 18%, rgba(255, 121, 200, 0.022), transparent 56%);
         box-shadow:
-          inset 0 0 0 1px rgba(255, 255, 255, 0.044),
-          inset 0 -36px 74px rgba(103, 216, 255, 0.018),
-          0 12px 32px rgba(0, 0, 0, 0.10),
-          0 0 18px rgba(103, 216, 255, 0.048),
-          0 0 44px rgba(166, 108, 255, 0.034);
+          inset 0 0 0 1px rgba(255, 255, 255, 0.046),
+          inset 0 -28px 58px rgba(103, 216, 255, 0.017),
+          0 9px 26px rgba(0, 0, 0, 0.095),
+          0 0 18px rgba(103, 216, 255, 0.050),
+          0 0 38px rgba(166, 108, 255, 0.032);
         backdrop-filter: blur(0.8px);
         -webkit-backdrop-filter: blur(0.8px);
       }
 
       .interface-mode::before {
-        opacity: 0.09;
-        filter: blur(9px);
-        animation: mobileSystemTraceDrift 7.4s ease-in-out infinite;
+        background:
+          linear-gradient(
+            106deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.030) 40%,
+            rgba(103, 216, 255, 0.042) 49%,
+            rgba(255, 121, 200, 0.018) 52%,
+            transparent 64%
+          ),
+          repeating-linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.012) 0,
+            rgba(255, 255, 255, 0.012) 1px,
+            transparent 1px,
+            transparent 9px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 17px,
+            rgba(103, 216, 255, 0.010) 18px,
+            transparent 19px
+          );
+        opacity: 0.082;
+        filter: blur(7px);
+        transform: translate3d(0, 0, 0);
+        animation: mobileSystemTraceDrift 7.4s ease-in-out infinite, mobileSystemCrackle 11.2s steps(1, end) infinite;
       }
 
       .interface-mode::after {
-        inset: auto -22% -58% -22%;
-        height: 112%;
+        inset: auto -18% -42% -18%;
+        height: 82%;
         background:
-          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.060), transparent 30%, transparent 72%),
-          radial-gradient(ellipse at 28% 12%, rgba(255, 121, 200, 0.030), transparent 42%),
-          radial-gradient(ellipse at 74% 16%, rgba(166, 108, 255, 0.038), transparent 46%),
-          linear-gradient(180deg, rgba(103, 216, 255, 0.018), transparent 78%);
-        opacity: 0.22;
-        filter: blur(13px);
+          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.052), transparent 28%, transparent 66%),
+          radial-gradient(ellipse at 28% 12%, rgba(255, 121, 200, 0.024), transparent 38%),
+          radial-gradient(ellipse at 74% 16%, rgba(166, 108, 255, 0.032), transparent 42%),
+          linear-gradient(180deg, rgba(103, 216, 255, 0.014), transparent 70%);
+        opacity: 0.18;
+        filter: blur(11px);
         transform: translateY(0) scaleX(1);
         animation: mobileSystemFieldDrift 8.6s ease-in-out infinite;
       }
@@ -1206,38 +1230,66 @@
       .interface-mode.is-active {
         box-shadow:
           inset 0 0 0 1px rgba(255, 255, 255, 0.050),
-          inset 0 -42px 86px rgba(103, 216, 255, 0.020),
-          0 12px 34px rgba(0, 0, 0, 0.12),
+          inset 0 -32px 68px rgba(103, 216, 255, 0.019),
+          0 9px 28px rgba(0, 0, 0, 0.11),
           0 0 18px rgba(103, 216, 255, 0.054),
-          0 0 44px rgba(166, 108, 255, 0.038),
+          0 0 40px rgba(166, 108, 255, 0.036),
           0 0 14px rgba(174, 255, 92, 0.020);
       }
 
       @keyframes mobileSystemFieldDrift {
         0%,
         100% {
-          opacity: 0.18;
-          filter: blur(12px);
-          transform: translateY(0) scaleX(0.985);
+          opacity: 0.15;
+          filter: blur(10px);
+          transform: translateY(0) scaleX(0.99);
         }
 
         47% {
-          opacity: 0.27;
-          filter: blur(14px);
-          transform: translateY(4px) scaleX(1.018);
+          opacity: 0.22;
+          filter: blur(12px);
+          transform: translateY(2px) scaleX(1.012);
         }
       }
 
       @keyframes mobileSystemTraceDrift {
         0%,
         100% {
-          opacity: 0.065;
-          transform: translateY(0);
+          opacity: 0.058;
+          transform: translateY(0) translateX(0);
         }
 
         52% {
-          opacity: 0.12;
-          transform: translateY(1px);
+          opacity: 0.105;
+          transform: translateY(1px) translateX(0.5px);
+        }
+      }
+
+      @keyframes mobileSystemCrackle {
+        0%,
+        100% {
+          opacity: 0.070;
+          background-position: 0 0, 0 0, 0 0;
+        }
+
+        21% {
+          opacity: 0.092;
+          background-position: 1px -1px, 0 2px, -1px 0;
+        }
+
+        22% {
+          opacity: 0.062;
+          background-position: 0 0, 0 0, 0 0;
+        }
+
+        61% {
+          opacity: 0.088;
+          background-position: -1px 1px, 0 -1px, 1px 0;
+        }
+
+        62% {
+          opacity: 0.064;
+          background-position: 0 0, 0 0, 0 0;
         }
       }
 
@@ -1645,23 +1697,23 @@
 
 
       .hero-interface {
-        gap: 14px;
-        margin-top: -10px;
+        gap: 12px;
+        margin-top: -12px;
       }
 
       .hero-interface .interface-modes {
-        margin-top: -20px;
-        padding-bottom: clamp(34px, 9vh, 86px);
+        margin-top: -28px;
+        padding-bottom: clamp(22px, 7vh, 60px);
       }
 
       .interface-mode {
-        min-height: clamp(190px, 38vh, 326px);
-        padding: 20px 16px 24px;
+        min-height: clamp(172px, 32vh, 284px);
+        padding: 17px 16px 19px;
       }
 
       .interface-mode::after {
-        inset: auto -24% -64% -24%;
-        height: 120%;
+        inset: auto -20% -46% -20%;
+        height: 88%;
       }
 
       .contact-grid {
