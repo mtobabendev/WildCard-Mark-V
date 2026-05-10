@@ -705,18 +705,70 @@
     }
 
     .interface-mode {
+      position: relative;
       padding: 18px;
       border-radius: 22px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.14), 0 0 28px rgba(103, 216, 255, 0.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(
+        145deg,
+        rgba(103, 216, 255, 0.018),
+        rgba(166, 108, 255, 0.016),
+        rgba(255, 121, 200, 0.014)
+      );
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+        0 0 22px rgba(103, 216, 255, 0.08),
+        0 0 42px rgba(166, 108, 255, 0.06);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      overflow: hidden;
+      isolation: isolate;
       opacity: 0;
       transform: translateY(10px);
       transition:
         opacity 180ms ease,
         transform 180ms ease;
+    }
+
+    .interface-mode::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          105deg,
+          transparent 0%,
+          rgba(255,255,255,0.042) 42%,
+          rgba(103,216,255,0.055) 50%,
+          transparent 62%
+        ),
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,0.016) 0,
+          rgba(255,255,255,0.016) 1px,
+          transparent 1px,
+          transparent 10px
+        );
+      mix-blend-mode: screen;
+      opacity: 0.14;
+      pointer-events: none;
+    }
+
+    .interface-mode::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(103,216,255,0.10),
+          transparent 65%
+        );
+      opacity: 0.42;
+      filter: blur(22px);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .interface-mode.is-active {
@@ -735,20 +787,29 @@
       font-weight: 900;
       letter-spacing: 0.16em;
       text-transform: uppercase;
+      text-shadow:
+        0 0 10px rgba(255,121,200,0.24);
     }
 
     .interface-mode h2 {
       margin: 8px 0 0;
+      color: rgba(248, 250, 255, 0.98);
       font-size: clamp(1.6rem, 4vw, 2.3rem);
       line-height: 1;
       letter-spacing: -0.05em;
+      text-shadow:
+        0 0 10px rgba(103,216,255,0.22),
+        0 0 18px rgba(166,108,255,0.12);
     }
 
     .interface-mode p:not(.interface-mode__kicker) {
       margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
+      color: rgba(228, 234, 248, 0.84);
+      font-size: 0.9rem;
       line-height: 1.55;
+      max-width: 30ch;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .contact-avatar {
@@ -1087,6 +1148,25 @@
         margin-top: -72px;
       }
 
+      .orbit-label {
+        font-size: 0.58rem;
+        letter-spacing: 0.075em;
+        padding: 5px 7px;
+        min-width: 0;
+        max-width: calc(100% - 16px);
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+      }
+
+      .orbit-card {
+        font-size: 0.92rem;
+      }
+
+      .card-corner span {
+        font-size: 0.72rem;
+      }
+
       .hero-interface .contact-card.matt {
         order: 3;
         margin-top: -18px;
@@ -1373,7 +1453,10 @@
         left: 8px;
         right: 8px;
         bottom: 8px;
-        padding: 7px 8px;
+        font-size: 0.54rem;
+        letter-spacing: 0.065em;
+        padding: 5px 6px;
+        max-width: calc(100% - 14px);
       }
 
 
@@ -1434,6 +1517,62 @@
         animation: none;
       }
     }
+
+    .orbit-card.is-mode-active {
+      outline: 1px solid rgba(174, 255, 92, 0.62);
+      filter: brightness(1.16) saturate(1.12) contrast(1.04);
+      box-shadow:
+        0 28px 62px rgba(0, 0, 0, 0.58),
+        0 0 14px rgba(174, 255, 92, 0.28),
+        0 0 32px rgba(174, 255, 92, 0.14),
+        0 0 72px rgba(103, 216, 255, 0.12),
+        inset 0 0 0 1px rgba(174, 255, 92, 0.50),
+        inset 0 0 18px rgba(174, 255, 92, 0.08);
+    }
+
+    .orbit-card.is-mode-active .orbit-label {
+      color: #f7ffe8;
+      background: rgba(8, 18, 8, 0.68);
+      filter:
+        drop-shadow(0 0 8px rgba(174, 255, 92, 0.48))
+        drop-shadow(0 0 14px rgba(103, 216, 255, 0.16));
+      box-shadow:
+        inset 0 0 0 1px rgba(174, 255, 92, 0.42),
+        0 0 18px rgba(174, 255, 92, 0.16);
+    }
+
+    .orbit-card.is-mode-active .card-corner span {
+      background: linear-gradient(135deg, #f7ffe8, #aeff5c);
+      -webkit-background-clip: text;
+      color: transparent;
+      filter:
+        drop-shadow(0 0 9px rgba(174, 255, 92, 0.92))
+        drop-shadow(0 0 18px rgba(174, 255, 92, 0.42));
+    }
+
+    .orbit-card.is-mode-active .card-corner img {
+      filter:
+        drop-shadow(0 0 7px rgba(174, 255, 92, 0.86))
+        drop-shadow(0 0 16px rgba(174, 255, 92, 0.42));
+    }
+
+    .interface-mode.is-active {
+      opacity: 1;
+      transform: translateY(0);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+        0 0 20px rgba(103, 216, 255, 0.08),
+        0 0 42px rgba(166, 108, 255, 0.06),
+        0 0 24px rgba(174, 255, 92, 0.045);
+    }
+
+    .interface-mode.is-active .interface-mode__kicker {
+      color: #ecffd2;
+      text-shadow:
+        0 0 7px rgba(174, 255, 92, 0.26),
+        0 0 16px rgba(103, 216, 255, 0.12);
+    }
+
   </style>
 </head>
 
@@ -1710,6 +1849,10 @@
           mode.hidden = true;
         });
 
+        orbitCards.forEach((card) => {
+          card.classList.remove("is-mode-active");
+        });
+
         const safeModeName = modeName || "contact";
         let targetMode = document.querySelector(`.interface-mode[data-mode="${safeModeName}"]`);
 
@@ -1718,6 +1861,14 @@
         }
 
         if (!targetMode) return;
+
+        const activeModeName = targetMode.dataset.mode || safeModeName;
+
+        orbitCards.forEach((card) => {
+          if (card.dataset.target === activeModeName) {
+            card.classList.add("is-mode-active");
+          }
+        });
 
         targetMode.hidden = false;
         targetMode.offsetHeight;
@@ -1728,16 +1879,4 @@
         card.addEventListener("click", (event) => {
           event.preventDefault();
           const modeName = card.dataset.target || "contact";
-          setInterfaceMode(modeName);
-        });
-      });
-
-      setInterfaceMode("contact");
-    })();
-  </script>
-
-</body>
-
-</html>
-
-
+          setInterfaceMode(mo
