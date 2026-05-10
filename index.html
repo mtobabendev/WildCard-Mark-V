@@ -1157,9 +1157,12 @@
 
       .hero-interface .interface-modes {
         order: 2;
-        width: min(100%, 390px);
-        margin-top: -40px;
+        width: min(calc(100% - 22px), 390px);
+        margin-top: -54px;
+        margin-left: auto;
+        margin-right: auto;
         padding-bottom: clamp(8px, 4vh, 32px);
+        transform: translateX(-4px);
       }
 
       .interface-mode {
@@ -1631,6 +1634,12 @@
       .orbit-stage {
         height: 300px;
         margin-top: -86px;
+      }
+
+      .hero-interface .interface-modes {
+        width: min(calc(100% - 26px), 390px);
+        margin-top: -58px;
+        transform: translateX(-4px);
       }
 
       .orbit-card,
