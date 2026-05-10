@@ -709,25 +709,39 @@
       padding: 18px;
       border-radius: 22px;
       text-align: center;
-      background: linear-gradient(
-        145deg,
-        rgba(103, 216, 255, 0.018),
-        rgba(166, 108, 255, 0.016),
-        rgba(255, 121, 200, 0.014)
-      );
+      background:
+        linear-gradient(
+          145deg,
+          rgba(2, 4, 12, 0.28),
+          rgba(5, 7, 18, 0.22)
+        ),
+        linear-gradient(
+          145deg,
+          rgba(103, 216, 255, 0.008),
+          rgba(166, 108, 255, 0.008),
+          rgba(255, 121, 200, 0.006)
+        );
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.055),
-        0 0 22px rgba(103, 216, 255, 0.08),
-        0 0 42px rgba(166, 108, 255, 0.06);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.048),
+        0 0 16px rgba(103, 216, 255, 0.055),
+        0 0 30px rgba(166, 108, 255, 0.04);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
       overflow: hidden;
       isolation: isolate;
       opacity: 0;
       transform: translateY(10px);
       transition:
-        opacity 180ms ease,
-        transform 180ms ease;
+        opacity 220ms ease,
+        transform 220ms ease,
+        filter 220ms ease,
+        box-shadow 220ms ease;
+    }
+
+    .interface-modes.is-transitioning .interface-mode.is-active {
+      opacity: 0.72;
+      transform: translateY(4px) scale(0.992);
+      filter: blur(0.4px);
     }
 
     .interface-mode::before {
@@ -739,34 +753,35 @@
         linear-gradient(
           105deg,
           transparent 0%,
-          rgba(255,255,255,0.042) 42%,
-          rgba(103,216,255,0.055) 50%,
+          rgba(255,255,255,0.026) 42%,
+          rgba(103,216,255,0.034) 50%,
           transparent 62%
         ),
         repeating-linear-gradient(
           180deg,
-          rgba(255,255,255,0.016) 0,
-          rgba(255,255,255,0.016) 1px,
+          rgba(255,255,255,0.010) 0,
+          rgba(255,255,255,0.010) 1px,
           transparent 1px,
           transparent 10px
         );
       mix-blend-mode: screen;
-      opacity: 0.14;
+      filter: blur(10px);
+      opacity: 0.07;
       pointer-events: none;
     }
 
     .interface-mode::after {
       content: "";
       position: absolute;
-      inset: -20%;
+      inset: -18%;
       background:
         radial-gradient(
           circle at center,
-          rgba(103,216,255,0.10),
-          transparent 65%
+          rgba(103,216,255,0.045),
+          transparent 62%
         );
-      opacity: 0.42;
-      filter: blur(22px);
+      opacity: 0.24;
+      filter: blur(14px);
       pointer-events: none;
       z-index: -1;
     }
@@ -774,6 +789,7 @@
     .interface-mode.is-active {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
     }
 
     .interface-mode[hidden] {
@@ -1148,6 +1164,24 @@
         margin-top: -72px;
       }
 
+      .orbit-card,
+      .orbit-card::before,
+      .orbit-card::after,
+      .orbit-card-media,
+      .orbit-card-video,
+      .orbit-card-image {
+        border-radius: 18px;
+      }
+
+      .orbit-card {
+        overflow: hidden;
+      }
+
+      .orbit-card.is-front,
+      .orbit-card.is-mode-active {
+        border-radius: 18px;
+      }
+
       .orbit-label {
         font-size: 0.58rem;
         letter-spacing: 0.075em;
@@ -1156,6 +1190,30 @@
         max-width: calc(100% - 16px);
         white-space: nowrap;
         overflow: visible;
+        text-overflow: clip;
+      }
+
+      .orbit-card .orbit-label,
+      .orbit-card.is-front .orbit-label,
+      .orbit-card.is-mode-active .orbit-label,
+      .orbit-card:hover .orbit-label,
+      .orbit-card:focus-visible .orbit-label,
+      .orbit-card:active .orbit-label,
+      .orbit-card.penny .orbit-label,
+      .orbit-card.penny.is-front .orbit-label,
+      .orbit-card.penny:hover .orbit-label,
+      .orbit-card.penny:focus-visible .orbit-label,
+      .orbit-card.penny:active .orbit-label {
+        left: 10px;
+        right: 10px;
+        bottom: 8px;
+        padding: 4px 6px;
+        font-size: 0.5rem;
+        letter-spacing: 0.052em;
+        line-height: 1.1;
+        max-width: calc(100% - 20px);
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: clip;
       }
 
@@ -1234,6 +1292,11 @@
         filter: brightness(1);
       }
 
+      .orbit-card.is-front,
+      .orbit-card.is-mode-active {
+        filter: brightness(1.08) saturate(1.04) contrast(1.01);
+      }
+
       .contact-avatar::before {
         animation: none;
         opacity: 0.12;
@@ -1303,7 +1366,7 @@
 
       .orbit-stage {
         height: clamp(500px, 46vw, 610px);
-        margin-top: -210px;
+        margin-top: -160px;
         margin-bottom: -180px;
       }
 
@@ -1418,6 +1481,15 @@
         margin-top: -86px;
       }
 
+      .orbit-card,
+      .orbit-card::before,
+      .orbit-card::after,
+      .orbit-card-media,
+      .orbit-card-video,
+      .orbit-card-image {
+        border-radius: 16px;
+      }
+
       .card-corner {
         width: 24px;
       }
@@ -1457,6 +1529,30 @@
         letter-spacing: 0.065em;
         padding: 5px 6px;
         max-width: calc(100% - 14px);
+      }
+
+      .orbit-card .orbit-label,
+      .orbit-card.is-front .orbit-label,
+      .orbit-card.is-mode-active .orbit-label,
+      .orbit-card:hover .orbit-label,
+      .orbit-card:focus-visible .orbit-label,
+      .orbit-card:active .orbit-label,
+      .orbit-card.penny .orbit-label,
+      .orbit-card.penny.is-front .orbit-label,
+      .orbit-card.penny:hover .orbit-label,
+      .orbit-card.penny:focus-visible .orbit-label,
+      .orbit-card.penny:active .orbit-label {
+        left: 11px;
+        right: 11px;
+        bottom: 5px;
+        padding: 3px 4px;
+        font-size: 0.43rem;
+        letter-spacing: 0.038em;
+        line-height: 1.1;
+        max-width: calc(100% - 18px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
       }
 
 
@@ -1559,11 +1655,12 @@
     .interface-mode.is-active {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.055),
-        0 0 20px rgba(103, 216, 255, 0.08),
-        0 0 42px rgba(166, 108, 255, 0.06),
-        0 0 24px rgba(174, 255, 92, 0.045);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.052),
+        0 0 16px rgba(103, 216, 255, 0.06),
+        0 0 30px rgba(166, 108, 255, 0.045),
+        0 0 14px rgba(174, 255, 92, 0.026);
     }
 
     .interface-mode.is-active .interface-mode__kicker {
@@ -1789,7 +1886,7 @@
       const dragSurface = document.querySelector(".orbit-drag");
       const ring = document.querySelector(".orbit-ring");
       const cards = Array.from(document.querySelectorAll(".orbit-card"));
-      if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); let pointerDownCard = null; function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; pointerDownCard = event.target.closest(".orbit-card"); startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); if (dragDistance > 10) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; const dragDistance = Math.hypot(event.clientX - startX, event.clientY - startY); const isClick = dragDistance <= 10; if (isClick && pointerDownCard) { rotationVelocity = 0; scrollToTarget(pointerDownCard.dataset.target); } pointerDownCard = null; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
+      if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); let pointerDownCard = null; let pointerDownX = 0; let pointerDownY = 0; function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; pointerDownCard = event.target.closest(".orbit-card"); pointerDownX = event.clientX; pointerDownY = event.clientY; startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); const dragThreshold = event.pointerType === "mouse" ? 16 : 10; if (dragDistance > dragThreshold) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; const movementDistance = Math.hypot(event.clientX - pointerDownX, event.clientY - pointerDownY); const clickThreshold = event.pointerType === "mouse" ? 18 : 10; const isClick = movementDistance <= clickThreshold; if (isClick) { const clickedCard = pointerDownCard || (event.target.closest && event.target.closest(".orbit-card")); const target = clickedCard?.dataset.target; if (target && typeof window.setInterfaceMode === "function") { rotationVelocity = 0; window.setInterfaceMode(target); stage.dataset.dragged = "false"; } } pointerDownCard = null; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
     })();
   </script>
 
@@ -1839,19 +1936,18 @@
   <script>
     (() => {
       const orbitCards = Array.from(document.querySelectorAll(".orbit-card[data-target]"));
+      const interfaceModeShell = document.querySelector(".interface-modes");
+      const orbitStage = document.querySelector(".orbit-stage");
       const interfaceModes = Array.from(document.querySelectorAll(".interface-mode"));
 
-      if (!orbitCards.length || !interfaceModes.length) return;
+      if (!orbitCards.length || !interfaceModes.length || !interfaceModeShell) return;
+
+      let revealTimer = null;
+      let transitionTimer = null;
 
       function setInterfaceMode(modeName) {
-        interfaceModes.forEach((mode) => {
-          mode.classList.remove("is-active");
-          mode.hidden = true;
-        });
-
-        orbitCards.forEach((card) => {
-          card.classList.remove("is-mode-active");
-        });
+        window.clearTimeout(revealTimer);
+        window.clearTimeout(transitionTimer);
 
         const safeModeName = modeName || "contact";
         let targetMode = document.querySelector(`.interface-mode[data-mode="${safeModeName}"]`);
@@ -1864,19 +1960,56 @@
 
         const activeModeName = targetMode.dataset.mode || safeModeName;
 
-        orbitCards.forEach((card) => {
-          if (card.dataset.target === activeModeName) {
-            card.classList.add("is-mode-active");
-          }
+        interfaceModeShell.classList.add("is-transitioning");
+
+        interfaceModes.forEach((mode) => {
+          mode.classList.remove("is-active");
         });
 
-        targetMode.hidden = false;
-        targetMode.offsetHeight;
-        targetMode.classList.add("is-active");
+        orbitCards.forEach((card) => {
+          card.classList.remove("is-mode-active");
+        });
+
+        revealTimer = window.setTimeout(() => {
+          interfaceModes.forEach((mode) => {
+            mode.hidden = true;
+            mode.classList.remove("is-active");
+          });
+
+          targetMode.hidden = false;
+          targetMode.offsetHeight;
+          targetMode.classList.add("is-active");
+
+          orbitCards.forEach((card) => {
+            if (card.dataset.target === activeModeName) {
+              card.classList.add("is-mode-active");
+            }
+          });
+
+          transitionTimer = window.setTimeout(() => {
+            interfaceModeShell.classList.remove("is-transitioning");
+          }, 220);
+        }, 90);
       }
+
+      window.setInterfaceMode = setInterfaceMode;
 
       orbitCards.forEach((card) => {
         card.addEventListener("click", (event) => {
           event.preventDefault();
+          if (orbitStage?.dataset.dragged === "true") return;
           const modeName = card.dataset.target || "contact";
-          setInterfaceMode(mo
+          setInterfaceMode(modeName);
+        });
+      });
+
+      const initialMode = document.querySelector(".interface-mode.is-active")?.dataset.mode || "contact";
+
+      orbitCards.forEach((card) => {
+        card.classList.toggle("is-mode-active", card.dataset.target === initialMode);
+      });
+    })();
+  </script>
+</body>
+
+</html>
