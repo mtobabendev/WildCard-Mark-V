@@ -21,6 +21,10 @@
   <link rel="icon" href="images/brands/favicon-wildcard.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="images/brands/favicon-wildcard.png" />
   <style>
+    /* ============================================================
+   CORE FOUNDATION
+   ============================================================ */
+
     :root {
       --bg: #050712;
       --bg-soft: #0b1024;
@@ -68,6 +72,9 @@
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
     }
+
+
+    /* ===== HEADER / NAVIGATION ===== */
 
     header {
       padding: 22px 0 0;
@@ -117,6 +124,11 @@
       transform: translateY(-2px);
     }
 
+
+    /* ============================================================
+   CORE EXPERIENCE LAYER
+   ============================================================ */
+
     .hero {
       display: block;
       min-height: auto;
@@ -147,6 +159,9 @@
     .hero-interface .contact-card.penny {
       order: 3;
     }
+
+
+    /* ===== ORBIT SYSTEM ===== */
 
     .orbit-stage {
       position: relative;
@@ -246,6 +261,9 @@
       filter: brightness(1.12) saturate(1.08) contrast(1.03);
       box-shadow: 0 28px 62px rgba(0, 0, 0, 0.56), 0 0 34px rgba(103, 216, 255, 0.42), 0 0 62px rgba(166, 108, 255, 0.28), inset 0 0 0 1px rgba(103, 216, 255, 0.30), inset 0 0 26px rgba(103, 216, 255, 0.08);
     }
+
+
+    /* ===== PENNY VARIANTS ===== */
 
     .orbit-card.penny {
       background: linear-gradient(145deg, rgba(255, 121, 200, 0.18), rgba(255, 255, 255, 0.045)), rgba(255, 255, 255, 0.045);
@@ -392,6 +410,9 @@
       filter: drop-shadow(0 0 8px rgba(255, 121, 200, 1)) drop-shadow(0 0 18px rgba(255, 121, 200, 0.82));
     }
 
+
+    /* ===== FRONT CARD ENERGY ===== */
+
     .orbit-card:not(.is-front) {
       opacity: 0.92;
       filter: brightness(0.94) saturate(0.92) contrast(0.98);
@@ -450,6 +471,9 @@
     .orbit-card.penny.is-front .card-corner img {
       filter: drop-shadow(0 0 10px rgba(255, 121, 200, 1)) drop-shadow(0 0 22px rgba(255, 121, 200, 0.92)) drop-shadow(0 0 34px rgba(255, 121, 200, 0.52));
     }
+
+
+    /* ===== HOLO FLOOR ===== */
 
     .holo-floor {
       position: absolute;
@@ -533,6 +557,13 @@
       transform: translateX(-50%);
       animation: floorTextShift 8s linear infinite;
     }
+
+
+    /* ============================================================
+   ATMOSPHERIC FX LAYER
+   ============================================================ */
+
+    /* ===== GLOBAL KEYFRAMES ===== */
 
     @keyframes orbitCardGlow {
 
@@ -663,6 +694,13 @@
 
 
 
+
+    /* ============================================================
+   DESKTOP SHOWROOM LAYER
+   ============================================================ */
+
+    /* ===== CONTACT GRID ===== */
+
     #contact {
       scroll-margin-top: 24px;
     }
@@ -695,6 +733,9 @@
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.32), 0 0 38px rgba(255, 121, 200, 0.16), 0 18px 42px rgba(0, 0, 0, 0.18);
     }
 
+
+
+    /* ===== INTERFACE MODES ===== */
 
     .interface-modes {
       position: relative;
@@ -828,6 +869,9 @@
       margin-right: auto;
     }
 
+
+    /* ===== AVATAR FX ===== */
+
     .contact-avatar {
       position: relative;
       width: 84px;
@@ -916,6 +960,9 @@
       line-height: 1.65;
     }
 
+
+    /* ===== SOCIAL / CONTACT LINKS ===== */
+
     .contact-comm {
       display: grid;
       gap: 6px;
@@ -1001,6 +1048,9 @@
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.48), 0 0 32px rgba(255, 121, 200, 0.24), 0 0 42px rgba(166, 108, 255, 0.14);
     }
 
+
+
+    /* ===== REFERRAL SYSTEM ===== */
 
     .penny-referral {
       position: fixed;
@@ -1142,6 +1192,13 @@
 
 
 
+
+    /* ============================================================
+   MOBILE / WATCH EXPERIENCE LAYER
+   ============================================================ */
+
+    /* ===== MOBILE LAYOUT OVERRIDES ===== */
+
     @media (max-width: 759px) {
       .hero-interface {
         display: grid;
@@ -1252,6 +1309,9 @@
           0 54px 128px rgba(166, 108, 255, 0.014),
           0 0 14px rgba(174, 255, 92, 0.020);
       }
+
+
+    /* ===== MOBILE ATMOSPHERIC FX ===== */
 
       @keyframes mobileSystemFieldDrift {
         0%,
@@ -1766,6 +1826,9 @@
       }
     }
 
+
+    /* ===== MOTION SAFETY / ACTIVE STATES ===== */
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
@@ -1846,6 +1909,9 @@
         0 0 16px rgba(103, 216, 255, 0.12);
     }
 
+
+
+    /* ===== MOBILE CORNER INTERFACE ===== */
 
     .mobile-corner-interface {
       display: none;
@@ -2193,6 +2259,9 @@
     }
 
 
+
+    /* ===== META TRANSITION SYSTEM ===== */
+
     .penny-meta-transition {
       position: fixed;
       right: clamp(14px, 4vw, 30px);
@@ -2332,6 +2401,7 @@
 
 <body>
   <div class="page">
+    <!-- ===== HEADER / NAVIGATION ===== -->
     <header>
       <div class="brand">
         <span class="brand-mark"></span>
@@ -2340,10 +2410,15 @@
     </header>
 
     <main>
+      <!-- ===== CORE EXPERIENCE LAYER ===== -->
       <section class="hero" aria-labelledby="hero-title">
         <div>
           <div id="contact" class="hero-interface contact-grid" aria-label="WildCard DEV contact operators">
+
+          <!-- Matt contact card -->
           <article class="contact-card matt">
+
+            <!-- Avatar shimmer -->
             <div class="contact-avatar">
               <img src="images/matt-avatar.png" alt="Matt Tobaben" />
             </div>
@@ -2354,6 +2429,8 @@
               <a href="tel:+14029150789">402-915-0789</a>
               <span class="contact-status">Penny concierge online</span>
             </div>
+
+            <!-- Social / contact links -->
             <div class="contact-socials" aria-label="Matt social links">
               <a href="https://www.linkedin.com/in/matt-tobaben" aria-label="Matt Tobaben on LinkedIn">
                 <svg aria-hidden="true" focusable="false" width="21" height="21" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -2372,6 +2449,8 @@
               </a>
             </div>
           </article>
+
+          <!-- ===== ORBIT SYSTEM ===== -->
           <div class="orbit-stage" aria-label="WildCard DEV media orbit">
             <div class="orbit-drag">
               <div class="orbit-ring">
@@ -2473,12 +2552,16 @@
                 </button>
               </div>
             </div>
+
+            <!-- Holo floor -->
             <div class="holo-floor">
               <div class="holo-floor-grid"></div>
               <div class="holo-floor-spade"></div>
               <div class="holo-floor-text">WildCard DEV</div>
             </div>
           </div>
+
+          <!-- Interface modes -->
           <section class="interface-modes" aria-label="WildCard DEV interface modes">
             <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
               <p class="interface-mode__kicker">Active Channel</p>
@@ -2510,7 +2593,11 @@
               <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
             </article>
           </section>
+
+          <!-- Penny contact card -->
           <article class="contact-card penny">
+
+            <!-- Avatar shimmer -->
             <div class="contact-avatar">
               <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
             </div>
@@ -2525,6 +2612,8 @@
   </div>
 
 
+
+  <!-- ===== MOBILE CORNER INTERFACE ===== -->
   <div class="mobile-corner-interface" aria-label="Mobile operator interface">
     <button class="corner-node matt" type="button" data-corner-panel="matt" aria-controls="mobile-matt-panel" aria-expanded="false" aria-label="Open Matt contact interface">
       <img src="images/matt-avatar.png" alt="" />
@@ -2588,6 +2677,8 @@
   </div>
 
 
+
+  <!-- ===== REFERRAL SYSTEM ===== -->
   <div class="penny-referral" data-referral-route="from=personal-fb" aria-hidden="true">
     <div class="penny-referral__card" role="dialog" aria-modal="false" aria-labelledby="penny-referral-title" aria-describedby="penny-referral-body">
       <button class="penny-referral__close" type="button" aria-label="Close Penny referral message">×</button>
@@ -2600,16 +2691,22 @@
   </div>
 
 
+
+  <!-- Referral session persistence -->
   <div class="penny-meta-transition" aria-hidden="true" role="status" aria-live="polite">
     <div class="penny-meta-transition__media">
       <video src="images/penny/penny_office_working_v2.mp4" autoplay muted loop playsinline></video>
     </div>
     <div class="penny-meta-transition__text">
-      <p class="penny-meta-transition__kicker">BEWARE OF HALL MONITORS/p>
+      <p class="penny-meta-transition__kicker">BEWARE OF HALL MONITORS</p>
       <p>Fine, honey. I’ll drop you at Meta’s supervised side of the internet. Try not to frighten the hall monitors.</p>
     </div>
   </div>
 
+
+  <!-- ===== INTERACTION SCRIPT LAYER ===== -->
+
+  <!-- ===== ORBIT MOTION LOGIC ===== -->
   <script>
     (() => {
       const stage = document.querySelector(".orbit-stage");
@@ -2620,6 +2717,8 @@
     })();
   </script>
 
+
+  <!-- Referral session persistence -->
   <script>
     (() => {
       const referralPopup = document.querySelector(".penny-referral");
@@ -2663,6 +2762,8 @@
     })();
   </script>
 
+
+  <!-- ===== EVENT LISTENERS ===== -->
   <script>
     (() => {
       const metaLinks = Array.from(document.querySelectorAll('a[data-penny-meta-link]'));
@@ -2701,6 +2802,8 @@
     })();
   </script>
 
+
+  <!-- ===== MODE TRANSITIONS ===== -->
   <script>
     (() => {
       const orbitCards = Array.from(document.querySelectorAll(".orbit-card[data-target]"));
@@ -2779,6 +2882,8 @@
     })();
   </script>
 
+
+  <!-- ===== INITIALIZATION ===== -->
   <script>
     (() => {
       const mobileInterface = document.querySelector(".mobile-corner-interface");
