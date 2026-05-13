@@ -21,10 +21,6 @@
   <link rel="icon" href="images/brands/favicon-wildcard.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="images/brands/favicon-wildcard.png" />
   <style>
-    /* ============================================================
-   CORE FOUNDATION
-   ============================================================ */
-
     :root {
       --bg: #050712;
       --bg-soft: #0b1024;
@@ -72,9 +68,6 @@
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
     }
-
-
-    /* ===== HEADER / NAVIGATION ===== */
 
     header {
       padding: 22px 0 0;
@@ -124,11 +117,6 @@
       transform: translateY(-2px);
     }
 
-
-    /* ============================================================
-   CORE EXPERIENCE LAYER
-   ============================================================ */
-
     .hero {
       display: block;
       min-height: auto;
@@ -159,9 +147,6 @@
     .hero-interface .contact-card.penny {
       order: 3;
     }
-
-
-    /* ===== ORBIT PRESENTATION SYSTEM ===== */
 
     .orbit-stage {
       position: relative;
@@ -261,9 +246,6 @@
       filter: brightness(1.12) saturate(1.08) contrast(1.03);
       box-shadow: 0 28px 62px rgba(0, 0, 0, 0.56), 0 0 34px rgba(103, 216, 255, 0.42), 0 0 62px rgba(166, 108, 255, 0.28), inset 0 0 0 1px rgba(103, 216, 255, 0.30), inset 0 0 26px rgba(103, 216, 255, 0.08);
     }
-
-
-    /* --- Penny orbit variants --- */
 
     .orbit-card.penny {
       background: linear-gradient(145deg, rgba(255, 121, 200, 0.18), rgba(255, 255, 255, 0.045)), rgba(255, 255, 255, 0.045);
@@ -410,9 +392,6 @@
       filter: drop-shadow(0 0 8px rgba(255, 121, 200, 1)) drop-shadow(0 0 18px rgba(255, 121, 200, 0.82));
     }
 
-
-    /* --- Front-card energy states --- */
-
     .orbit-card:not(.is-front) {
       opacity: 0.92;
       filter: brightness(0.94) saturate(0.92) contrast(0.98);
@@ -472,11 +451,6 @@
       filter: drop-shadow(0 0 10px rgba(255, 121, 200, 1)) drop-shadow(0 0 22px rgba(255, 121, 200, 0.92)) drop-shadow(0 0 34px rgba(255, 121, 200, 0.52));
     }
 
-
-    /* ===== HOLO FLOOR ===== */
-
-    /* --- Projection field container --- */
-
     .holo-floor {
       position: absolute;
       left: 50%;
@@ -490,8 +464,6 @@
       transform-style: preserve-3d;
       pointer-events: none;
     }
-
-    /* --- Energy grid layers --- */
 
     .holo-floor-grid {
       position: absolute;
@@ -530,8 +502,6 @@
       opacity: 0.26;
     }
 
-    /* --- Projection branding --- */
-
     .holo-floor-spade {
       position: absolute;
       left: 50%;
@@ -564,13 +534,6 @@
       animation: floorTextShift 8s linear infinite;
     }
 
-
-    /* ============================================================
-   ATMOSPHERIC FX LAYER
-   ============================================================ */
-
-    /* ===== GLOBAL KEYFRAMES ===== */
-
     @keyframes orbitCardGlow {
 
       0%,
@@ -594,8 +557,6 @@
         box-shadow: 0 24px 54px rgba(0, 0, 0, 0.48), 0 0 58px rgba(255, 121, 200, 0.60), 0 0 76px rgba(255, 121, 200, 0.24), inset 0 0 0 1px rgba(255, 121, 200, 0.42);
       }
     }
-
-    /* --- Holo Floor energy systems --- */
 
     @keyframes floorEnergyPulse {
 
@@ -702,15 +663,6 @@
 
 
 
-
-    /* ============================================================
-   DESKTOP SHOWROOM LAYER
-   ============================================================ */
-
-    /* ===== CONTACT SYSTEM ===== */
-
-    /* --- Contact grid --- */
-
     #contact {
       scroll-margin-top: 24px;
     }
@@ -743,540 +695,6 @@
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.32), 0 0 38px rgba(255, 121, 200, 0.16), 0 18px 42px rgba(0, 0, 0, 0.18);
     }
 
-
-
-    /* --- Contact avatar FX --- */
-
-    .contact-avatar {
-      position: relative;
-      width: 84px;
-      height: 84px;
-      border-radius: 24px;
-      overflow: hidden;
-      isolation: isolate;
-      background: linear-gradient(135deg, rgba(103, 216, 255, 0.16), rgba(166, 108, 255, 0.12)), rgba(255, 255, 255, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.28), 0 0 22px rgba(103, 216, 255, 0.16), 0 0 42px rgba(166, 108, 255, 0.08);
-      transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
-      animation: avatarPulse 5.8s ease-in-out infinite, avatarFloat 6.2s ease-in-out infinite;
-    }
-
-    .contact-avatar img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(1.08) contrast(1.08) brightness(1.03);
-      transform: scale(1.01);
-    }
-
-    .contact-avatar::before,
-    .contact-avatar::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .contact-avatar::before {
-      z-index: 1;
-      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.18) 42%, rgba(103, 216, 255, 0.20) 50%, transparent 62%), repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0.06) 1px, transparent 1px, transparent 8px);
-      mix-blend-mode: screen;
-      opacity: 0.22;
-      transform: translateX(-45%);
-      animation: avatarShimmer 6.8s ease-in-out infinite;
-    }
-
-    .contact-avatar::after {
-      z-index: 2;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%), linear-gradient(0deg, rgba(5, 7, 18, 0.7), transparent 55%);
-    }
-
-    .contact-card:hover .contact-avatar,
-    .contact-card:focus-within .contact-avatar {
-      transform: translateY(-3px);
-      filter: brightness(1.1) saturate(1.08);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.42), 0 0 28px rgba(103, 216, 255, 0.28), 0 0 56px rgba(166, 108, 255, 0.16);
-    }
-
-    .contact-card.penny .contact-avatar {
-      background: linear-gradient(135deg, rgba(255, 121, 200, 0.30), rgba(166, 108, 255, 0.18)), rgba(255, 255, 255, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.42), 0 0 28px rgba(255, 121, 200, 0.24), 0 0 52px rgba(166, 108, 255, 0.12);
-      animation: avatarPulsePenny 5.2s ease-in-out infinite, avatarFloat 5.6s ease-in-out infinite;
-    }
-
-    .contact-card.penny .contact-avatar img {
-      filter: saturate(1.12) contrast(1.06) brightness(1.05);
-    }
-
-    .contact-card.penny .contact-avatar::before {
-      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.20) 40%, rgba(255, 121, 200, 0.28) 50%, transparent 64%), repeating-linear-gradient(180deg, rgba(255, 121, 200, 0.08) 0, rgba(255, 121, 200, 0.08) 1px, transparent 1px, transparent 8px);
-      opacity: 0.30;
-    }
-
-    .contact-card.penny:hover .contact-avatar,
-    .contact-card.penny:focus-within .contact-avatar {
-      filter: brightness(1.13) saturate(1.14);
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.62), 0 0 34px rgba(255, 121, 200, 0.38), 0 0 68px rgba(166, 108, 255, 0.20);
-    }
-
-    .contact-card h3 {
-      margin: 20px 0 0;
-      font-size: clamp(1.35rem, 3vw, 1.8rem);
-      letter-spacing: -0.04em;
-      line-height: 1.08;
-    }
-
-    .contact-title,
-    .contact-card p {
-      max-width: none;
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.65;
-    }
-
-
-    /* --- Contact channels and actions --- */
-
-    .contact-comm {
-      display: grid;
-      gap: 6px;
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.16);
-    }
-
-    .contact-comm a {
-      color: var(--text);
-      font-size: 0.92rem;
-      line-height: 1.25;
-    }
-
-    .contact-status {
-      margin-top: 2px;
-      color: var(--pink);
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .contact-socials {
-      display: flex;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .contact-socials a {
-      display: inline-grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.16), 0 0 18px rgba(103, 216, 255, 0.08);
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
-    }
-
-    .contact-socials a:hover,
-    .contact-socials a:focus-visible {
-      outline: none;
-      transform: translateY(-2px);
-      color: #ffffff;
-      background: rgba(103, 216, 255, 0.10);
-      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.30), 0 0 24px rgba(103, 216, 255, 0.18), 0 0 34px rgba(166, 108, 255, 0.12);
-    }
-
-    .contact-socials svg {
-      display: block;
-      width: 21px;
-      height: 21px;
-    }
-
-
-
-
-    .contact-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      align-self: flex-start;
-      margin-top: 26px;
-      padding: 13px 18px;
-      border-radius: 999px;
-      color: #fff7fc;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      background: linear-gradient(135deg, rgba(255, 121, 200, 0.30), rgba(166, 108, 255, 0.16));
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.34), 0 0 28px rgba(255, 121, 200, 0.16);
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
-    }
-
-    .contact-button:hover,
-    .contact-button:focus-visible {
-      outline: none;
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, rgba(255, 121, 200, 0.38), rgba(166, 108, 255, 0.20));
-      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.48), 0 0 32px rgba(255, 121, 200, 0.24), 0 0 42px rgba(166, 108, 255, 0.14);
-    }
-
-
-
-    /* --- Mobile corner contact interface --- */
-
-    .mobile-corner-interface {
-      display: none;
-    }
-
-    @media (max-width: 759px) {
-      .hero-interface .contact-card {
-        display: none;
-      }
-
-      .mobile-corner-interface {
-        position: fixed;
-        inset: 0;
-        z-index: 90;
-        display: block;
-        pointer-events: none;
-      }
-
-      .corner-node {
-        position: fixed;
-        z-index: 92;
-        display: grid;
-        place-items: center;
-        width: 52px;
-        height: 52px;
-        padding: 0;
-        border: 0;
-        border-radius: 16px;
-        color: var(--text);
-        background:
-          linear-gradient(145deg, rgba(103, 216, 255, 0.105), rgba(166, 108, 255, 0.082)),
-          rgba(5, 7, 18, 0.20);
-        box-shadow:
-          inset 0 0 0 1px rgba(180, 232, 255, 0.18),
-          inset 0 0 18px rgba(103, 216, 255, 0.045),
-          0 12px 28px rgba(0, 0, 0, 0.28),
-          0 0 16px rgba(103, 216, 255, 0.13),
-          0 0 34px rgba(166, 108, 255, 0.075);
-        backdrop-filter: blur(10px) saturate(1.16);
-        -webkit-backdrop-filter: blur(10px) saturate(1.16);
-        overflow: visible;
-        cursor: pointer;
-        pointer-events: auto;
-        isolation: isolate;
-        transition:
-          transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-          filter 220ms ease,
-          opacity 220ms ease,
-          box-shadow 220ms ease;
-      }
-
-      .corner-node::before,
-      .corner-node::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-      }
-
-      .corner-node::before {
-        inset: 0;
-        border-radius: inherit;
-        background:
-          linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.12) 42%, rgba(103, 216, 255, 0.15) 50%, transparent 62%),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 38%),
-          repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.032) 0, rgba(255, 255, 255, 0.032) 1px, transparent 1px, transparent 9px);
-        mix-blend-mode: screen;
-        opacity: 0.18;
-        z-index: 2;
-      }
-
-      .corner-node::after {
-        left: 50%;
-        width: 16px;
-        height: 16px;
-        border-right: 1px solid rgba(244, 247, 255, 0.74);
-        border-bottom: 1px solid rgba(244, 247, 255, 0.74);
-        filter: drop-shadow(0 0 6px rgba(103, 216, 255, 0.52));
-        opacity: 0.7;
-        z-index: 3;
-      }
-
-      .corner-node img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-        object-fit: cover;
-        filter: saturate(1.12) contrast(1.1) brightness(1.04);
-      }
-
-      .corner-node.matt {
-        top: calc(max(12px, env(safe-area-inset-top)) + 2px);
-        left: calc(max(12px, env(safe-area-inset-left)) + 2px);
-      }
-
-      .corner-node.matt::after {
-        bottom: -11px;
-        transform: translateX(-50%) rotate(45deg);
-      }
-
-      .corner-node.penny {
-        right: calc(max(12px, env(safe-area-inset-right)) + 2px);
-        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 3px);
-        background:
-          linear-gradient(145deg, rgba(255, 121, 200, 0.16), rgba(166, 108, 255, 0.10)),
-          rgba(5, 7, 18, 0.20);
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 121, 200, 0.30),
-          inset 0 0 18px rgba(255, 121, 200, 0.05),
-          0 12px 28px rgba(0, 0, 0, 0.30),
-          0 0 18px rgba(255, 121, 200, 0.15),
-          0 0 36px rgba(166, 108, 255, 0.08);
-      }
-
-      .corner-node.penny::before {
-        background:
-          linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 121, 200, 0.22) 50%, transparent 62%),
-          repeating-linear-gradient(180deg, rgba(255, 121, 200, 0.065) 0, rgba(255, 121, 200, 0.065) 1px, transparent 1px, transparent 8px);
-        opacity: 0.28;
-      }
-
-      .corner-node.penny::after {
-        top: -11px;
-        transform: translateX(-50%) rotate(225deg);
-        filter: drop-shadow(0 0 8px rgba(255, 121, 200, 0.72));
-      }
-
-      .corner-node:hover,
-      .corner-node:focus-visible,
-      .corner-node.is-active {
-        outline: none;
-        transform: translateY(-1px) scale(1.025);
-        filter: brightness(1.07) saturate(1.07);
-        box-shadow:
-          inset 0 0 0 1px rgba(180, 232, 255, 0.30),
-          inset 0 0 20px rgba(103, 216, 255, 0.06),
-          0 14px 30px rgba(0, 0, 0, 0.32),
-          0 0 22px rgba(103, 216, 255, 0.22),
-          0 0 44px rgba(166, 108, 255, 0.12);
-      }
-
-      .corner-node.penny:hover,
-      .corner-node.penny:focus-visible,
-      .corner-node.penny.is-active {
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 121, 200, 0.46),
-          inset 0 0 20px rgba(255, 121, 200, 0.07),
-          0 14px 30px rgba(0, 0, 0, 0.34),
-          0 0 24px rgba(255, 121, 200, 0.26),
-          0 0 46px rgba(166, 108, 255, 0.13);
-      }
-
-      .mobile-corner-interface.has-open-panel .corner-node:not(.is-active) {
-        opacity: 0.78;
-        filter: brightness(0.88) saturate(0.94);
-        transform: scale(0.985);
-      }
-
-      .corner-holo-panel {
-        position: fixed;
-        z-index: 91;
-        width: min(276px, calc(100vw - 32px));
-        padding: 16px;
-        border-radius: 22px;
-        color: var(--text);
-        background:
-          linear-gradient(145deg, rgba(2, 4, 12, 0.30), rgba(5, 7, 18, 0.22)),
-          linear-gradient(145deg, rgba(103, 216, 255, 0.028), rgba(166, 108, 255, 0.018), rgba(255, 121, 200, 0.012));
-        box-shadow:
-          inset 0 0 0 1px rgba(210, 240, 255, 0.055),
-          inset 0 0 28px rgba(103, 216, 255, 0.022),
-          0 10px 34px rgba(0, 0, 0, 0.30),
-          0 0 20px rgba(103, 216, 255, 0.075),
-          0 0 42px rgba(166, 108, 255, 0.048);
-        backdrop-filter: blur(13px) saturate(1.18);
-        -webkit-backdrop-filter: blur(13px) saturate(1.18);
-        overflow: hidden;
-        isolation: isolate;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        filter: blur(1.2px) saturate(0.96);
-        transition:
-          opacity 260ms ease,
-          transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
-          filter 260ms ease,
-          visibility 260ms ease;
-      }
-
-      .corner-holo-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background:
-          linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.030) 42%, rgba(103,216,255,0.050) 50%, transparent 62%),
-          linear-gradient(180deg, rgba(255,255,255,0.036), transparent 34%, rgba(103,216,255,0.012)),
-          repeating-linear-gradient(180deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 10px);
-        mix-blend-mode: screen;
-        opacity: 0.22;
-        pointer-events: none;
-      }
-
-      .corner-holo-panel::after {
-        content: "";
-        position: absolute;
-        inset: -20%;
-        z-index: -1;
-        background:
-          radial-gradient(circle at center, rgba(103, 216, 255, 0.078), transparent 60%),
-          radial-gradient(circle at 24% 12%, rgba(255, 255, 255, 0.06), transparent 28%);
-        filter: blur(18px);
-        opacity: 0.34;
-        pointer-events: none;
-      }
-
-      .corner-holo-panel.matt {
-        top: calc(max(12px, env(safe-area-inset-top)) + 66px);
-        left: calc(max(12px, env(safe-area-inset-left)) + 2px);
-        transform: translate3d(-2px, -10px, 0) scale(0.976);
-        transform-origin: top left;
-      }
-
-      .corner-holo-panel.penny {
-        right: calc(max(12px, env(safe-area-inset-right)) + 2px);
-        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 67px);
-        transform: translate3d(2px, 10px, 0) scale(0.976);
-        transform-origin: bottom right;
-        background:
-          linear-gradient(145deg, rgba(5, 3, 14, 0.32), rgba(18, 5, 18, 0.22)),
-          linear-gradient(145deg, rgba(255, 121, 200, 0.034), rgba(166, 108, 255, 0.018), rgba(103, 216, 255, 0.012));
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 121, 200, 0.11),
-          inset 0 0 28px rgba(255, 121, 200, 0.026),
-          0 10px 34px rgba(0, 0, 0, 0.32),
-          0 0 22px rgba(255, 121, 200, 0.09),
-          0 0 42px rgba(166, 108, 255, 0.048);
-      }
-
-      .corner-holo-panel.is-open {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translate3d(0, 0, 0) scale(1);
-        filter: blur(0) saturate(1.02);
-      }
-
-      .corner-holo-panel__kicker {
-        position: relative;
-        z-index: 1;
-        margin: 0;
-        color: var(--pink);
-        font-size: 0.62rem;
-        font-weight: 900;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-      }
-
-      .corner-holo-panel h3 {
-        position: relative;
-        z-index: 1;
-        margin: 7px 0 0;
-        font-size: 1.16rem;
-        line-height: 1;
-        letter-spacing: -0.045em;
-      }
-
-      .corner-holo-panel p,
-      .corner-holo-panel .contact-title {
-        position: relative;
-        z-index: 1;
-        margin: 8px 0 0;
-        color: rgba(228, 234, 248, 0.84);
-        font-size: 0.78rem;
-        line-height: 1.45;
-      }
-
-      .corner-holo-panel .contact-comm {
-        position: relative;
-        z-index: 1;
-        margin-top: 12px;
-        padding: 10px;
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.034);
-        box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.13);
-      }
-
-      .corner-holo-panel .contact-comm a,
-      .corner-holo-panel .contact-status {
-        font-size: 0.76rem;
-      }
-
-      .corner-holo-panel .contact-socials {
-        position: relative;
-        z-index: 1;
-        gap: 8px;
-        margin-top: 12px;
-      }
-
-      .corner-holo-panel .contact-socials a {
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-      }
-
-      .corner-holo-panel .contact-socials svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .corner-holo-panel .contact-button {
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        align-self: stretch;
-        margin-top: 14px;
-        padding: 11px 13px;
-        font-size: 0.82rem;
-      }
-
-      .corner-holo-panel.penny .contact-socials a {
-        box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.18), 0 0 18px rgba(255, 121, 200, 0.08);
-      }
-    }
-
-    @media (max-width: 420px) {
-      .corner-node {
-        width: 48px;
-        height: 48px;
-        border-radius: 15px;
-      }
-
-      .corner-holo-panel {
-        width: min(264px, calc(100vw - 24px));
-        padding: 14px;
-      }
-
-      .corner-holo-panel.matt {
-        top: calc(max(12px, env(safe-area-inset-top)) + 60px);
-      }
-
-      .corner-holo-panel.penny {
-        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 61px);
-      }
-    }
-
-
-
-
-
-    /* ===== INTERFACE MODES ===== */
 
     .interface-modes {
       position: relative;
@@ -1410,8 +828,179 @@
       margin-right: auto;
     }
 
+    .contact-avatar {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      overflow: hidden;
+      isolation: isolate;
+      background: linear-gradient(135deg, rgba(103, 216, 255, 0.16), rgba(166, 108, 255, 0.12)), rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.28), 0 0 22px rgba(103, 216, 255, 0.16), 0 0 42px rgba(166, 108, 255, 0.08);
+      transition: transform 220ms ease, filter 220ms ease, box-shadow 220ms ease;
+      animation: avatarPulse 5.8s ease-in-out infinite, avatarFloat 6.2s ease-in-out infinite;
+    }
 
-    /* ===== REFERRAL SYSTEM ===== */
+    .contact-avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.08) contrast(1.08) brightness(1.03);
+      transform: scale(1.01);
+    }
+
+    .contact-avatar::before,
+    .contact-avatar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .contact-avatar::before {
+      z-index: 1;
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.18) 42%, rgba(103, 216, 255, 0.20) 50%, transparent 62%), repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0.06) 1px, transparent 1px, transparent 8px);
+      mix-blend-mode: screen;
+      opacity: 0.22;
+      transform: translateX(-45%);
+      animation: avatarShimmer 6.8s ease-in-out infinite;
+    }
+
+    .contact-avatar::after {
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%), linear-gradient(0deg, rgba(5, 7, 18, 0.7), transparent 55%);
+    }
+
+    .contact-card:hover .contact-avatar,
+    .contact-card:focus-within .contact-avatar {
+      transform: translateY(-3px);
+      filter: brightness(1.1) saturate(1.08);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.42), 0 0 28px rgba(103, 216, 255, 0.28), 0 0 56px rgba(166, 108, 255, 0.16);
+    }
+
+    .contact-card.penny .contact-avatar {
+      background: linear-gradient(135deg, rgba(255, 121, 200, 0.30), rgba(166, 108, 255, 0.18)), rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.42), 0 0 28px rgba(255, 121, 200, 0.24), 0 0 52px rgba(166, 108, 255, 0.12);
+      animation: avatarPulsePenny 5.2s ease-in-out infinite, avatarFloat 5.6s ease-in-out infinite;
+    }
+
+    .contact-card.penny .contact-avatar img {
+      filter: saturate(1.12) contrast(1.06) brightness(1.05);
+    }
+
+    .contact-card.penny .contact-avatar::before {
+      background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.20) 40%, rgba(255, 121, 200, 0.28) 50%, transparent 64%), repeating-linear-gradient(180deg, rgba(255, 121, 200, 0.08) 0, rgba(255, 121, 200, 0.08) 1px, transparent 1px, transparent 8px);
+      opacity: 0.30;
+    }
+
+    .contact-card.penny:hover .contact-avatar,
+    .contact-card.penny:focus-within .contact-avatar {
+      filter: brightness(1.13) saturate(1.14);
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.62), 0 0 34px rgba(255, 121, 200, 0.38), 0 0 68px rgba(166, 108, 255, 0.20);
+    }
+
+    .contact-card h3 {
+      margin: 20px 0 0;
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+    }
+
+    .contact-title,
+    .contact-card p {
+      max-width: none;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .contact-comm {
+      display: grid;
+      gap: 6px;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.16);
+    }
+
+    .contact-comm a {
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.25;
+    }
+
+    .contact-status {
+      margin-top: 2px;
+      color: var(--pink);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .contact-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .contact-socials a {
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.16), 0 0 18px rgba(103, 216, 255, 0.08);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .contact-socials a:hover,
+    .contact-socials a:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      color: #ffffff;
+      background: rgba(103, 216, 255, 0.10);
+      box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.30), 0 0 24px rgba(103, 216, 255, 0.18), 0 0 34px rgba(166, 108, 255, 0.12);
+    }
+
+    .contact-socials svg {
+      display: block;
+      width: 21px;
+      height: 21px;
+    }
+
+
+
+
+    .contact-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      margin-top: 26px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      color: #fff7fc;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, rgba(255, 121, 200, 0.30), rgba(166, 108, 255, 0.16));
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.34), 0 0 28px rgba(255, 121, 200, 0.16);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .contact-button:hover,
+    .contact-button:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(255, 121, 200, 0.38), rgba(166, 108, 255, 0.20));
+      box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.48), 0 0 32px rgba(255, 121, 200, 0.24), 0 0 42px rgba(166, 108, 255, 0.14);
+    }
+
 
     .penny-referral {
       position: fixed;
@@ -1553,13 +1142,6 @@
 
 
 
-
-    /* ============================================================
-   MOBILE / WATCH EXPERIENCE LAYER
-   ============================================================ */
-
-    /* ===== MOBILE LAYOUT OVERRIDES ===== */
-
     @media (max-width: 759px) {
       .hero-interface {
         display: grid;
@@ -1670,9 +1252,6 @@
           0 54px 128px rgba(166, 108, 255, 0.014),
           0 0 14px rgba(174, 255, 92, 0.020);
       }
-
-
-    /* ===== MOBILE ATMOSPHERIC FX ===== */
 
       @keyframes mobileSystemFieldDrift {
         0%,
@@ -2187,9 +1766,6 @@
       }
     }
 
-
-    /* ===== MOTION SAFETY / ACTIVE STATES ===== */
-
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
@@ -2271,10 +1847,351 @@
     }
 
 
+    .mobile-corner-interface {
+      display: none;
+    }
 
-    /* ===== META TRANSITION SYSTEM ===== */
+    @media (max-width: 759px) {
+      .hero-interface .contact-card {
+        display: none;
+      }
 
-    /* --- Meta transition overlay shell --- */
+      .mobile-corner-interface {
+        position: fixed;
+        inset: 0;
+        z-index: 90;
+        display: block;
+        pointer-events: none;
+      }
+
+      .corner-node {
+        position: fixed;
+        z-index: 92;
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        border: 0;
+        border-radius: 16px;
+        color: var(--text);
+        background:
+          linear-gradient(145deg, rgba(103, 216, 255, 0.105), rgba(166, 108, 255, 0.082)),
+          rgba(5, 7, 18, 0.20);
+        box-shadow:
+          inset 0 0 0 1px rgba(180, 232, 255, 0.18),
+          inset 0 0 18px rgba(103, 216, 255, 0.045),
+          0 12px 28px rgba(0, 0, 0, 0.28),
+          0 0 16px rgba(103, 216, 255, 0.13),
+          0 0 34px rgba(166, 108, 255, 0.075);
+        backdrop-filter: blur(10px) saturate(1.16);
+        -webkit-backdrop-filter: blur(10px) saturate(1.16);
+        overflow: visible;
+        cursor: pointer;
+        pointer-events: auto;
+        isolation: isolate;
+        transition:
+          transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          filter 220ms ease,
+          opacity 220ms ease,
+          box-shadow 220ms ease;
+      }
+
+      .corner-node::before,
+      .corner-node::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .corner-node::before {
+        inset: 0;
+        border-radius: inherit;
+        background:
+          linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.12) 42%, rgba(103, 216, 255, 0.15) 50%, transparent 62%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.10), transparent 38%),
+          repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.032) 0, rgba(255, 255, 255, 0.032) 1px, transparent 1px, transparent 9px);
+        mix-blend-mode: screen;
+        opacity: 0.18;
+        z-index: 2;
+      }
+
+      .corner-node::after {
+        left: 50%;
+        width: 16px;
+        height: 16px;
+        border-right: 1px solid rgba(244, 247, 255, 0.74);
+        border-bottom: 1px solid rgba(244, 247, 255, 0.74);
+        filter: drop-shadow(0 0 6px rgba(103, 216, 255, 0.52));
+        opacity: 0.7;
+        z-index: 3;
+      }
+
+      .corner-node img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        object-fit: cover;
+        filter: saturate(1.12) contrast(1.1) brightness(1.04);
+      }
+
+      .corner-node.matt {
+        top: calc(max(12px, env(safe-area-inset-top)) + 2px);
+        left: calc(max(12px, env(safe-area-inset-left)) + 2px);
+      }
+
+      .corner-node.matt::after {
+        bottom: -11px;
+        transform: translateX(-50%) rotate(45deg);
+      }
+
+      .corner-node.penny {
+        right: calc(max(12px, env(safe-area-inset-right)) + 2px);
+        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 3px);
+        background:
+          linear-gradient(145deg, rgba(255, 121, 200, 0.16), rgba(166, 108, 255, 0.10)),
+          rgba(5, 7, 18, 0.20);
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 121, 200, 0.30),
+          inset 0 0 18px rgba(255, 121, 200, 0.05),
+          0 12px 28px rgba(0, 0, 0, 0.30),
+          0 0 18px rgba(255, 121, 200, 0.15),
+          0 0 36px rgba(166, 108, 255, 0.08);
+      }
+
+      .corner-node.penny::before {
+        background:
+          linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 121, 200, 0.22) 50%, transparent 62%),
+          repeating-linear-gradient(180deg, rgba(255, 121, 200, 0.065) 0, rgba(255, 121, 200, 0.065) 1px, transparent 1px, transparent 8px);
+        opacity: 0.28;
+      }
+
+      .corner-node.penny::after {
+        top: -11px;
+        transform: translateX(-50%) rotate(225deg);
+        filter: drop-shadow(0 0 8px rgba(255, 121, 200, 0.72));
+      }
+
+      .corner-node:hover,
+      .corner-node:focus-visible,
+      .corner-node.is-active {
+        outline: none;
+        transform: translateY(-1px) scale(1.025);
+        filter: brightness(1.07) saturate(1.07);
+        box-shadow:
+          inset 0 0 0 1px rgba(180, 232, 255, 0.30),
+          inset 0 0 20px rgba(103, 216, 255, 0.06),
+          0 14px 30px rgba(0, 0, 0, 0.32),
+          0 0 22px rgba(103, 216, 255, 0.22),
+          0 0 44px rgba(166, 108, 255, 0.12);
+      }
+
+      .corner-node.penny:hover,
+      .corner-node.penny:focus-visible,
+      .corner-node.penny.is-active {
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 121, 200, 0.46),
+          inset 0 0 20px rgba(255, 121, 200, 0.07),
+          0 14px 30px rgba(0, 0, 0, 0.34),
+          0 0 24px rgba(255, 121, 200, 0.26),
+          0 0 46px rgba(166, 108, 255, 0.13);
+      }
+
+      .mobile-corner-interface.has-open-panel .corner-node:not(.is-active) {
+        opacity: 0.78;
+        filter: brightness(0.88) saturate(0.94);
+        transform: scale(0.985);
+      }
+
+      .corner-holo-panel {
+        position: fixed;
+        z-index: 91;
+        width: min(276px, calc(100vw - 32px));
+        padding: 16px;
+        border-radius: 22px;
+        color: var(--text);
+        background:
+          linear-gradient(145deg, rgba(2, 4, 12, 0.30), rgba(5, 7, 18, 0.22)),
+          linear-gradient(145deg, rgba(103, 216, 255, 0.028), rgba(166, 108, 255, 0.018), rgba(255, 121, 200, 0.012));
+        box-shadow:
+          inset 0 0 0 1px rgba(210, 240, 255, 0.055),
+          inset 0 0 28px rgba(103, 216, 255, 0.022),
+          0 10px 34px rgba(0, 0, 0, 0.30),
+          0 0 20px rgba(103, 216, 255, 0.075),
+          0 0 42px rgba(166, 108, 255, 0.048);
+        backdrop-filter: blur(13px) saturate(1.18);
+        -webkit-backdrop-filter: blur(13px) saturate(1.18);
+        overflow: hidden;
+        isolation: isolate;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        filter: blur(1.2px) saturate(0.96);
+        transition:
+          opacity 260ms ease,
+          transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          filter 260ms ease,
+          visibility 260ms ease;
+      }
+
+      .corner-holo-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background:
+          linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.030) 42%, rgba(103,216,255,0.050) 50%, transparent 62%),
+          linear-gradient(180deg, rgba(255,255,255,0.036), transparent 34%, rgba(103,216,255,0.012)),
+          repeating-linear-gradient(180deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 10px);
+        mix-blend-mode: screen;
+        opacity: 0.22;
+        pointer-events: none;
+      }
+
+      .corner-holo-panel::after {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        z-index: -1;
+        background:
+          radial-gradient(circle at center, rgba(103, 216, 255, 0.078), transparent 60%),
+          radial-gradient(circle at 24% 12%, rgba(255, 255, 255, 0.06), transparent 28%);
+        filter: blur(18px);
+        opacity: 0.34;
+        pointer-events: none;
+      }
+
+      .corner-holo-panel.matt {
+        top: calc(max(12px, env(safe-area-inset-top)) + 66px);
+        left: calc(max(12px, env(safe-area-inset-left)) + 2px);
+        transform: translate3d(-2px, -10px, 0) scale(0.976);
+        transform-origin: top left;
+      }
+
+      .corner-holo-panel.penny {
+        right: calc(max(12px, env(safe-area-inset-right)) + 2px);
+        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 67px);
+        transform: translate3d(2px, 10px, 0) scale(0.976);
+        transform-origin: bottom right;
+        background:
+          linear-gradient(145deg, rgba(5, 3, 14, 0.32), rgba(18, 5, 18, 0.22)),
+          linear-gradient(145deg, rgba(255, 121, 200, 0.034), rgba(166, 108, 255, 0.018), rgba(103, 216, 255, 0.012));
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 121, 200, 0.11),
+          inset 0 0 28px rgba(255, 121, 200, 0.026),
+          0 10px 34px rgba(0, 0, 0, 0.32),
+          0 0 22px rgba(255, 121, 200, 0.09),
+          0 0 42px rgba(166, 108, 255, 0.048);
+      }
+
+      .corner-holo-panel.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0) saturate(1.02);
+      }
+
+      .corner-holo-panel__kicker {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        color: var(--pink);
+        font-size: 0.62rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .corner-holo-panel h3 {
+        position: relative;
+        z-index: 1;
+        margin: 7px 0 0;
+        font-size: 1.16rem;
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+
+      .corner-holo-panel p,
+      .corner-holo-panel .contact-title {
+        position: relative;
+        z-index: 1;
+        margin: 8px 0 0;
+        color: rgba(228, 234, 248, 0.84);
+        font-size: 0.78rem;
+        line-height: 1.45;
+      }
+
+      .corner-holo-panel .contact-comm {
+        position: relative;
+        z-index: 1;
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.034);
+        box-shadow: inset 0 0 0 1px rgba(103, 216, 255, 0.13);
+      }
+
+      .corner-holo-panel .contact-comm a,
+      .corner-holo-panel .contact-status {
+        font-size: 0.76rem;
+      }
+
+      .corner-holo-panel .contact-socials {
+        position: relative;
+        z-index: 1;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .corner-holo-panel .contact-socials a {
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+      }
+
+      .corner-holo-panel .contact-socials svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .corner-holo-panel .contact-button {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        align-self: stretch;
+        margin-top: 14px;
+        padding: 11px 13px;
+        font-size: 0.82rem;
+      }
+
+      .corner-holo-panel.penny .contact-socials a {
+        box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.18), 0 0 18px rgba(255, 121, 200, 0.08);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .corner-node {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+      }
+
+      .corner-holo-panel {
+        width: min(264px, calc(100vw - 24px));
+        padding: 14px;
+      }
+
+      .corner-holo-panel.matt {
+        top: calc(max(12px, env(safe-area-inset-top)) + 60px);
+      }
+
+      .corner-holo-panel.penny {
+        bottom: calc(max(12px, env(safe-area-inset-bottom)) + 61px);
+      }
+    }
+
 
     .penny-meta-transition {
       position: fixed;
@@ -2318,8 +2235,6 @@
       pointer-events: none;
     }
 
-    /* --- Meta transition media panel --- */
-
     .penny-meta-transition__media {
       position: relative;
       z-index: 1;
@@ -2339,8 +2254,6 @@
       object-fit: cover;
       filter: saturate(1.12) contrast(1.08) brightness(1.04);
     }
-
-    /* --- Meta transition message text --- */
 
     .penny-meta-transition__text {
       position: relative;
@@ -2364,14 +2277,12 @@
       line-height: 1.48;
     }
 
-    /* --- Contact social trigger label --- */
-
     .contact-socials a[data-penny-meta-link] {
       position: relative;
     }
 
     .contact-socials a[data-penny-meta-link]::after {
-      content: "Beware of hall monitors";
+      content: "External territory";
       position: absolute;
       left: 50%;
       bottom: -19px;
@@ -2396,8 +2307,6 @@
     }
 
     @media (max-width: 759px) {
-      /* --- Mobile meta transition staging --- */
-
       .penny-meta-transition {
         left: 14px;
         right: 14px;
@@ -2423,7 +2332,6 @@
 
 <body>
   <div class="page">
-    <!-- ===== HEADER / NAVIGATION ===== -->
     <header>
       <div class="brand">
         <span class="brand-mark"></span>
@@ -2432,15 +2340,10 @@
     </header>
 
     <main>
-      <!-- ===== CORE EXPERIENCE LAYER ===== -->
       <section class="hero" aria-labelledby="hero-title">
         <div>
           <div id="contact" class="hero-interface contact-grid" aria-label="WildCard DEV contact operators">
-
-          <!-- Matt contact card -->
           <article class="contact-card matt">
-
-            <!-- Avatar shimmer -->
             <div class="contact-avatar">
               <img src="images/matt-avatar.png" alt="Matt Tobaben" />
             </div>
@@ -2451,8 +2354,6 @@
               <a href="tel:+14029150789">402-915-0789</a>
               <span class="contact-status">Penny concierge online</span>
             </div>
-
-            <!-- Social / contact links -->
             <div class="contact-socials" aria-label="Matt social links">
               <a href="https://www.linkedin.com/in/matt-tobaben" aria-label="Matt Tobaben on LinkedIn">
                 <svg aria-hidden="true" focusable="false" width="21" height="21" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -2471,8 +2372,6 @@
               </a>
             </div>
           </article>
-
-          <!-- ===== ORBIT SYSTEM ===== -->
           <div class="orbit-stage" aria-label="WildCard DEV media orbit">
             <div class="orbit-drag">
               <div class="orbit-ring">
@@ -2574,16 +2473,12 @@
                 </button>
               </div>
             </div>
-
-            <!-- Holo Floor projection system -->
             <div class="holo-floor">
               <div class="holo-floor-grid"></div>
               <div class="holo-floor-spade"></div>
               <div class="holo-floor-text">WildCard DEV</div>
             </div>
           </div>
-
-          <!-- Interface modes -->
           <section class="interface-modes" aria-label="WildCard DEV interface modes">
             <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
               <p class="interface-mode__kicker">Active Channel</p>
@@ -2615,11 +2510,7 @@
               <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
             </article>
           </section>
-
-          <!-- Penny contact card -->
           <article class="contact-card penny">
-
-            <!-- Avatar shimmer -->
             <div class="contact-avatar">
               <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
             </div>
@@ -2634,8 +2525,6 @@
   </div>
 
 
-
-  <!-- Mobile corner contact interface -->
   <div class="mobile-corner-interface" aria-label="Mobile operator interface">
     <button class="corner-node matt" type="button" data-corner-panel="matt" aria-controls="mobile-matt-panel" aria-expanded="false" aria-label="Open Matt contact interface">
       <img src="images/matt-avatar.png" alt="" />
@@ -2699,8 +2588,6 @@
   </div>
 
 
-
-  <!-- ===== REFERRAL SYSTEM ===== -->
   <div class="penny-referral" data-referral-route="from=personal-fb" aria-hidden="true">
     <div class="penny-referral__card" role="dialog" aria-modal="false" aria-labelledby="penny-referral-title" aria-describedby="penny-referral-body">
       <button class="penny-referral__close" type="button" aria-label="Close Penny referral message">×</button>
@@ -2713,22 +2600,16 @@
   </div>
 
 
-
-  <!-- Meta transition system -->
   <div class="penny-meta-transition" aria-hidden="true" role="status" aria-live="polite">
     <div class="penny-meta-transition__media">
       <video src="images/penny/penny_office_working_v2.mp4" autoplay muted loop playsinline></video>
     </div>
     <div class="penny-meta-transition__text">
-      <p class="penny-meta-transition__kicker">BEWARE OF HALL MONITORS</p>
+      <p class="penny-meta-transition__kicker">Penny / External Territory</p>
       <p>Fine, honey. I’ll drop you at Meta’s supervised side of the internet. Try not to frighten the hall monitors.</p>
     </div>
   </div>
 
-
-  <!-- ===== INTERACTION SCRIPT LAYER ===== -->
-
-  <!-- ===== ORBIT MOTION LOGIC ===== -->
   <script>
     (() => {
       const stage = document.querySelector(".orbit-stage");
@@ -2739,8 +2620,6 @@
     })();
   </script>
 
-
-  <!-- Referral session persistence -->
   <script>
     (() => {
       const referralPopup = document.querySelector(".penny-referral");
@@ -2784,12 +2663,8 @@
     })();
   </script>
 
-
-  <!-- ===== EVENT LISTENERS ===== -->
   <script>
     (() => {
-      /* Meta transition trigger collection */
-
       const metaLinks = Array.from(document.querySelectorAll('a[data-penny-meta-link]'));
       const metaTransition = document.querySelector('.penny-meta-transition');
       if (!metaLinks.length || !metaTransition) return;
@@ -2797,14 +2672,10 @@
       let openTimer = null;
       let closeTimer = null;
 
-      /* Meta transition visibility controller */
-
       const openMetaLink = (href) => {
         if (!href) return;
         window.open(href, '_blank', 'noopener');
       };
-
-      /* Meta transition trigger listeners */
 
       metaLinks.forEach((link) => {
         link.addEventListener('click', (event) => {
@@ -2816,8 +2687,6 @@
 
           metaTransition.classList.add('is-visible');
           metaTransition.setAttribute('aria-hidden', 'false');
-
-          /* Meta transition outbound timing */
 
           openTimer = window.setTimeout(() => {
             openMetaLink(href);
@@ -2832,8 +2701,6 @@
     })();
   </script>
 
-
-  <!-- ===== MODE TRANSITIONS ===== -->
   <script>
     (() => {
       const orbitCards = Array.from(document.querySelectorAll(".orbit-card[data-target]"));
@@ -2912,8 +2779,6 @@
     })();
   </script>
 
-
-  <!-- ===== INITIALIZATION ===== -->
   <script>
     (() => {
       const mobileInterface = document.querySelector(".mobile-corner-interface");
