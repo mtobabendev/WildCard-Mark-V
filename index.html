@@ -475,6 +475,8 @@
 
     /* ===== HOLO FLOOR ===== */
 
+    /* --- Projection field container --- */
+
     .holo-floor {
       position: absolute;
       left: 50%;
@@ -488,6 +490,8 @@
       transform-style: preserve-3d;
       pointer-events: none;
     }
+
+    /* --- Energy grid layers --- */
 
     .holo-floor-grid {
       position: absolute;
@@ -525,6 +529,8 @@
       filter: blur(0.7px);
       opacity: 0.26;
     }
+
+    /* --- Projection branding --- */
 
     .holo-floor-spade {
       position: absolute;
@@ -588,6 +594,8 @@
         box-shadow: 0 24px 54px rgba(0, 0, 0, 0.48), 0 0 58px rgba(255, 121, 200, 0.60), 0 0 76px rgba(255, 121, 200, 0.24), inset 0 0 0 1px rgba(255, 121, 200, 0.42);
       }
     }
+
+    /* --- Holo Floor energy systems --- */
 
     @keyframes floorEnergyPulse {
 
@@ -2557,7 +2565,7 @@
               </div>
             </div>
 
-            <!-- Holo floor -->
+            <!-- Holo Floor projection system -->
             <div class="holo-floor">
               <div class="holo-floor-grid"></div>
               <div class="holo-floor-spade"></div>
