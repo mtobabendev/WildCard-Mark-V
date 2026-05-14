@@ -176,6 +176,27 @@
       touch-action: none;
     }
 
+    .orbit-guidance {
+      position: absolute;
+      right: 3%;
+      bottom: 28%;
+      z-index: 3;
+      color: rgba(255, 230, 245, 0.58);
+      font-size: clamp(0.66rem, 1.8vw, 0.78rem);
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-shadow:
+        0 0 8px rgba(255, 121, 200, 0.34),
+        0 0 18px rgba(166, 108, 255, 0.16);
+      transform: none;
+      opacity: 0.38;
+      pointer-events: none;
+      animation: orbitGuidanceWhisper 4.8s ease-in-out infinite;
+    }
+
     .orbit-stage::before {
       content: "";
       position: absolute;
@@ -592,6 +613,30 @@
 
       50% {
         box-shadow: 0 24px 54px rgba(0, 0, 0, 0.48), 0 0 58px rgba(255, 121, 200, 0.60), 0 0 76px rgba(255, 121, 200, 0.24), inset 0 0 0 1px rgba(255, 121, 200, 0.42);
+      }
+    }
+
+    @keyframes orbitGuidanceWhisper {
+
+      0%,
+      100% {
+        opacity: 0.34;
+        filter: blur(0.16px);
+      }
+
+      46% {
+        opacity: 0.66;
+        filter: blur(0);
+      }
+
+      52% {
+        opacity: 0.48;
+        filter: blur(0.28px);
+      }
+
+      58% {
+        opacity: 0.62;
+        filter: blur(0);
       }
     }
 
@@ -1269,6 +1314,11 @@
 
       .corner-holo-panel.penny {
         bottom: calc(max(12px, env(safe-area-inset-bottom)) + 61px);
+      }
+
+      .orbit-guidance {
+        right: 3%;
+        bottom: 14%;
       }
     }
 
@@ -2474,6 +2524,7 @@
 
           <!-- ===== ORBIT PRESENTATION SYSTEM ===== -->
           <div class="orbit-stage" aria-label="WildCard DEV media orbit">
+            <p class="orbit-guidance" aria-hidden="true">Drag the deck, honey.</p>
             <div class="orbit-drag">
               <div class="orbit-ring">
                 <button class="orbit-card" type="button" data-target="systems" aria-label="Open Systems">
@@ -2606,7 +2657,7 @@
             <article class="interface-mode" data-mode="penny" aria-label="Penny mode" hidden>
               <p class="interface-mode__kicker">Concierge Layer</p>
               <h2>Penny</h2>
-              <p>WildCard DEV’s AI concierge presence for routing, guidance, and interactive support.</p>
+              <p>WildCard DEV’s pink-accented concierge presence for routing, project guidance, interface support, and controlled chaos.</p>
             </article>
 
             <article class="interface-mode" data-mode="automation" aria-label="Automation mode" hidden>
@@ -2822,12 +2873,12 @@
 
           openTimer = window.setTimeout(() => {
             openMetaLink(href);
-          }, 620);
+          }, 5200);
 
           closeTimer = window.setTimeout(() => {
             metaTransition.classList.remove('is-visible');
             metaTransition.setAttribute('aria-hidden', 'true');
-          }, 1450);
+          }, 6000);
         });
       });
     })();
