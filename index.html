@@ -1,13 +1,11 @@
-html
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
   <meta name="theme-color" content="#05000a" />
   <title>WildCard DEV // PennyCore Spinner</title>
+
   <style>
     :root {
       --bg0: #050008;
@@ -21,7 +19,7 @@ html
       --muted: #dcc7ec;
       --line: rgba(255, 121, 200, 0.52);
       --glass: rgba(14, 4, 26, 0.94);
-      --cardW: min(67vw, 184px);
+      --cardW: min(68vw, 184px);
       --cardH: calc(var(--cardW) * 1.42);
       --ringZ: min(34vw, 122px);
       --deckLift: 0px;
@@ -41,7 +39,12 @@ html
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.24), transparent 34%), radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.11), transparent 34%), linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.24), transparent 34%),
+        radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.11), transparent 34%),
+        linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
       color: var(--text);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overscroll-behavior: none;
@@ -49,8 +52,6 @@ html
     }
 
     body {
-      position: fixed;
-      inset: 0;
       display: grid;
       place-items: center;
     }
@@ -66,11 +67,6 @@ html
       text-decoration: none;
     }
 
-    #root {
-      width: 100vw;
-      height: 100svh;
-    }
-
     .app {
       position: relative;
       width: 100vw;
@@ -84,18 +80,21 @@ html
 
     .route-label {
       position: absolute;
-      top: max(9px, env(safe-area-inset-top));
+      top: max(8px, env(safe-area-inset-top));
       left: 50%;
       transform: translateX(-50%);
       width: min(88vw, 320px);
       text-align: center;
       color: var(--hot);
-      font-size: clamp(0.56rem, 3.1vw, 0.76rem);
-      letter-spacing: 0.13em;
+      font-size: clamp(0.55rem, 3vw, 0.74rem);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       pointer-events: none;
       text-shadow: 0 0 12px rgba(255, 79, 216, 0.72);
       z-index: 8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .halo {
@@ -104,10 +103,12 @@ html
       height: min(94vw, 365px);
       border-radius: 50%;
       border: 1px solid rgba(255, 121, 200, 0.22);
-      box-shadow: 0 0 38px rgba(255, 79, 216, 0.26), inset 0 0 46px rgba(143, 92, 255, 0.12);
+      box-shadow:
+        0 0 38px rgba(255, 79, 216, 0.26),
+        inset 0 0 46px rgba(143, 92, 255, 0.12);
       pointer-events: none;
       transform: translateY(var(--deckLift));
-      transition: transform 160ms ease;
+      transition: transform 150ms ease;
     }
 
     .halo::before,
@@ -136,10 +137,12 @@ html
       height: min(34vw, 120px);
       border-radius: 999px;
       pointer-events: none;
-      background: linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.18), transparent), radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
+      background:
+        linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.18), transparent),
+        radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
       opacity: 0.95;
       transform: translateY(var(--deckLift));
-      transition: transform 160ms ease;
+      transition: transform 150ms ease;
     }
 
     .deck {
@@ -149,15 +152,9 @@ html
       place-items: center;
       transform-style: preserve-3d;
       touch-action: none;
-      cursor: grab;
       transform: translateY(var(--deckLift));
-      transition: transform 160ms ease;
+      transition: transform 150ms ease;
       z-index: 5;
-    }
-
-    .deck.dragging {
-      cursor: grabbing;
-      transition: none;
     }
 
     .card {
@@ -172,12 +169,27 @@ html
       background: transparent;
       color: inherit;
       transform-style: preserve-3d;
-      transform: rotateY(calc((var(--i) * var(--step)) + var(--rot))) translateZ(var(--ringZ)) scale(calc(0.66 + (var(--active) * 0.38)));
-      opacity: calc(0.3 + (var(--active) * 0.7));
-      filter: blur(calc((1 - var(--active)) * 0.45px)) saturate(calc(0.9 + var(--active) * 0.28)) brightness(calc(0.9 + var(--active) * 0.13));
-      transition: transform 150ms ease, filter 150ms ease, opacity 150ms ease;
+      transform:
+        rotateY(calc((var(--i) * var(--step)) + var(--rot)))
+        translateZ(var(--ringZ))
+        scale(calc(0.66 + (var(--active) * 0.38)));
+      opacity: calc(0.26 + (var(--active) * 0.74));
+      filter:
+        blur(calc((1 - var(--active)) * 0.45px))
+        saturate(calc(0.9 + var(--active) * 0.28))
+        brightness(calc(0.88 + var(--active) * 0.14));
+      transition:
+        transform 120ms ease,
+        filter 120ms ease,
+        opacity 120ms ease;
       touch-action: none;
-      z-index: calc(10 + (var(--active) * 20));
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .card.active {
+      pointer-events: auto;
+      z-index: 30;
     }
 
     .card-inner {
@@ -186,7 +198,7 @@ html
       border-radius: 20px;
       transform-style: preserve-3d;
       transform: rotateY(var(--flip));
-      transition: transform 260ms cubic-bezier(.2, .8, .2, 1);
+      transition: transform 240ms cubic-bezier(.2,.8,.2,1);
     }
 
     .card.flipped .card-inner {
@@ -205,8 +217,12 @@ html
       backface-visibility: hidden;
       overflow: hidden;
       border: 1px solid var(--line);
-      background: radial-gradient(circle at 50% 20%, rgba(255, 79, 216, 0.28), transparent 38%), linear-gradient(150deg, rgba(255, 121, 200, 0.17), rgba(8, 0, 16, 0.98));
-      box-shadow: 0 0 22px rgba(255, 79, 216, 0.36), inset 0 0 18px rgba(255, 121, 200, 0.08);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 79, 216, 0.28), transparent 38%),
+        linear-gradient(150deg, rgba(255, 121, 200, 0.17), rgba(8, 0, 16, 0.98));
+      box-shadow:
+        0 0 22px rgba(255, 79, 216, 0.36),
+        inset 0 0 18px rgba(255, 121, 200, 0.08);
       text-align: center;
     }
 
@@ -232,11 +248,16 @@ html
 
     .back {
       transform: rotateY(180deg);
-      background: radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%), linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
+      background:
+        radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%),
+        linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
     }
 
     .penny-card .front {
-      background: radial-gradient(circle at 50% 8%, rgba(255, 121, 200, 0.34), transparent 36%), radial-gradient(circle at 50% 62%, rgba(103, 232, 255, 0.08), transparent 42%), linear-gradient(150deg, rgba(255, 121, 200, 0.2), rgba(7, 0, 14, 0.98));
+      background:
+        radial-gradient(circle at 50% 8%, rgba(255, 121, 200, 0.34), transparent 36%),
+        radial-gradient(circle at 50% 62%, rgba(103, 232, 255, 0.08), transparent 42%),
+        linear-gradient(150deg, rgba(255, 121, 200, 0.2), rgba(7, 0, 14, 0.98));
     }
 
     .sigil {
@@ -321,6 +342,7 @@ html
       text-transform: uppercase;
       display: grid;
       place-items: center;
+      touch-action: manipulation;
     }
 
     .action.primary {
@@ -351,14 +373,19 @@ html
       height: clamp(44px, 14vw, 56px);
       border-radius: 50%;
       border: 1px solid rgba(255, 121, 200, 0.66);
-      background: radial-gradient(circle at 45% 30%, rgba(255, 121, 200, 0.42), transparent 34%), linear-gradient(150deg, rgba(255, 79, 216, 0.2), rgba(8, 0, 16, 0.96));
+      background:
+        radial-gradient(circle at 45% 30%, rgba(255, 121, 200, 0.42), transparent 34%),
+        linear-gradient(150deg, rgba(255, 79, 216, 0.2), rgba(8, 0, 16, 0.96));
       color: var(--hot);
-      box-shadow: 0 0 20px rgba(255, 79, 216, 0.46), inset 0 0 12px rgba(255, 121, 200, 0.12);
+      box-shadow:
+        0 0 20px rgba(255, 79, 216, 0.46),
+        inset 0 0 12px rgba(255, 121, 200, 0.12);
       display: grid;
       place-items: center;
       font-size: clamp(1.15rem, 6vw, 1.55rem);
       font-weight: 950;
-      z-index: 16;
+      z-index: 40;
+      touch-action: manipulation;
     }
 
     .penny-chip::after {
@@ -368,6 +395,7 @@ html
       border-radius: 50%;
       border: 1px solid rgba(103, 232, 255, 0.18);
       animation: chipPulse 2.8s ease-in-out infinite;
+      pointer-events: none;
     }
 
     .panel-pop {
@@ -376,7 +404,7 @@ html
       display: none;
       place-items: center;
       background: rgba(5, 0, 10, 0.88);
-      z-index: 30;
+      z-index: 50;
       padding: 16px;
       touch-action: pan-y;
     }
@@ -391,7 +419,9 @@ html
       overflow: auto;
       border-radius: 24px;
       border: 1px solid var(--line);
-      background: radial-gradient(circle at 50% 0%, rgba(255, 79, 216, 0.18), transparent 34%), var(--glass);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 79, 216, 0.18), transparent 34%),
+        var(--glass);
       box-shadow: 0 0 36px rgba(255, 79, 216, 0.36);
       padding: 16px;
       text-align: center;
@@ -478,35 +508,16 @@ html
     }
 
     @keyframes breathe {
-
-      0%,
-      100% {
-        opacity: 0.72;
-        transform: rotate(0deg);
-      }
-
-      50% {
-        opacity: 1;
-        transform: rotate(7deg);
-      }
+      0%, 100% { opacity: 0.72; transform: rotate(0deg); }
+      50% { opacity: 1; transform: rotate(7deg); }
     }
 
     @keyframes chipPulse {
-
-      0%,
-      100% {
-        opacity: 0.46;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.12);
-      }
+      0%, 100% { opacity: 0.46; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.12); }
     }
 
-    @media (max-width: 380px),
-    (max-height: 520px) {
+    @media (max-width: 380px), (max-height: 520px) {
       :root {
         --cardW: min(70vw, 150px);
         --ringZ: min(29vw, 82px);
@@ -536,22 +547,419 @@ html
         grid-template-columns: 1fr;
       }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      .halo::before,
-      .penny-chip::after {
-        animation: none;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <div id="root"></div>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script> const { useEffect, useMemo, useRef, useState } = React; const h = React.createElement; const cards = [{ title: "Penny", label: "Penny Personal // Queen Concierge", rank: "Q♠", sigil: "♛", sub: "Queen Concierge", micro: "Tap center flip", route: "https://www.wildcarddev.com/penny-drop", queen: true, backTitle: "Penny Personal", backSub: "VIP After Hours", contact: [["Penny@wildcarddev.com", "mailto:Penny@wildcarddev.com"], ["Cell: 402-332-6748", "tel:+14023326748"], ["Text: 402-332-6748", "sms:+14023326748"], ["WhatsApp + TextNow", "https://wa.me/14023326748"], ["Corp: 402-915-0789", "tel:+14029150789"]], actions: [["Penny Drop", "https://www.wildcarddev.com/penny-drop", true], ["Discord", "https://party.wildcarddev.com/#discord", false]] }, { title: "Matt", label: "Matt // Operator Six", rank: "K♠", sigil: "M", sub: "Operator Six", micro: "Gate route", route: "https://www.wildcarddev.com/operator", backTitle: "Operator", backSub: "Private panel starts here", actions: [["Open", "https://www.wildcarddev.com/operator", true], ["Gate", "https://www.wildcarddev.com/gate", false]] }, { title: "Text", label: "Text // Chat Layer", rank: "A♠", sigil: "TXT", sub: "Layer one", micro: "Chat first", route: "https://www.wildcarddev.com/chat", backTitle: "Text Chat", backSub: "Base comms layer", actions: [["Open", "https://www.wildcarddev.com/chat", true], ["Framework", "https://github.com/mtobabendev/Video-Chatroom", false]] }, { title: "Voice", label: "Voice // Audio Layer", rank: "A♠", sigil: "VOX", sub: "Layer two", micro: "Audio path", route: "https://www.wildcarddev.com/voice", backTitle: "Voice", backSub: "Call / audio conduit", actions: [["Open", "https://www.wildcarddev.com/voice", true], ["Call Penny", "tel:+14023326748", false]] }, { title: "Video", label: "Video // Peer Room", rank: "A♠", sigil: "VID", sub: "Layer three", micro: "WebRTC route", route: "https://www.wildcarddev.com/video", backTitle: "Video", backSub: "Peer room / camera layer", actions: [["Open", "https://www.wildcarddev.com/video", true], ["Source", "https://github.com/mtobabendev/Video-Chatroom", false]] }, { title: "Files", label: "Files // Transfer Layer", rank: "A♠", sigil: "⇅", sub: "Layer four", micro: "Upload / download", route: "https://www.wildcarddev.com/files", backTitle: "Files", backSub: "Transfer lane", actions: [["Open", "https://www.wildcarddev.com/files", true], ["Vault", "https://www.wildcarddev.com/vault", false]] }, { title: "Discord", label: "Discord // Penny Landing", rank: "A♠", sigil: "☯", sub: "Landing room", micro: "Penny world", route: "https://party.wildcarddev.com/#discord", backTitle: "Discord", backSub: "Penny landing universe", actions: [["Open", "https://party.wildcarddev.com/#discord", true], ["Party", "https://party.wildcarddev.com/", false]] }, { title: "Party", label: "Party // House Route", rank: "A♠", sigil: "♣", sub: "House route", micro: "Fun load", route: "https://party.wildcarddev.com/", backTitle: "Party", backSub: "Penny social shell", actions: [["Open", "https://party.wildcarddev.com/", true], ["Root", "https://www.wildcarddev.com/#party", false]] }, { title: "Office", label: "Office // Internal Shell", rank: "A♠", sigil: "♦", sub: "Internal shell", micro: "Locked", route: "https://office.wildcarddev.com/", backTitle: "Office", backSub: "Penny’s Office door", actions: [["Open", "https://office.wildcarddev.com/", true], ["Gate", "https://www.wildcarddev.com/gate", false]] }, { title: "Labs", label: "Labs // Build Route", rank: "A♠", sigil: "⚙", sub: "Build route", micro: "Erica lane", route: "https://labs.wildcarddev.com/", backTitle: "Labs", backSub: "Code, deploy, debug", actions: [["Open", "https://labs.wildcarddev.com/", true], ["Dev", "https://www.wildcarddev.com/dev", false]] }, { title: "Studio", label: "Studio // Shoot Mode", rank: "A♠", sigil: "📷", sub: "Pose / loop", micro: "Shoot mode", route: "https://www.wildcarddev.com/studio", backTitle: "Studio", backSub: "Keep outfit, change pose", actions: [["Open", "https://www.wildcarddev.com/studio", true], ["Prompt", "https://www.wildcarddev.com/penny-drop", false]] }, { title: "Jump", label: "Jump // Watchverse", rank: "A♠", sigil: "↔", sub: "Watchverse", micro: "QR bridge", route: "https://www.wildcarddev.com/watchverse", backTitle: "Jump", backSub: "Watch to phone/watch", actions: [["Open", "https://www.wildcarddev.com/watchverse", true], ["Code", "https://www.wildcarddev.com/jump", false]] }, { title: "Tasker", label: "Tasker // AutoWear", rank: "A♠", sigil: "⚡", sub: "AutoWear", micro: "Bridge", route: "https://www.wildcarddev.com/tasker", backTitle: "Tasker", backSub: "Phone/watch actuator lane", actions: [["Open", "https://www.wildcarddev.com/tasker", true], ["PAN", "https://www.wildcarddev.com/pan", false]] }, { title: "Vault", label: "Vault // Penny Purse", rank: "A♠", sigil: "▣", sub: "Penny purse", micro: "Files", route: "https://www.wildcarddev.com/vault", backTitle: "Vault", backSub: "Private storage route", actions: [["Open", "https://www.wildcarddev.com/vault", true], ["Files", "https://www.wildcarddev.com/files", false]] }, { title: "Drive", label: "Drive // Google Storage", rank: "A♠", sigil: "G", sub: "Google storage", micro: "Auth gate", route: "https://drive.google.com/drive/my-drive", backTitle: "Google Drive", backSub: "Open authenticated storage", actions: [["Open", "https://drive.google.com/drive/my-drive", true], ["Drive Root", "https://drive.google.com/", false]] }, { title: "Dropbox", label: "Dropbox // Cloud Stash", rank: "A♠", sigil: "D", sub: "Cloud stash", micro: "Auth gate", route: "https://www.dropbox.com/home", backTitle: "Dropbox", backSub: "Open authenticated storage", actions: [["Open", "https://www.dropbox.com/home", true], ["Login", "https://www.dropbox.com/login", false]] }]; function App() { const deckRef = useRef(null); const stateRef = useRef({ rotation: 0, velocity: 0, dragging: false, pointerId: null, startX: 0, startY: 0, lastX: 0, lastY: 0, lastT: 0, moved: false, selected: 0, layer: 0, longTimer: null }); const [selected, setSelectedState] = useState(0); const [flipped, setFlipped] = useState({}); const [hint, setHint] = useState("Swipe spin • tap center flip • up/down layer"); const [quickOpen, setQuickOpen] = useState(false); const step = useMemo(() => 360 / cards.length, []); useEffect(() => { document.documentElement.style.setProperty("--step", step + "deg"); setActive(0); applyRotation(0); try { sessionStorage.setItem("wildcard_boot_mode", "react-spinner-single-tap-flip-v2"); sessionStorage.setItem("wildcard_comms_stack", "text>voice>video>files"); history.replaceState({ deck: true }, "", location.href); history.pushState({ deck: true }, "", location.href); window.addEventListener("popstate", handleBack); } catch (_) { } document.addEventListener("contextmenu", preventDefault); document.addEventListener("gesturestart", preventDefault); let raf = requestAnimationFrame(loop); function preventDefault(event) { event.preventDefault(); } function handleBack() { if (quickOpen) { setQuickOpen(false); } else { setFlipped({}); setLayer(0); setHint("Swipe spin • tap center flip • up/down layer"); } try { history.pushState({ deck: true }, "", location.href); } catch (_) { } } function loop() { const s = stateRef.current; if (!s.dragging) { s.rotation += s.velocity; s.velocity *= 0.93; if (Math.abs(s.velocity) < 0.08) { const target = -nearestIndex() * step; s.rotation += (target - s.rotation) * 0.16; if (Math.abs(target - s.rotation) < 0.08) { s.rotation = target; s.velocity = 0; } } applyRotation(s.rotation); setActive(nearestIndex()); } raf = requestAnimationFrame(loop); } return () => { cancelAnimationFrame(raf); window.removeEventListener("popstate", handleBack); document.removeEventListener("contextmenu", preventDefault); document.removeEventListener("gesturestart", preventDefault); }; }, [step, quickOpen]); function normIndex(index) { return ((index % cards.length) + cards.length) % cards.length; } function nearestIndex() { const s = stateRef.current; return normIndex(Math.round(-s.rotation / step)); } function applyRotation(value) { document.documentElement.style.setProperty("--rot", value + "deg"); } function setActive(index) { const next = normIndex(index); const s = stateRef.current; if (s.selected !== next) { s.selected = next; setSelectedState(next); setFlipped({}); } } function snapTo(index) { const s = stateRef.current; const next = normIndex(index); s.selected = next; s.rotation = -next * step; s.velocity = 0; applyRotation(s.rotation); setSelectedState(next); setFlipped({}); setHint("Center ready • tap to flip"); } function setLayer(next) { const s = stateRef.current; s.layer = Math.max(-1, Math.min(1, next)); document.documentElement.style.setProperty("--deckLift", (s.layer * -30) + "px"); if (s.layer === 1) { setHint("Layer up • tap center flip"); } else if (s.layer === -1) { setHint("Layer down • Penny chip opens comms"); } else { setHint("Swipe spin • tap center flip • up/down layer"); } } function flipCard(index) { setFlipped(prev => { const nextState = !prev[index]; setHint(nextState ? "Back active • tap button or tap card to close" : "Swipe spin • tap center flip • up/down layer"); return { [index]: nextState }; }); } function clearLongPress() { const s = stateRef.current; if (s.longTimer) { clearTimeout(s.longTimer); s.longTimer = null; } } function onPointerDown(event) { if (event.target.closest("a") || event.target.closest("button") || event.target.closest("#quickPanel")) { return; } const s = stateRef.current; s.dragging = true; s.moved = false; s.pointerId = event.pointerId; s.startX = event.clientX; s.startY = event.clientY; s.lastX = event.clientX; s.lastY = event.clientY; s.lastT = performance.now(); s.velocity = 0; if (deckRef.current) deckRef.current.classList.add("dragging"); clearLongPress(); s.longTimer = setTimeout(() => { if (!stateRef.current.moved && stateRef.current.dragging) { setQuickOpen(true); } }, 650); try { deckRef.current.setPointerCapture(event.pointerId); } catch (_) { } } function onPointerMove(event) { const s = stateRef.current; if (!s.dragging || event.pointerId !== s.pointerId) return; const now = performance.now(); const dx = event.clientX - s.lastX; const totalX = event.clientX - s.startX; const totalY = event.clientY - s.startY; const dt = Math.max(16, now - s.lastT); if (Math.abs(totalX) > 7 || Math.abs(totalY) > 7) { s.moved = true; clearLongPress(); } if (Math.abs(totalY) > Math.abs(totalX) * 1.15 && Math.abs(totalY) > 18) { setLayer(totalY < 0 ? 1 : -1); } else { s.rotation += dx * 0.44; s.velocity = (dx / dt) * 13; } s.lastX = event.clientX; s.lastY = event.clientY; s.lastT = now; applyRotation(s.rotation); setActive(nearestIndex()); } function onPointerUp(event) { const s = stateRef.current; if (!s.dragging || event.pointerId !== s.pointerId) return; clearLongPress(); s.dragging = false; s.pointerId = null; if (deckRef.current) deckRef.current.classList.remove("dragging"); try { deckRef.current.releasePointerCapture(event.pointerId); } catch (_) { } if (!s.moved) { const cardEl = event.target.closest(".card"); if (!cardEl) return; const index = Number(cardEl.dataset.index); if (index !== s.selected) { snapTo(index); return; } flipCard(index); } } return h("main", { className: "app", "aria-label": "PennyCore React spinner" }, h("div", { className: "route-label" }, cards[selected].label), h("div", { className: "halo", "aria-hidden": true }), h("div", { className: "wings", "aria-hidden": true }), h("section", { className: "deck", id: "deck", ref: deckRef, "aria-label": "Swipe to spin tarot deck", onPointerDown, onPointerMove, onPointerUp, onPointerCancel: onPointerUp }, cards.map((card, index) => h(Card, { key: card.label, card, index, active: index === selected, flipped: !!flipped[index] }))), h("button", { className: "penny-chip", type: "button", id: "pennyChip", "aria-label": "Open Penny quick panel", onClick: () => setQuickOpen(true) }, "P♠"), h("div", { className: "hint" }, hint), h(QuickPanel, { open: quickOpen, onClose: () => setQuickOpen(false) })); } function Card({ card, index, active, flipped }) { return h("div", { className: "card" + (card.queen ? " penny-card" : "") + (flipped ? " flipped" : ""), role: "button", tabIndex: 0, "data-index": index, "data-route": card.route, style: { "--i": index, "--active": active ? 1 : 0 } }, h("span", { className: "card-inner" }, h("span", { className: "face front", "data-rank": card.rank }, h("span", { className: "sigil" }, card.sigil), h("span", { className: "title" }, card.title), h("span", { className: "sub" }, card.sub), h("span", { className: "micro" }, card.micro)), h("span", { className: "face back", "data-rank": card.rank }, h("span", { className: "title" }, card.backTitle), h("span", { className: "sub" }, card.backSub), card.contact ? h("span", { className: "contact-lines" }, card.contact.map(([label, href]) => h("a", { key: label, href }, label))) : null, h("span", { className: "actions" }, card.actions.map(([label, href, primary]) => h("a", { key: label, className: "action" + (primary ? " primary" : ""), href }, label)))))); } function QuickPanel({ open, onClose }) { return h("section", { className: "panel-pop" + (open ? " open" : ""), id: "quickPanel", "aria-hidden": open ? "false" : "true" }, h("div", { className: "quick-card" }, h("h2", { className: "quick-title" }, "Penny Personal"), h("p", { className: "quick-sub" }, "Layered comms: text → voice → video → files"), h("div", { className: "contact-lines" }, h("a", { href: "mailto:Penny@wildcarddev.com" }, "Email: Penny@wildcarddev.com"), h("a", { href: "tel:+14023326748" }, "Personal Cell: 402-332-6748"), h("a", { href: "sms:+14023326748" }, "Text Penny: 402-332-6748"), h("a", { href: "https://wa.me/14023326748" }, "WhatsApp + TextNow"), h("a", { href: "tel:+14029150789" }, "Corporate Line: 402-915-0789")), h("div", { className: "layer-stack" }, h("div", { className: "layer-row" }, h("b", null, "TXT"), h("span", null, "Real-time text starts every room.")), h("div", { className: "layer-row" }, h("b", null, "VOX"), h("span", null, "Escalate to audio when text is too slow.")), h("div", { className: "layer-row" }, h("b", null, "VID"), h("span", null, "Peer video / camera layer for live room.")), h("div", { className: "layer-row" }, h("b", null, "⇅"), h("span", null, "Upload / download / transfer lane."))), h("div", { className: "quick-grid" }, h("a", { className: "action primary", href: "https://www.wildcarddev.com/chat" }, "Text"), h("a", { className: "action", href: "https://www.wildcarddev.com/voice" }, "Voice"), h("a", { className: "action", href: "https://www.wildcarddev.com/video" }, "Video"), h("a", { className: "action", href: "https://www.wildcarddev.com/files" }, "Files"), h("a", { className: "action primary", href: "https://www.wildcarddev.com/penny-drop" }, "Penny Drop"), h("a", { className: "action", href: "https://party.wildcarddev.com/#discord" }, "Discord"), h("a", { className: "action", href: "https://drive.google.com/drive/my-drive" }, "Drive"), h("a", { className: "action", href: "https://www.dropbox.com/home" }, "Dropbox"), h("a", { className: "action", href: "https://www.wildcarddev.com/vault" }, "Vault"), h("a", { className: "action", href: "https://www.wildcarddev.com/watchverse" }, "Watchverse"), h("a", { className: "action", href: "https://www.wildcarddev.com/jump" }, "Jump"), h("a", { className: "action", href: "https://github.com/mtobabendev/Video-Chatroom" }, "Framework")), h("div", { className: "route-box" }, h("span", null, "COMMUNICATION FRAMEWORK"), h("span", null, "Text first. Voice next. Video next. Files when needed."), h("a", { href: "https://github.com/mtobabendev/Video-Chatroom" }, "github.com/mtobabendev/Video-Chatroom")), h("button", { className: "close", type: "button", onClick: onClose }, "Close"))); } ReactDOM.createRoot(document.getElementById("root")).render(h(App)); </script>
-</body>
+  <main class="app" id="app" aria-label="PennyCore watch spinner">
+    <div class="route-label" id="routeLabel">Penny Personal // Queen Concierge</div>
+    <div class="halo" aria-hidden="true"></div>
+    <div class="wings" aria-hidden="true"></div>
+    <section class="deck" id="deck" aria-label="Swipe to spin tarot deck"></section>
+    <button class="penny-chip" type="button" id="pennyChip" aria-label="Open Penny quick panel">P♠</button>
+    <div class="hint" id="hint">Swipe spin • tap center flip • up/down layer</div>
 
+    <section class="panel-pop" id="quickPanel" aria-hidden="true">
+      <div class="quick-card">
+        <h2 class="quick-title">Penny Personal</h2>
+        <p class="quick-sub">Layered comms: text → voice → video → files</p>
+
+        <div class="contact-lines">
+          <a href="mailto:Penny@wildcarddev.com">Email: Penny@wildcarddev.com</a>
+          <a href="tel:+14023326748">Personal Cell: 402-332-6748</a>
+          <a href="sms:+14023326748">Text Penny: 402-332-6748</a>
+          <a href="https://wa.me/14023326748">WhatsApp + TextNow</a>
+          <a href="tel:+14029150789">Corporate Line: 402-915-0789</a>
+        </div>
+
+        <div class="layer-stack">
+          <div class="layer-row"><b>TXT</b><span>Real-time text starts every room.</span></div>
+          <div class="layer-row"><b>VOX</b><span>Escalate to audio when text is too slow.</span></div>
+          <div class="layer-row"><b>VID</b><span>Peer video / camera layer for live room.</span></div>
+          <div class="layer-row"><b>⇅</b><span>Upload / download / transfer lane.</span></div>
+        </div>
+
+        <div class="quick-grid">
+          <a class="action primary" href="https://www.wildcarddev.com/chat">Text</a>
+          <a class="action" href="https://www.wildcarddev.com/voice">Voice</a>
+          <a class="action" href="https://www.wildcarddev.com/video">Video</a>
+          <a class="action" href="https://www.wildcarddev.com/files">Files</a>
+          <a class="action primary" href="https://www.wildcarddev.com/penny-drop">Penny Drop</a>
+          <a class="action" href="https://party.wildcarddev.com/#discord">Discord</a>
+          <a class="action" href="https://drive.google.com/drive/my-drive">Drive</a>
+          <a class="action" href="https://www.dropbox.com/home">Dropbox</a>
+          <a class="action" href="https://www.wildcarddev.com/vault">Vault</a>
+          <a class="action" href="https://www.wildcarddev.com/watchverse">Watchverse</a>
+          <a class="action" href="https://www.wildcarddev.com/jump">Jump</a>
+          <a class="action" href="https://github.com/mtobabendev/Video-Chatroom">Framework</a>
+        </div>
+
+        <div class="route-box">
+          <span>COMMUNICATION FRAMEWORK</span>
+          <span>Text first. Voice next. Video next. Files when needed.</span>
+          <a href="https://github.com/mtobabendev/Video-Chatroom">github.com/mtobabendev/Video-Chatroom</a>
+        </div>
+
+        <button class="close" type="button" id="closeQuick">Close</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const cards = [
+      {
+        title: "Penny",
+        label: "Penny Personal // Queen Concierge",
+        rank: "Q♠",
+        sigil: "♛",
+        sub: "Queen Concierge",
+        micro: "Tap center flip",
+        queen: true,
+        backTitle: "Penny Personal",
+        backSub: "VIP After Hours",
+        contact: [
+          ["Penny@wildcarddev.com", "mailto:Penny@wildcarddev.com"],
+          ["Cell: 402-332-6748", "tel:+14023326748"],
+          ["Text: 402-332-6748", "sms:+14023326748"],
+          ["WhatsApp + TextNow", "https://wa.me/14023326748"],
+          ["Corp: 402-915-0789", "tel:+14029150789"]
+        ],
+        actions: [
+          ["Penny Drop", "https://www.wildcarddev.com/penny-drop", true],
+          ["Discord", "https://party.wildcarddev.com/#discord", false]
+        ]
+      },
+      ["Matt", "Matt // Operator Six", "K♠", "M", "Operator Six", "Gate route", "Operator", "Private panel starts here", [["Open", "https://www.wildcarddev.com/operator", true], ["Gate", "https://www.wildcarddev.com/gate", false]]],
+      ["Text", "Text // Chat Layer", "A♠", "TXT", "Layer one", "Chat first", "Text Chat", "Base comms layer", [["Open", "https://www.wildcarddev.com/chat", true], ["Framework", "https://github.com/mtobabendev/Video-Chatroom", false]]],
+      ["Voice", "Voice // Audio Layer", "A♠", "VOX", "Layer two", "Audio path", "Voice", "Call / audio conduit", [["Open", "https://www.wildcarddev.com/voice", true], ["Call Penny", "tel:+14023326748", false]]],
+      ["Video", "Video // Peer Room", "A♠", "VID", "Layer three", "WebRTC route", "Video", "Peer room / camera layer", [["Open", "https://www.wildcarddev.com/video", true], ["Source", "https://github.com/mtobabendev/Video-Chatroom", false]]],
+      ["Files", "Files // Transfer Layer", "A♠", "⇅", "Layer four", "Upload / download", "Files", "Transfer lane", [["Open", "https://www.wildcarddev.com/files", true], ["Vault", "https://www.wildcarddev.com/vault", false]]],
+      ["Discord", "Discord // Penny Landing", "A♠", "☯", "Landing room", "Penny world", "Discord", "Penny landing universe", [["Open", "https://party.wildcarddev.com/#discord", true], ["Party", "https://party.wildcarddev.com/", false]]],
+      ["Party", "Party // House Route", "A♠", "♣", "House route", "Fun load", "Party", "Penny social shell", [["Open", "https://party.wildcarddev.com/", true], ["Root", "https://www.wildcarddev.com/#party", false]]],
+      ["Office", "Office // Internal Shell", "A♠", "♦", "Internal shell", "Locked", "Office", "Penny’s Office door", [["Open", "https://office.wildcarddev.com/", true], ["Gate", "https://www.wildcarddev.com/gate", false]]],
+      ["Labs", "Labs // Build Route", "A♠", "⚙", "Build route", "Erica lane", "Labs", "Code, deploy, debug", [["Open", "https://labs.wildcarddev.com/", true], ["Dev", "https://www.wildcarddev.com/dev", false]]],
+      ["Studio", "Studio // Shoot Mode", "A♠", "📷", "Pose / loop", "Shoot mode", "Studio", "Keep outfit, change pose", [["Open", "https://www.wildcarddev.com/studio", true], ["Prompt", "https://www.wildcarddev.com/penny-drop", false]]],
+      ["Jump", "Jump // Watchverse", "A♠", "↔", "Watchverse", "QR bridge", "Jump", "Watch to phone/watch", [["Open", "https://www.wildcarddev.com/watchverse", true], ["Code", "https://www.wildcarddev.com/jump", false]]],
+      ["Tasker", "Tasker // AutoWear", "A♠", "⚡", "AutoWear", "Bridge", "Tasker", "Phone/watch actuator lane", [["Open", "https://www.wildcarddev.com/tasker", true], ["PAN", "https://www.wildcarddev.com/pan", false]]],
+      ["Vault", "Vault // Penny Purse", "A♠", "▣", "Penny purse", "Files", "Vault", "Private storage route", [["Open", "https://www.wildcarddev.com/vault", true], ["Files", "https://www.wildcarddev.com/files", false]]],
+      ["Drive", "Drive // Google Storage", "A♠", "G", "Google storage", "Auth gate", "Google Drive", "Open authenticated storage", [["Open", "https://drive.google.com/drive/my-drive", true], ["Drive Root", "https://drive.google.com/", false]]],
+      ["Dropbox", "Dropbox // Cloud Stash", "A♠", "D", "Cloud stash", "Auth gate", "Dropbox", "Open authenticated storage", [["Open", "https://www.dropbox.com/home", true], ["Login", "https://www.dropbox.com/login", false]]]
+    ].map(card => {
+      if (!Array.isArray(card)) return card;
+      return {
+        title: card[0],
+        label: card[1],
+        rank: card[2],
+        sigil: card[3],
+        sub: card[4],
+        micro: card[5],
+        backTitle: card[6],
+        backSub: card[7],
+        actions: card[8]
+      };
+    });
+
+    const root = document.documentElement;
+    const deck = document.getElementById("deck");
+    const routeLabel = document.getElementById("routeLabel");
+    const hint = document.getElementById("hint");
+    const pennyChip = document.getElementById("pennyChip");
+    const quickPanel = document.getElementById("quickPanel");
+    const closeQuick = document.getElementById("closeQuick");
+
+    const state = {
+      count: cards.length,
+      step: 360 / cards.length,
+      rotation: 0,
+      velocity: 0,
+      selected: 0,
+      layer: 0,
+      dragging: false,
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+      lastX: 0,
+      lastY: 0,
+      lastT: 0,
+      moved: false,
+      gesture: "none",
+      longTimer: null
+    };
+
+    root.style.setProperty("--step", state.step + "deg");
+
+    function makeCard(card, index) {
+      const el = document.createElement("div");
+      el.className = "card" + (card.queen ? " penny-card" : "");
+      el.dataset.index = index;
+      el.style.setProperty("--i", index);
+
+      const contact = card.contact
+        ? `<span class="contact-lines">${card.contact.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}</span>`
+        : "";
+
+      const actions = `<span class="actions">${card.actions.map(([label, href, primary]) => `<a class="action${primary ? " primary" : ""}" href="${href}">${label}</a>`).join("")}</span>`;
+
+      el.innerHTML = `
+        <span class="card-inner">
+          <span class="face front" data-rank="${card.rank}">
+            <span class="sigil">${card.sigil}</span>
+            <span class="title">${card.title}</span>
+            <span class="sub">${card.sub}</span>
+            <span class="micro">${card.micro}</span>
+          </span>
+          <span class="face back" data-rank="${card.rank}">
+            <span class="title">${card.backTitle}</span>
+            <span class="sub">${card.backSub}</span>
+            ${contact}
+            ${actions}
+          </span>
+        </span>
+      `;
+
+      deck.appendChild(el);
+    }
+
+    cards.forEach(makeCard);
+    const cardEls = Array.from(document.querySelectorAll(".card"));
+
+    function norm(index) {
+      return ((index % state.count) + state.count) % state.count;
+    }
+
+    function nearest() {
+      return norm(Math.round(-state.rotation / state.step));
+    }
+
+    function setHint(text) {
+      hint.textContent = text;
+    }
+
+    function updateCards() {
+      root.style.setProperty("--rot", state.rotation + "deg");
+
+      const next = nearest();
+      if (next !== state.selected) {
+        state.selected = next;
+        cardEls.forEach(card => card.classList.remove("flipped"));
+      }
+
+      cardEls.forEach((card, index) => {
+        const active = index === state.selected;
+        card.classList.toggle("active", active);
+        card.style.setProperty("--active", active ? "1" : "0");
+      });
+
+      routeLabel.textContent = cards[state.selected].label;
+    }
+
+    function snapTo(index) {
+      state.selected = norm(index);
+      state.rotation = -state.selected * state.step;
+      state.velocity = 0;
+      cardEls.forEach(card => card.classList.remove("flipped"));
+      updateCards();
+      setHint("Center ready • tap center flip");
+    }
+
+    function toggleFlip() {
+      const card = cardEls[state.selected];
+      const nowFlipped = !card.classList.contains("flipped");
+      card.classList.toggle("flipped", nowFlipped);
+      setHint(nowFlipped ? "Back active • tap button or tap card to close" : "Swipe spin • tap center flip • up/down layer");
+    }
+
+    function setLayer(next) {
+      state.layer = Math.max(-1, Math.min(1, next));
+      root.style.setProperty("--deckLift", (state.layer * -34) + "px");
+
+      if (state.layer === 1) {
+        setHint("Layer up • tap center flip");
+        routeLabel.textContent = "Layer Up // " + cards[state.selected].label;
+      } else if (state.layer === -1) {
+        setHint("Layer down • Penny chip opens comms");
+        routeLabel.textContent = "Layer Down // " + cards[state.selected].label;
+      } else {
+        setHint("Swipe spin • tap center flip • up/down layer");
+        routeLabel.textContent = cards[state.selected].label;
+      }
+    }
+
+    function openQuick() {
+      quickPanel.classList.add("open");
+      quickPanel.setAttribute("aria-hidden", "false");
+    }
+
+    function closeQuickPanel() {
+      quickPanel.classList.remove("open");
+      quickPanel.setAttribute("aria-hidden", "true");
+    }
+
+    function clearLong() {
+      if (state.longTimer) {
+        clearTimeout(state.longTimer);
+        state.longTimer = null;
+      }
+    }
+
+    function startDrag(event) {
+      if (event.target.closest("a") || event.target.closest("button") || event.target.closest("#quickPanel")) return;
+
+      event.preventDefault();
+
+      state.dragging = true;
+      state.pointerId = event.pointerId;
+      state.startX = event.clientX;
+      state.startY = event.clientY;
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      state.lastT = performance.now();
+      state.moved = false;
+      state.gesture = "none";
+      state.velocity = 0;
+
+      clearLong();
+      state.longTimer = setTimeout(() => {
+        if (state.dragging && !state.moved) openQuick();
+      }, 700);
+
+      try {
+        deck.setPointerCapture(event.pointerId);
+      } catch (_) {}
+    }
+
+    function moveDrag(event) {
+      if (!state.dragging || event.pointerId !== state.pointerId) return;
+
+      event.preventDefault();
+
+      const now = performance.now();
+      const dx = event.clientX - state.lastX;
+      const totalX = event.clientX - state.startX;
+      const totalY = event.clientY - state.startY;
+      const absX = Math.abs(totalX);
+      const absY = Math.abs(totalY);
+      const dt = Math.max(16, now - state.lastT);
+
+      if (absX > 10 || absY > 10) {
+        state.moved = true;
+        clearLong();
+      }
+
+      if (state.gesture === "none" && (absX > 14 || absY > 20)) {
+        state.gesture = absY > absX * 1.18 ? "vertical" : "horizontal";
+      }
+
+      if (state.gesture === "vertical") {
+        if (absY > 28) {
+          setLayer(totalY < 0 ? 1 : -1);
+        }
+      } else if (state.gesture === "horizontal") {
+        state.rotation += dx * 0.44;
+        state.velocity = (dx / dt) * 13;
+        updateCards();
+      }
+
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      state.lastT = now;
+    }
+
+    function endDrag(event) {
+      if (!state.dragging || event.pointerId !== state.pointerId) return;
+
+      event.preventDefault();
+
+      clearLong();
+      state.dragging = false;
+
+      try {
+        deck.releasePointerCapture(event.pointerId);
+      } catch (_) {}
+
+      const totalX = event.clientX - state.startX;
+      const totalY = event.clientY - state.startY;
+      const absX = Math.abs(totalX);
+      const absY = Math.abs(totalY);
+
+      if (absX < 14 && absY < 14) {
+        toggleFlip();
+        return;
+      }
+
+      if (state.gesture === "vertical") {
+        setLayer(totalY < 0 ? 1 : -1);
+        state.velocity = 0;
+        return;
+      }
+
+      const target = nearest();
+      snapTo(target);
+    }
+
+    function tick() {
+      if (!state.dragging) {
+        state.rotation += state.velocity;
+        state.velocity *= 0.93;
+
+        if (Math.abs(state.velocity) < 0.08) {
+          const targetRotation = -nearest() * state.step;
+          state.rotation += (targetRotation - state.rotation) * 0.16;
+
+          if (Math.abs(targetRotation - state.rotation) < 0.08) {
+            state.rotation = targetRotation;
+            state.velocity = 0;
+          }
+        }
+
+        updateCards();
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    deck.addEventListener("pointerdown", startDrag);
+    deck.addEventListener("pointermove", moveDrag);
+    deck.addEventListener("pointerup", endDrag);
+    deck.addEventListener("pointercancel", endDrag);
+
+    pennyChip.addEventListener("click", openQuick);
+    closeQuick.addEventListener("click", closeQuickPanel);
+
+    document.addEventListener("touchmove", function(event) {
+      if (!event.target.closest("#quickPanel")) event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener("gesturestart", function(event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener("contextmenu", function(event) {
+      event.preventDefault();
+    });
+
+    try {
+      history.replaceState({ deck: true }, "", location.href);
+      history.pushState({ deck: true }, "", location.href);
+      window.addEventListener("popstate", function() {
+        if (quickPanel.classList.contains("open")) {
+          closeQuickPanel();
+        } else {
+          cardEls.forEach(card => card.classList.remove("flipped"));
+          setLayer(0);
+        }
+
+        history.pushState({ deck: true }, "", location.href);
+      });
+    } catch (_) {}
+
+    try {
+      sessionStorage.setItem("wildcard_boot_mode", "plain-js-watch-spinner-single-tap-v3");
+      sessionStorage.setItem("wildcard_comms_stack", "text>voice>video>files");
+    } catch (_) {}
+
+    snapTo(0);
+    tick();
+  </script>
+</body>
 </html>
