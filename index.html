@@ -1,13 +1,11 @@
-html
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
   <meta name="theme-color" content="#05000a" />
   <title>WildCard DEV // PennyCore BIOS Spinner</title>
+
   <style>
     :root {
       --bg0: #050008;
@@ -32,15 +30,17 @@ html
       user-select: none;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       width: 100%;
       height: 100%;
       position: fixed;
       inset: 0;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.24), transparent 34%), radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.11), transparent 34%), linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.24), transparent 34%),
+        radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.11), transparent 34%),
+        linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
       color: var(--text);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overscroll-behavior: none;
@@ -52,8 +52,7 @@ html
       place-items: center;
     }
 
-    a,
-    button {
+    a, button {
       font: inherit;
       color: inherit;
       text-decoration: none;
@@ -90,13 +89,36 @@ html
       text-overflow: ellipsis;
     }
 
+    .layer-badge {
+      position: absolute;
+      top: max(34px, calc(env(safe-area-inset-top) + 28px));
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 128px;
+      padding: 5px 10px;
+      text-align: center;
+      border: 1px solid rgba(103, 232, 255, 0.26);
+      border-radius: 999px;
+      background: rgba(103, 232, 255, 0.08);
+      color: var(--cyan);
+      font-size: clamp(0.46rem, 2.4vw, 0.62rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
+      z-index: 8;
+      box-shadow: 0 0 18px rgba(103, 232, 255, 0.08);
+    }
+
     .halo {
       position: absolute;
       width: min(92vw, 365px);
       height: min(92vw, 365px);
       border-radius: 50%;
       border: 1px solid rgba(255, 121, 200, 0.22);
-      box-shadow: 0 0 38px rgba(255, 79, 216, 0.26), inset 0 0 46px rgba(143, 92, 255, 0.12);
+      box-shadow:
+        0 0 38px rgba(255, 79, 216, 0.26),
+        inset 0 0 46px rgba(143, 92, 255, 0.12);
       pointer-events: none;
       transform: translateY(var(--deckLift));
       transition: transform 150ms ease;
@@ -128,7 +150,9 @@ html
       height: min(34vw, 120px);
       border-radius: 999px;
       pointer-events: none;
-      background: linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.18), transparent), radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
+      background:
+        linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.18), transparent),
+        radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
       opacity: 0.95;
       transform: translateY(var(--deckLift));
       transition: transform 150ms ease;
@@ -162,10 +186,17 @@ html
       background: transparent;
       color: inherit;
       transform-style: preserve-3d;
-      transform: translateX(var(--x)) translateZ(var(--z)) rotateY(var(--ry)) scale(var(--scale));
+      transform:
+        translateX(var(--x))
+        translateZ(var(--z))
+        rotateY(var(--ry))
+        scale(var(--scale));
       opacity: var(--op);
       filter: blur(var(--blur)) saturate(1.08);
-      transition: transform 110ms ease, opacity 110ms ease, filter 110ms ease;
+      transition:
+        transform 110ms ease,
+        opacity 110ms ease,
+        filter 110ms ease;
       touch-action: none;
       pointer-events: none;
     }
@@ -181,7 +212,7 @@ html
       border-radius: 20px;
       transform-style: preserve-3d;
       transform: rotateY(var(--flip));
-      transition: transform 240ms cubic-bezier(.2, .8, .2, 1);
+      transition: transform 240ms cubic-bezier(.2,.8,.2,1);
     }
 
     .card.flipped .card-inner {
@@ -200,8 +231,12 @@ html
       backface-visibility: hidden;
       overflow: hidden;
       border: 1px solid var(--line);
-      background: radial-gradient(circle at 50% 20%, rgba(255, 79, 216, 0.28), transparent 38%), linear-gradient(150deg, rgba(255, 121, 200, 0.17), rgba(8, 0, 16, 0.98));
-      box-shadow: 0 0 22px rgba(255, 79, 216, 0.36), inset 0 0 18px rgba(255, 121, 200, 0.08);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 79, 216, 0.28), transparent 38%),
+        linear-gradient(150deg, rgba(255, 121, 200, 0.17), rgba(8, 0, 16, 0.98));
+      box-shadow:
+        0 0 22px rgba(255, 79, 216, 0.36),
+        inset 0 0 18px rgba(255, 121, 200, 0.08);
       text-align: center;
     }
 
@@ -227,11 +262,16 @@ html
 
     .back {
       transform: rotateY(180deg);
-      background: radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%), linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
+      background:
+        radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%),
+        linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
     }
 
     .penny-card .front {
-      background: radial-gradient(circle at 50% 8%, rgba(255, 121, 200, 0.34), transparent 36%), radial-gradient(circle at 50% 62%, rgba(103, 232, 255, 0.08), transparent 42%), linear-gradient(150deg, rgba(255, 121, 200, 0.2), rgba(7, 0, 14, 0.98));
+      background:
+        radial-gradient(circle at 50% 8%, rgba(255, 121, 200, 0.34), transparent 36%),
+        radial-gradient(circle at 50% 62%, rgba(103, 232, 255, 0.08), transparent 42%),
+        linear-gradient(150deg, rgba(255, 121, 200, 0.2), rgba(7, 0, 14, 0.98));
     }
 
     .sigil {
@@ -273,20 +313,13 @@ html
       color: var(--green);
     }
 
-    .actions,
-    .contact-lines {
+    .actions {
       width: 100%;
       display: grid;
       gap: 7px;
       margin-top: 4px;
     }
 
-    .contact-lines {
-      gap: 5px;
-    }
-
-    .contact-lines a,
-    .contact-lines span,
     .action {
       display: grid;
       place-items: center;
@@ -304,13 +337,6 @@ html
       text-transform: uppercase;
       overflow-wrap: anywhere;
       touch-action: manipulation;
-    }
-
-    .contact-lines a {
-      border-radius: 10px;
-      font-size: clamp(0.47rem, 2.65vw, 0.63rem);
-      text-transform: none;
-      letter-spacing: 0.02em;
     }
 
     .action.primary {
@@ -341,9 +367,13 @@ html
       height: clamp(44px, 14vw, 56px);
       border-radius: 50%;
       border: 1px solid rgba(255, 121, 200, 0.66);
-      background: radial-gradient(circle at 45% 30%, rgba(255, 121, 200, 0.42), transparent 34%), linear-gradient(150deg, rgba(255, 79, 216, 0.2), rgba(8, 0, 16, 0.96));
+      background:
+        radial-gradient(circle at 45% 30%, rgba(255, 121, 200, 0.42), transparent 34%),
+        linear-gradient(150deg, rgba(255, 79, 216, 0.2), rgba(8, 0, 16, 0.96));
       color: var(--hot);
-      box-shadow: 0 0 20px rgba(255, 79, 216, 0.46), inset 0 0 12px rgba(255, 121, 200, 0.12);
+      box-shadow:
+        0 0 20px rgba(255, 79, 216, 0.46),
+        inset 0 0 12px rgba(255, 121, 200, 0.12);
       display: grid;
       place-items: center;
       font-size: clamp(1.15rem, 6vw, 1.55rem);
@@ -383,7 +413,9 @@ html
       overflow: auto;
       border-radius: 24px;
       border: 1px solid var(--line);
-      background: radial-gradient(circle at 50% 0%, rgba(255, 79, 216, 0.18), transparent 34%), var(--glass);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 79, 216, 0.18), transparent 34%),
+        var(--glass);
       box-shadow: 0 0 36px rgba(255, 79, 216, 0.36);
       padding: 16px;
       text-align: center;
@@ -446,19 +478,6 @@ html
       min-height: 42px;
     }
 
-    .route-box {
-      display: grid;
-      gap: 5px;
-      padding: 10px;
-      border-radius: 16px;
-      border: 1px solid rgba(103, 232, 255, 0.32);
-      background: rgba(103, 232, 255, 0.07);
-      color: var(--cyan);
-      font-size: clamp(0.58rem, 3vw, 0.72rem);
-      font-weight: 850;
-      overflow-wrap: anywhere;
-    }
-
     .close {
       min-height: 42px;
       border-radius: 999px;
@@ -470,41 +489,26 @@ html
     }
 
     @keyframes breathe {
-
-      0%,
-      100% {
-        opacity: 0.72;
-        transform: rotate(0deg);
-      }
-
-      50% {
-        opacity: 1;
-        transform: rotate(7deg);
-      }
+      0%, 100% { opacity: 0.72; transform: rotate(0deg); }
+      50% { opacity: 1; transform: rotate(7deg); }
     }
 
     @keyframes chipPulse {
-
-      0%,
-      100% {
-        opacity: 0.46;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: scale(1.12);
-      }
+      0%, 100% { opacity: 0.46; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.12); }
     }
 
-    @media (max-width: 380px),
-    (max-height: 520px) {
+    @media (max-width: 380px), (max-height: 520px) {
       :root {
         --cardW: min(70vw, 152px);
       }
 
       .route-label {
         top: 7px;
+      }
+
+      .layer-badge {
+        top: max(30px, calc(env(safe-area-inset-top) + 22px));
       }
 
       .hint {
@@ -527,43 +531,498 @@ html
 </head>
 
 <body>
-  <script type="application/json"
-    id="penny-bios-manifest"> { "system": "WildCard DEV / PennyCore BIOS Spinner", "mode": "after-hours-bios-loader", "state_model": "state first, wrapper/database next", "tap_model": "single tap selected card to flip", "panel_split": ["Matt Panel", "Penny Panel"], "comms_stack": ["text", "voice", "video", "files"], "storage_routes": ["vault", "drive", "dropbox"], "next_wrapper": "React OS wrapper around BIOS spinner" } </script>
+  <script type="application/json" id="penny-bios-manifest">
+    {
+      "system": "WildCard DEV / PennyCore BIOS Spinner",
+      "mode": "after-hours-bios-loader",
+      "state_model": "state first, wrapper/database next",
+      "tap_model": "single tap selected card to flip",
+      "panel_split": ["Matt Panel", "Penny Panel"],
+      "comms_stack": ["text", "voice", "video", "files"],
+      "storage_routes": ["vault", "drive", "dropbox"],
+      "gesture_extensions": ["swipe_up_layer", "swipe_down_layer"],
+      "next_wrapper": "React OS wrapper around BIOS spinner"
+    }
+  </script>
+
   <main class="app" id="app" aria-label="PennyCore BIOS watch spinner">
     <div class="route-label" id="routeLabel">Penny Personal // Queen Concierge</div>
+    <div class="layer-badge" id="layerBadge">Layer 0 // BIOS</div>
     <div class="halo" aria-hidden="true"></div>
     <div class="wings" aria-hidden="true"></div>
-    <section class="deck" id="deck" aria-label="Swipe to spin tarot deck"></section> <button class="penny-chip"
-      type="button" id="pennyChip" aria-label="Open Penny BIOS panel">P♠</button>
+    <section class="deck" id="deck" aria-label="Swipe to spin tarot deck"></section>
+    <button class="penny-chip" type="button" id="pennyChip" aria-label="Open Penny BIOS panel">P♠</button>
     <div class="hint" id="hint">Swipe spin • tap card flip • up/down layer</div>
+
     <section class="panel-pop" id="quickPanel" aria-hidden="true">
       <div class="quick-card">
         <h2 class="quick-title">After Hours BIOS</h2>
         <p class="quick-sub">Panel split • state capture • text → voice → video → files</p>
+
         <div class="layer-stack">
           <div class="layer-row"><b>AUTH</b><span>Operator unlocks device and account surfaces.</span></div>
-          <div class="layer-row"><b>STATE</b><span>Spinner writes selected card, layer, panel, and route state.</span>
-          </div>
+          <div class="layer-row"><b>STATE</b><span>Spinner writes selected card, layer, panel, and route state.</span></div>
           <div class="layer-row"><b>MATT</b><span>Owner quick panel placeholder set.</span></div>
           <div class="layer-row"><b>PENNY</b><span>Penny quick panel placeholder set.</span></div>
         </div>
-        <div class="quick-grid"> <a class="action primary" href="https://www.wildcarddev.com/operator">Matt Panel</a> <a
-            class="action primary" href="https://www.wildcarddev.com/penny-drop">Penny Panel</a> <a class="action"
-            href="https://www.wildcarddev.com/chat">Text</a> <a class="action"
-            href="https://www.wildcarddev.com/voice">Voice</a> <a class="action"
-            href="https://www.wildcarddev.com/video">Video</a> <a class="action"
-            href="https://www.wildcarddev.com/files">Files</a> <a class="action"
-            href="https://party.wildcarddev.com/#discord">Discord</a> <a class="action"
-            href="https://www.wildcarddev.com/vault">Vault</a> </div>
-        <div class="contact-lines"> <a href="mailto:Penny@wildcarddev.com">Email: Penny@wildcarddev.com</a> <a
-            href="tel:+14023326748">Personal Cell: 402-332-6748</a> <a href="sms:+14023326748">Text Penny:
-            402-332-6748</a> <a href="https://wa.me/14023326748">WhatsApp + TextNow</a> <a
-            href="tel:+14029150789">Corporate Line: 402-915-0789</a> </div> <button class="close" type="button"
-          id="closeQuick">Close</button>
+
+        <div class="quick-grid">
+          <a class="action primary" href="https://www.wildcarddev.com/operator">Matt Panel</a>
+          <a class="action primary" href="https://www.wildcarddev.com/penny-drop">Penny Panel</a>
+          <a class="action" href="https://www.wildcarddev.com/chat">Text</a>
+          <a class="action" href="https://www.wildcarddev.com/voice">Voice</a>
+          <a class="action" href="https://www.wildcarddev.com/video">Video</a>
+          <a class="action" href="https://www.wildcarddev.com/files">Files</a>
+          <a class="action" href="https://party.wildcarddev.com/#discord">Discord</a>
+          <a class="action" href="https://www.wildcarddev.com/vault">Vault</a>
+        </div>
+
+        <button class="close" type="button" id="closeQuick">Close</button>
       </div>
     </section>
   </main>
-  <script> const cardData = [{ title: "Penny", label: "Penny Personal // Queen Concierge", rank: "Q♠", sigil: "♛", sub: "Queen Concierge", micro: "Tap panel split", queen: true, backTitle: "Panel Split", backSub: "Matt Panel / Penny Panel", actions: [["Matt Panel", "https://www.wildcarddev.com/operator", true], ["Penny Panel", "https://www.wildcarddev.com/penny-drop", true], ["Office", "https://office.wildcarddev.com/", false], ["Gate", "https://www.wildcarddev.com/gate", false]] }, ["Matt", "Matt // Operator Six", "K♠", "M", "Operator Six", "Owner panel", "Matt Panel", "Four quick launch placeholders", [["Open", "https://www.wildcarddev.com/operator", true], ["Gate", "https://www.wildcarddev.com/gate", false]]], ["Text", "Text // Chat Layer", "A♠", "TXT", "Layer one", "Chat first", "Text Chat", "Base comms layer", [["Open", "https://www.wildcarddev.com/chat", true], ["Framework", "https://github.com/mtobabendev/Video-Chatroom", false]]], ["Voice", "Voice // Audio Layer", "A♠", "VOX", "Layer two", "Audio path", "Voice", "Call / audio conduit", [["Open", "https://www.wildcarddev.com/voice", true], ["Call Penny", "tel:+14023326748", false]]], ["Video", "Video // Peer Room", "A♠", "VID", "Layer three", "WebRTC route", "Video", "Peer room / camera layer", [["Open", "https://www.wildcarddev.com/video", true], ["Source", "https://github.com/mtobabendev/Video-Chatroom", false]]], ["Files", "Files // Transfer Layer", "A♠", "⇅", "Layer four", "Upload / download", "Files", "Transfer lane", [["Open", "https://www.wildcarddev.com/files", true], ["Vault", "https://www.wildcarddev.com/vault", false]]], ["Discord", "Discord // Penny Landing", "A♠", "☯", "Landing room", "Penny world", "Discord", "Penny landing universe", [["Open", "https://party.wildcarddev.com/#discord", true], ["Party", "https://party.wildcarddev.com/", false]]], ["Party", "Party // House Route", "A♠", "♣", "House route", "Fun load", "Party", "Penny social shell", [["Open", "https://party.wildcarddev.com/", true], ["Root", "https://www.wildcarddev.com/#party", false]]], ["Office", "Office // Internal Shell", "A♠", "♦", "Internal shell", "Locked", "Office", "Penny’s Office door", [["Open", "https://office.wildcarddev.com/", true], ["Gate", "https://www.wildcarddev.com/gate", false]]], ["Labs", "Labs // Build Route", "A♠", "⚙", "Build route", "Erica lane", "Labs", "Code, deploy, debug", [["Open", "https://labs.wildcarddev.com/", true], ["Dev", "https://www.wildcarddev.com/dev", false]]], ["Studio", "Studio // Shoot Mode", "A♠", "📷", "Pose / loop", "Shoot mode", "Studio", "Keep outfit, change pose", [["Open", "https://www.wildcarddev.com/studio", true], ["Prompt", "https://www.wildcarddev.com/penny-drop", false]]], ["Jump", "Jump // Watchverse", "A♠", "↔", "Watchverse", "QR bridge", "Jump", "Watch to phone/watch", [["Open", "https://www.wildcarddev.com/watchverse", true], ["Code", "https://www.wildcarddev.com/jump", false]]], ["Tasker", "Tasker // AutoWear", "A♠", "⚡", "AutoWear", "Bridge", "Tasker", "Phone/watch actuator lane", [["Open", "https://www.wildcarddev.com/tasker", true], ["PAN", "https://www.wildcarddev.com/pan", false]]], ["Vault", "Vault // Penny Purse", "A♠", "▣", "Penny purse", "Files", "Vault", "Private storage route", [["Open", "https://www.wildcarddev.com/vault", true], ["Files", "https://www.wildcarddev.com/files", false]]], ["Drive", "Drive // Google Storage", "A♠", "G", "Google storage", "Auth gate", "Google Drive", "Open authenticated storage", [["Open", "https://drive.google.com/drive/my-drive", true], ["Drive Root", "https://drive.google.com/", false]]], ["Dropbox", "Dropbox // Cloud Stash", "A♠", "D", "Cloud stash", "Auth gate", "Dropbox", "Open authenticated storage", [["Open", "https://www.dropbox.com/home", true], ["Login", "https://www.dropbox.com/login", false]]]].map(card => { if (!Array.isArray(card)) return card; return { title: card[0], label: card[1], rank: card[2], sigil: card[3], sub: card[4], micro: card[5], backTitle: card[6], backSub: card[7], actions: card[8] }; }); const root = document.documentElement; const deck = document.getElementById("deck"); const routeLabel = document.getElementById("routeLabel"); const hint = document.getElementById("hint"); const pennyChip = document.getElementById("pennyChip"); const quickPanel = document.getElementById("quickPanel"); const closeQuick = document.getElementById("closeQuick"); const state = { position: 0, velocity: 0, selected: 0, layer: 0, dragging: false, pointerId: null, startX: 0, startY: 0, lastX: 0, lastY: 0, lastT: 0, moved: false, gesture: "none", longTimer: null, lastEvent: "boot" }; function createCard(card, index) { const el = document.createElement("div"); el.className = "card" + (card.queen ? " penny-card" : ""); el.dataset.index = index; const actions = `<span class="actions">${card.actions.map(([label, href, primary]) => `<a class="action${primary ? " primary" : ""}" href="${href}">${label}</a>`).join("")}</span>`; el.innerHTML = ` <span class="card-inner"> <span class="face front" data-rank="${card.rank}"> <span class="sigil">${card.sigil}</span> <span class="title">${card.title}</span> <span class="sub">${card.sub}</span> <span class="micro">${card.micro}</span> </span> <span class="face back" data-rank="${card.rank}"> <span class="title">${card.backTitle}</span> <span class="sub">${card.backSub}</span> ${actions} </span> </span> `; deck.appendChild(el); } cardData.forEach(createCard); const cards = Array.from(document.querySelectorAll(".card")); function wrapOffset(offset) { const count = cardData.length; if (offset > count / 2) return offset - count; if (offset < -count / 2) return offset + count; return offset; } function nearestIndex() { return ((Math.round(state.position) % cardData.length) + cardData.length) % cardData.length; } function writeState(eventName) { state.lastEvent = eventName; const packet = { system: "PennyCore BIOS Spinner", event: eventName, selectedIndex: state.selected, selectedCard: cardData[state.selected].label, layer: state.layer, flipped: cards[state.selected]?.classList.contains("flipped") || false, timestamp: new Date().toISOString(), commsStack: ["text", "voice", "video", "files"], panelSplit: ["Matt Panel", "Penny Panel"] }; try { sessionStorage.setItem("penny_bios_state", JSON.stringify(packet)); localStorage.setItem("penny_bios_last_state", JSON.stringify(packet)); } catch (_) { } } function setHint(text) { hint.textContent = text; } function render() { const count = cardData.length; const selected = nearestIndex(); if (selected !== state.selected) { state.selected = selected; cards.forEach(card => card.classList.remove("flipped")); } cards.forEach((card, index) => { const offset = wrapOffset(index - state.position); const abs = Math.abs(offset); const visible = abs <= 4.2; const active = index === state.selected; const x = offset * 42; const z = 150 - abs * 34; const ry = -offset * 28; const scale = Math.max(0.56, 1 - abs * 0.11); const opacity = visible ? Math.max(0.12, 1 - abs * 0.23) : 0; const blur = active ? 0 : Math.min(1.2, abs * 0.22); card.classList.toggle("active", active); card.style.setProperty("--x", x + "px"); card.style.setProperty("--z", z + "px"); card.style.setProperty("--ry", ry + "deg"); card.style.setProperty("--scale", scale); card.style.setProperty("--op", opacity); card.style.setProperty("--blur", blur + "px"); card.style.zIndex = String(100 - Math.round(abs * 10)); }); if (state.layer === 1) { routeLabel.textContent = "Layer Up // " + cardData[state.selected].label; } else if (state.layer === -1) { routeLabel.textContent = "Layer Down // " + cardData[state.selected].label; } else { routeLabel.textContent = cardData[state.selected].label; } } function snapTo(index, eventName) { const count = cardData.length; state.position = ((index % count) + count) % count; state.velocity = 0; state.selected = nearestIndex(); cards.forEach(card => card.classList.remove("flipped")); render(); setHint("Center ready • tap card flip"); writeState(eventName || "snap"); } function toggleFlip() { const card = cards[state.selected]; const next = !card.classList.contains("flipped"); card.classList.toggle("flipped", next); setHint(next ? "Back active • tap button or tap card to close" : "Swipe spin • tap card flip • up/down layer"); writeState(next ? "card_flip_open" : "card_flip_close"); } function setLayer(next) { state.layer = Math.max(-1, Math.min(1, next)); root.style.setProperty("--deckLift", (state.layer * -34) + "px"); if (state.layer === 1) { setHint("Layer up • tap card flip"); } else if (state.layer === -1) { setHint("Layer down • P♠ opens BIOS"); } else { setHint("Swipe spin • tap card flip • up/down layer"); } render(); writeState("layer_change"); } function openQuick() { quickPanel.classList.add("open"); quickPanel.setAttribute("aria-hidden", "false"); writeState("bios_panel_open"); } function closeQuickPanel() { quickPanel.classList.remove("open"); quickPanel.setAttribute("aria-hidden", "true"); writeState("bios_panel_close"); } function clearLong() { if (state.longTimer) { clearTimeout(state.longTimer); state.longTimer = null; } } function freezeAtCenter() { const centered = nearestIndex(); state.position = centered; state.velocity = 0; state.selected = centered; render(); } function startDrag(event) { if (event.target.closest("a") || event.target.closest("button") || event.target.closest("#quickPanel")) return; event.preventDefault(); freezeAtCenter(); state.dragging = true; state.pointerId = event.pointerId; state.startX = event.clientX; state.startY = event.clientY; state.lastX = event.clientX; state.lastY = event.clientY; state.lastT = performance.now(); state.moved = false; state.gesture = "none"; clearLong(); state.longTimer = setTimeout(() => { if (state.dragging && !state.moved) openQuick(); }, 760); try { deck.setPointerCapture(event.pointerId); } catch (_) { } } function moveDrag(event) { if (!state.dragging || event.pointerId !== state.pointerId) return; event.preventDefault(); const now = performance.now(); const dx = event.clientX - state.lastX; const totalX = event.clientX - state.startX; const totalY = event.clientY - state.startY; const absX = Math.abs(totalX); const absY = Math.abs(totalY); const dt = Math.max(16, now - state.lastT); if (absX > 9 || absY > 9) { state.moved = true; clearLong(); } if (state.gesture === "none" && (absX > 14 || absY > 20)) { state.gesture = absY > absX * 1.18 ? "vertical" : "horizontal"; } if (state.gesture === "vertical") { if (absY > 28) setLayer(totalY < 0 ? 1 : -1); } else if (state.gesture === "horizontal") { state.position -= dx / 94; state.velocity = -(dx / dt) * 0.42; render(); } state.lastX = event.clientX; state.lastY = event.clientY; state.lastT = now; } function endDrag(event) { if (!state.dragging || event.pointerId !== state.pointerId) return; event.preventDefault(); clearLong(); state.dragging = false; try { deck.releasePointerCapture(event.pointerId); } catch (_) { } const totalX = event.clientX - state.startX; const totalY = event.clientY - state.startY; const absX = Math.abs(totalX); const absY = Math.abs(totalY); if (absX < 12 && absY < 12) { toggleFlip(); return; } if (state.gesture === "vertical") { setLayer(totalY < 0 ? 1 : -1); state.velocity = 0; return; } writeState("spin_release"); } function tick() { if (!state.dragging) { state.position += state.velocity; state.velocity *= 0.92; if (Math.abs(state.velocity) < 0.006) { const target = nearestIndex(); const diff = target - state.position; state.position += diff * 0.18; if (Math.abs(diff) < 0.004) { state.position = target; state.velocity = 0; } } render(); } requestAnimationFrame(tick); } deck.addEventListener("pointerdown", startDrag); deck.addEventListener("pointermove", moveDrag); deck.addEventListener("pointerup", endDrag); deck.addEventListener("pointercancel", endDrag); pennyChip.addEventListener("click", openQuick); closeQuick.addEventListener("click", closeQuickPanel); document.addEventListener("touchmove", function (event) { if (!event.target.closest("#quickPanel")) event.preventDefault(); }, { passive: false }); document.addEventListener("gesturestart", function (event) { event.preventDefault(); }); document.addEventListener("contextmenu", function (event) { event.preventDefault(); }); try { history.replaceState({ deck: true }, "", location.href); history.pushState({ deck: true }, "", location.href); window.addEventListener("popstate", function () { if (quickPanel.classList.contains("open")) { closeQuickPanel(); } else { cards.forEach(card => card.classList.remove("flipped")); setLayer(0); } history.pushState({ deck: true }, "", location.href); }); } catch (_) { } try { sessionStorage.setItem("wildcard_boot_mode", "after-hours-bios-spinner-v4"); sessionStorage.setItem("wildcard_comms_stack", "text>voice>video>files"); } catch (_) { } snapTo(0, "boot"); tick(); </script>
-</body>
 
+  <script>
+    const cardData = [
+      {
+        title: "Penny",
+        label: "Penny Personal // Queen Concierge",
+        rank: "Q♠",
+        sigil: "♛",
+        sub: "Queen Concierge",
+        micro: "Tap panel split",
+        queen: true,
+        backTitle: "Panel Split",
+        backSub: "Matt Panel / Penny Panel",
+        actions: [
+          ["Matt Panel", "https://www.wildcarddev.com/operator", true],
+          ["Penny Panel", "https://www.wildcarddev.com/penny-drop", true],
+          ["Office", "https://office.wildcarddev.com/", false],
+          ["Gate", "https://www.wildcarddev.com/gate", false]
+        ]
+      },
+      ["Matt", "Matt // Operator Six", "K♠", "M", "Operator Six", "Owner panel", "Matt Panel", "Four quick launch placeholders", [["Open", "https://www.wildcarddev.com/operator", true], ["Gate", "https://www.wildcarddev.com/gate", false], ["Office", "https://office.wildcarddev.com/", false], ["Labs", "https://labs.wildcarddev.com/", false]]],
+      ["Text", "Text // Chat Layer", "A♠", "TXT", "Layer one", "Chat first", "Text Chat", "Base comms layer", [["Open", "https://www.wildcarddev.com/chat", true], ["Voice", "https://www.wildcarddev.com/voice", false], ["Video", "https://www.wildcarddev.com/video", false], ["Files", "https://www.wildcarddev.com/files", false]]],
+      ["Voice", "Voice // Audio Layer", "A♠", "VOX", "Layer two", "Audio path", "Voice", "Call / audio conduit", [["Open", "https://www.wildcarddev.com/voice", true], ["Call Penny", "tel:+14023326748", false], ["Text", "https://www.wildcarddev.com/chat", false], ["Video", "https://www.wildcarddev.com/video", false]]],
+      ["Video", "Video // Peer Room", "A♠", "VID", "Layer three", "WebRTC route", "Video", "Peer room / camera layer", [["Open", "https://www.wildcarddev.com/video", true], ["Source", "https://github.com/mtobabendev/Video-Chatroom", false], ["Text", "https://www.wildcarddev.com/chat", false], ["Files", "https://www.wildcarddev.com/files", false]]],
+      ["Files", "Files // Transfer Layer", "A♠", "⇅", "Layer four", "Upload / download", "Files", "Transfer lane", [["Open", "https://www.wildcarddev.com/files", true], ["Vault", "https://www.wildcarddev.com/vault", false], ["Drive", "https://drive.google.com/drive/my-drive", false], ["Dropbox", "https://www.dropbox.com/home", false]]],
+      ["Discord", "Discord // Penny Landing", "A♠", "☯", "Landing room", "Penny world", "Discord", "Penny landing universe", [["Open", "https://party.wildcarddev.com/#discord", true], ["Party", "https://party.wildcarddev.com/", false], ["Office", "https://office.wildcarddev.com/", false], ["Labs", "https://labs.wildcarddev.com/", false]]],
+      ["Party", "Party // House Route", "A♠", "♣", "House route", "Fun load", "Party", "Penny social shell", [["Open", "https://party.wildcarddev.com/", true], ["Discord", "https://party.wildcarddev.com/#discord", false], ["Office", "https://office.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
+      ["Office", "Office // Internal Shell", "A♠", "♦", "Internal shell", "Locked", "Office", "Penny’s Office door", [["Open", "https://office.wildcarddev.com/", true], ["Gate", "https://www.wildcarddev.com/gate", false], ["Labs", "https://labs.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
+      ["Labs", "Labs // Build Route", "A♠", "⚙", "Build route", "Erica lane", "Labs", "Code, deploy, debug", [["Open", "https://labs.wildcarddev.com/", true], ["Dev", "https://www.wildcarddev.com/dev", false], ["Office", "https://office.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
+      ["Studio", "Studio // Shoot Mode", "A♠", "📷", "Pose / loop", "Shoot mode", "Studio", "Keep outfit, change pose", [["Open", "https://www.wildcarddev.com/studio", true], ["Prompt", "https://www.wildcarddev.com/penny-drop", false], ["Party", "https://party.wildcarddev.com/", false], ["Files", "https://www.wildcarddev.com/files", false]]],
+      ["Jump", "Jump // Watchverse", "A♠", "↔", "Watchverse", "QR bridge", "Jump", "Watch to phone/watch", [["Open", "https://www.wildcarddev.com/watchverse", true], ["Code", "https://www.wildcarddev.com/jump", false], ["Tasker", "https://www.wildcarddev.com/tasker", false], ["Root", "https://www.wildcarddev.com/", false]]],
+      ["Tasker", "Tasker // AutoWear", "A♠", "⚡", "AutoWear", "Bridge", "Tasker", "Phone/watch actuator lane", [["Open", "https://www.wildcarddev.com/tasker", true], ["PAN", "https://www.wildcarddev.com/pan", false], ["Jump", "https://www.wildcarddev.com/jump", false], ["Vault", "https://www.wildcarddev.com/vault", false]]],
+      ["Vault", "Vault // Penny Purse", "A♠", "▣", "Penny purse", "Files", "Vault", "Private storage route", [["Open", "https://www.wildcarddev.com/vault", true], ["Files", "https://www.wildcarddev.com/files", false], ["Drive", "https://drive.google.com/drive/my-drive", false], ["Dropbox", "https://www.dropbox.com/home", false]]],
+      ["Drive", "Drive // Google Storage", "A♠", "G", "Google storage", "Auth gate", "Google Drive", "Open authenticated storage", [["Open", "https://drive.google.com/drive/my-drive", true], ["Drive Root", "https://drive.google.com/", false], ["Vault", "https://www.wildcarddev.com/vault", false], ["Files", "https://www.wildcarddev.com/files", false]]],
+      ["Dropbox", "Dropbox // Cloud Stash", "A♠", "D", "Cloud stash", "Auth gate", "Dropbox", "Open authenticated storage", [["Open", "https://www.dropbox.com/home", true], ["Login", "https://www.dropbox.com/login", false], ["Vault", "https://www.wildcarddev.com/vault", false], ["Files", "https://www.wildcarddev.com/files", false]]]
+    ].map(card => {
+      if (!Array.isArray(card)) return card;
+      return {
+        title: card[0],
+        label: card[1],
+        rank: card[2],
+        sigil: card[3],
+        sub: card[4],
+        micro: card[5],
+        backTitle: card[6],
+        backSub: card[7],
+        actions: card[8]
+      };
+    });
+
+    const root = document.documentElement;
+    const deck = document.getElementById("deck");
+    const routeLabel = document.getElementById("routeLabel");
+    const layerBadge = document.getElementById("layerBadge");
+    const hint = document.getElementById("hint");
+    const pennyChip = document.getElementById("pennyChip");
+    const quickPanel = document.getElementById("quickPanel");
+    const closeQuick = document.getElementById("closeQuick");
+
+    const state = {
+      position: 0,
+      velocity: 0,
+      selected: 0,
+      layer: 0,
+      dragging: false,
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+      lastX: 0,
+      lastY: 0,
+      lastT: 0,
+      moved: false,
+      gesture: "none",
+      longTimer: null,
+      lastEvent: "boot"
+    };
+
+    function createCard(card) {
+      const el = document.createElement("div");
+      el.className = "card" + (card.queen ? " penny-card" : "");
+
+      const actions = `<span class="actions">${
+        card.actions.map(([label, href, primary]) =>
+          `<a class="action${primary ? " primary" : ""}" href="${href}">${label}</a>`
+        ).join("")
+      }</span>`;
+
+      el.innerHTML = `
+        <span class="card-inner">
+          <span class="face front" data-rank="${card.rank}">
+            <span class="sigil">${card.sigil}</span>
+            <span class="title">${card.title}</span>
+            <span class="sub">${card.sub}</span>
+            <span class="micro">${card.micro}</span>
+          </span>
+          <span class="face back" data-rank="${card.rank}">
+            <span class="title">${card.backTitle}</span>
+            <span class="sub">${card.backSub}</span>
+            ${actions}
+          </span>
+        </span>
+      `;
+
+      deck.appendChild(el);
+    }
+
+    cardData.forEach(createCard);
+    const cards = Array.from(document.querySelectorAll(".card"));
+
+    function wrapOffset(offset) {
+      const count = cardData.length;
+      if (offset > count / 2) return offset - count;
+      if (offset < -count / 2) return offset + count;
+      return offset;
+    }
+
+    function nearestIndex() {
+      return ((Math.round(state.position) % cardData.length) + cardData.length) % cardData.length;
+    }
+
+    function currentCardIsFlipped() {
+      return cards[state.selected]?.classList.contains("flipped") || false;
+    }
+
+    function writeState(eventName) {
+      state.lastEvent = eventName;
+      const packet = {
+        system: "PennyCore BIOS Spinner",
+        mode: "after-hours-bios-loader",
+        event: eventName,
+        selectedIndex: state.selected,
+        selectedCard: cardData[state.selected].label,
+        layer: state.layer,
+        flipped: currentCardIsFlipped(),
+        timestamp: new Date().toISOString(),
+        commsStack: ["text", "voice", "video", "files"],
+        panelSplit: ["Matt Panel", "Penny Panel"],
+        nextLayerIntent:
+          state.layer === 1 ? "next-state" :
+          state.layer === -1 ? "return-state" :
+          "base-state"
+      };
+
+      try {
+        sessionStorage.setItem("penny_bios_state", JSON.stringify(packet));
+        localStorage.setItem("penny_bios_last_state", JSON.stringify(packet));
+      } catch (_) {}
+    }
+
+    function updateLayerBadge() {
+      if (state.layer === 1) {
+        layerBadge.textContent = "Layer +1 // Next";
+      } else if (state.layer === -1) {
+        layerBadge.textContent = "Layer -1 // Return";
+      } else {
+        layerBadge.textContent = "Layer 0 // BIOS";
+      }
+    }
+
+    function setHint(text) {
+      hint.textContent = text;
+    }
+
+    function render() {
+      const selected = nearestIndex();
+
+      if (selected !== state.selected) {
+        state.selected = selected;
+        cards.forEach(card => card.classList.remove("flipped"));
+      }
+
+      cards.forEach((card, index) => {
+        const offset = wrapOffset(index - state.position);
+        const abs = Math.abs(offset);
+        const visible = abs <= 4.2;
+        const active = index === state.selected;
+
+        const x = offset * 42;
+        const z = 150 - abs * 34;
+        const ry = -offset * 28;
+        const scale = Math.max(0.56, 1 - abs * 0.11);
+        const opacity = visible ? Math.max(0.12, 1 - abs * 0.23) : 0;
+        const blur = active ? 0 : Math.min(1.2, abs * 0.22);
+
+        card.classList.toggle("active", active);
+        card.style.setProperty("--x", x + "px");
+        card.style.setProperty("--z", z + "px");
+        card.style.setProperty("--ry", ry + "deg");
+        card.style.setProperty("--scale", scale);
+        card.style.setProperty("--op", opacity);
+        card.style.setProperty("--blur", blur + "px");
+        card.style.zIndex = String(100 - Math.round(abs * 10));
+      });
+
+      if (state.layer === 1) {
+        routeLabel.textContent = "Layer Up // " + cardData[state.selected].label;
+      } else if (state.layer === -1) {
+        routeLabel.textContent = "Layer Down // " + cardData[state.selected].label;
+      } else {
+        routeLabel.textContent = cardData[state.selected].label;
+      }
+
+      updateLayerBadge();
+    }
+
+    function snapTo(index, eventName) {
+      const count = cardData.length;
+      state.position = ((index % count) + count) % count;
+      state.velocity = 0;
+      state.selected = nearestIndex();
+      cards.forEach(card => card.classList.remove("flipped"));
+      render();
+      setHint("Center ready • tap card flip");
+      writeState(eventName || "snap");
+    }
+
+    function closeFlip() {
+      cards[state.selected].classList.remove("flipped");
+      setHint("Swipe spin • tap card flip • up/down layer");
+      writeState("card_flip_close");
+    }
+
+    function toggleFlip() {
+      const card = cards[state.selected];
+      const next = !card.classList.contains("flipped");
+      card.classList.toggle("flipped", next);
+      setHint(next ? "Back active • tap button or tap card to close" : "Swipe spin • tap card flip • up/down layer");
+      writeState(next ? "card_flip_open" : "card_flip_close");
+    }
+
+    function setLayer(next, eventName) {
+      state.layer = Math.max(-1, Math.min(1, next));
+      root.style.setProperty("--deckLift", (state.layer * -34) + "px");
+
+      if (state.layer === 1) {
+        setHint("Layer Up • pose / tarot / next state");
+      } else if (state.layer === -1) {
+        setHint("Layer Down • return / reset / lower state");
+      } else {
+        setHint("Swipe spin • tap card flip • up/down layer");
+      }
+
+      render();
+      writeState(eventName || "layer_change");
+    }
+
+    function resetLayer() {
+      setLayer(0, "layer_reset");
+    }
+
+    function openQuick() {
+      quickPanel.classList.add("open");
+      quickPanel.setAttribute("aria-hidden", "false");
+      writeState("bios_panel_open");
+    }
+
+    function closeQuickPanel() {
+      quickPanel.classList.remove("open");
+      quickPanel.setAttribute("aria-hidden", "true");
+      writeState("bios_panel_close");
+    }
+
+    function clearLong() {
+      if (state.longTimer) {
+        clearTimeout(state.longTimer);
+        state.longTimer = null;
+      }
+    }
+
+    function freezeAtCenter() {
+      const centered = nearestIndex();
+      state.position = centered;
+      state.velocity = 0;
+      state.selected = centered;
+      render();
+    }
+
+    function startDrag(event) {
+      if (event.target.closest("a") || event.target.closest("button") || event.target.closest("#quickPanel")) return;
+
+      event.preventDefault();
+      freezeAtCenter();
+
+      state.dragging = true;
+      state.pointerId = event.pointerId;
+      state.startX = event.clientX;
+      state.startY = event.clientY;
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      state.lastT = performance.now();
+      state.moved = false;
+      state.gesture = "none";
+
+      clearLong();
+      state.longTimer = setTimeout(() => {
+        if (state.dragging && !state.moved) openQuick();
+      }, 760);
+
+      try {
+        deck.setPointerCapture(event.pointerId);
+      } catch (_) {}
+    }
+
+    function moveDrag(event) {
+      if (!state.dragging || event.pointerId !== state.pointerId) return;
+
+      event.preventDefault();
+
+      const now = performance.now();
+      const dx = event.clientX - state.lastX;
+      const totalX = event.clientX - state.startX;
+      const totalY = event.clientY - state.startY;
+      const absX = Math.abs(totalX);
+      const absY = Math.abs(totalY);
+      const dt = Math.max(16, now - state.lastT);
+
+      if (absX > 9 || absY > 9) {
+        state.moved = true;
+        clearLong();
+      }
+
+      if (state.gesture === "none" && (absX > 14 || absY > 18)) {
+        state.gesture = absY > absX * 1.15 ? "vertical" : "horizontal";
+      }
+
+      if (state.gesture === "vertical") {
+        if (absY > 24) {
+          if (totalY < 0 && state.layer !== 1) setLayer(1, "swipe_up_layer");
+          if (totalY > 0 && state.layer !== -1) setLayer(-1, "swipe_down_layer");
+        }
+      } else if (state.gesture === "horizontal") {
+        state.position -= dx / 94;
+        state.velocity = -(dx / dt) * 0.42;
+        render();
+      }
+
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      state.lastT = now;
+    }
+
+    function endDrag(event) {
+      if (!state.dragging || event.pointerId !== state.pointerId) return;
+
+      event.preventDefault();
+      clearLong();
+
+      state.dragging = false;
+
+      try {
+        deck.releasePointerCapture(event.pointerId);
+      } catch (_) {}
+
+      const totalX = event.clientX - state.startX;
+      const totalY = event.clientY - state.startY;
+      const absX = Math.abs(totalX);
+      const absY = Math.abs(totalY);
+
+      if (absX < 12 && absY < 12) {
+        toggleFlip();
+        return;
+      }
+
+      if (state.gesture === "vertical") {
+        if (totalY < 0) {
+          setLayer(1, "swipe_up_layer");
+        } else {
+          setLayer(-1, "swipe_down_layer");
+        }
+        state.velocity = 0;
+        return;
+      }
+
+      writeState("spin_release");
+    }
+
+    function tick() {
+      if (!state.dragging) {
+        state.position += state.velocity;
+        state.velocity *= 0.92;
+
+        if (Math.abs(state.velocity) < 0.006) {
+          const target = nearestIndex();
+          const diff = target - state.position;
+          state.position += diff * 0.18;
+
+          if (Math.abs(diff) < 0.004) {
+            state.position = target;
+            state.velocity = 0;
+          }
+        }
+
+        render();
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    deck.addEventListener("pointerdown", startDrag);
+    deck.addEventListener("pointermove", moveDrag);
+    deck.addEventListener("pointerup", endDrag);
+    deck.addEventListener("pointercancel", endDrag);
+
+    pennyChip.addEventListener("click", openQuick);
+    closeQuick.addEventListener("click", closeQuickPanel);
+
+    document.addEventListener("touchmove", function(event) {
+      if (!event.target.closest("#quickPanel")) event.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener("gesturestart", function(event) {
+      event.preventDefault();
+    });
+
+    document.addEventListener("contextmenu", function(event) {
+      event.preventDefault();
+    });
+
+    try {
+      history.replaceState({ deck: true }, "", location.href);
+      history.pushState({ deck: true }, "", location.href);
+
+      window.addEventListener("popstate", function() {
+        if (quickPanel.classList.contains("open")) {
+          closeQuickPanel();
+        } else if (currentCardIsFlipped()) {
+          closeFlip();
+        } else if (state.layer !== 0) {
+          resetLayer();
+        }
+
+        history.pushState({ deck: true }, "", location.href);
+      });
+    } catch (_) {}
+
+    try {
+      sessionStorage.setItem("wildcard_boot_mode", "after-hours-bios-spinner-v5");
+      sessionStorage.setItem("wildcard_comms_stack", "text>voice>video>files");
+    } catch (_) {}
+
+    snapTo(0, "boot");
+    tick();
+  </script>
+</body>
 </html>
