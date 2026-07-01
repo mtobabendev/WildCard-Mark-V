@@ -2,756 +2,777 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#07000d" />
-  <meta name="description" content="WildCard DEV watch-first PennyCore tarot spinner." />
-  <title>WildCard DEV // PennyCore Spinner</title>
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#05000a" />
+  <title>WildCard DEV // PennyCore Cards</title>
 
   <style>
     :root {
-      --bg: #05000a;
-      --bg2: #14001f;
-      --panel: rgba(17, 8, 31, 0.84);
-      --panel2: rgba(31, 9, 50, 0.62);
+      --bg0: #050008;
+      --bg1: #130019;
       --pink: #ff4fd8;
       --hot: #ff79c8;
-      --blue: #67e8ff;
+      --violet: #8f5cff;
+      --cyan: #67e8ff;
       --green: #7dffb2;
       --gold: #ffd36b;
       --text: #fff7ff;
-      --muted: #d9c2eb;
-      --line: rgba(255, 121, 200, 0.42);
-      --line2: rgba(103, 232, 255, 0.22);
-      --shadow: 0 0 28px rgba(255, 79, 216, 0.28);
-      --z: 170px;
+      --muted: #d8c0ea;
+      --line: rgba(255, 121, 200, 0.50);
+      --glass: rgba(14, 4, 26, 0.92);
+      --cardW: min(58vw, 168px);
+      --cardH: calc(var(--cardW) * 1.42);
+      --ringZ: min(34vw, 122px);
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     html,
     body {
       margin: 0;
-      min-height: 100%;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       background:
-        radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.18), transparent 34%),
-        radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.10), transparent 30%),
-        linear-gradient(160deg, var(--bg), var(--bg2) 56%, #050008);
+        radial-gradient(circle at 50% 18%, rgba(255, 79, 216, 0.22), transparent 34%),
+        radial-gradient(circle at 50% 60%, rgba(103, 232, 255, 0.10), transparent 32%),
+        linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
       color: var(--text);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow-x: hidden;
+      overscroll-behavior: none;
+      touch-action: none;
     }
 
     body {
-      min-height: 100svh;
+      position: fixed;
+      inset: 0;
       display: grid;
       place-items: center;
-      padding: 10px;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      -webkit-tap-highlight-color: rgba(255, 121, 200, 0.24);
-    }
-
-    .shell {
-      width: min(100%, 1120px);
-      min-height: calc(100svh - 20px);
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255, 121, 200, 0.08), transparent 28%),
-        rgba(5, 0, 12, 0.74);
-      box-shadow: var(--shadow), inset 0 0 52px rgba(255, 79, 216, 0.08);
+    .app {
       position: relative;
-      isolation: isolate;
-    }
-
-    .shell::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border: 1px solid rgba(143, 92, 255, 0.20);
-      border-radius: 22px;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    header {
-      text-align: center;
-      display: grid;
-      gap: 4px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.05rem, 7vw, 2.1rem);
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      text-shadow: 0 0 16px rgba(255, 79, 216, 0.72);
-    }
-
-    .dot {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      margin-right: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), var(--pink));
-      box-shadow: 0 0 14px rgba(255, 79, 216, 0.72);
-      vertical-align: -1px;
-    }
-
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.70rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .triad {
-      display: grid;
-      grid-template-columns: 220px minmax(280px, 1fr) 220px;
-      grid-template-areas:
-        "matt spin penny"
-        "matt active penny";
-      gap: 12px;
-      align-items: center;
-      align-content: center;
-    }
-
-    .spinner-wrap {
-      grid-area: spin;
+      width: 100vw;
+      height: 100svh;
+      overflow: hidden;
       display: grid;
       place-items: center;
-      min-height: 390px;
       perspective: 900px;
-      overflow: visible;
+      touch-action: none;
     }
 
-    .spinner {
-      width: min(78vw, 390px);
-      height: min(78vw, 390px);
-      max-width: 390px;
-      max-height: 390px;
-      position: relative;
-      transform-style: preserve-3d;
-      display: grid;
-      place-items: center;
+    .halo {
+      position: absolute;
+      width: min(92vw, 355px);
+      height: min(92vw, 355px);
       border-radius: 50%;
-      border: 1px solid rgba(255, 121, 200, 0.28);
-      background:
-        radial-gradient(circle, rgba(255, 79, 216, 0.14), transparent 56%),
-        radial-gradient(circle, rgba(103, 232, 255, 0.10), transparent 66%);
+      border: 1px solid rgba(255, 121, 200, 0.22);
       box-shadow:
-        0 0 30px rgba(255, 79, 216, 0.30),
-        inset 0 0 42px rgba(143, 92, 255, 0.13);
-      touch-action: manipulation;
-    }
-
-    .spinner::before {
-      content: "";
-      position: absolute;
-      inset: 8%;
-      border-radius: 50%;
-      border: 1px dashed rgba(255, 121, 200, 0.36);
-      animation: flatspin 28s linear infinite;
+        0 0 38px rgba(255, 79, 216, 0.26),
+        inset 0 0 46px rgba(143, 92, 255, 0.12);
       pointer-events: none;
     }
 
-    .spinner::after {
+    .halo::before,
+    .halo::after {
       content: "";
       position: absolute;
-      inset: 25%;
       border-radius: 50%;
-      border: 1px solid rgba(103, 232, 255, 0.20);
-      box-shadow: inset 0 0 22px rgba(103, 232, 255, 0.10);
       pointer-events: none;
+    }
+
+    .halo::before {
+      inset: 9%;
+      border: 1px dashed rgba(255, 121, 200, 0.32);
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    .halo::after {
+      inset: 31%;
+      border: 1px solid rgba(103, 232, 255, 0.18);
+      box-shadow: inset 0 0 22px rgba(103, 232, 255, 0.12);
     }
 
     .deck {
       position: absolute;
       inset: 0;
       transform-style: preserve-3d;
-      animation: orbit 24s linear infinite;
-    }
-
-    .spinner:focus-within .deck,
-    .spinner:hover .deck {
-      animation-play-state: paused;
-    }
-
-    .tarot {
-      --angle: 0deg;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 74px;
-      height: 104px;
-      margin-left: -37px;
-      margin-top: -52px;
-      transform:
-        rotateY(var(--angle))
-        translateZ(var(--z));
       display: grid;
       place-items: center;
-      text-align: center;
-      border: 1px solid rgba(255, 121, 200, 0.52);
-      border-radius: 14px;
-      background:
-        linear-gradient(150deg, rgba(255, 121, 200, 0.18), rgba(9, 0, 18, 0.98));
-      box-shadow:
-        0 0 16px rgba(255, 79, 216, 0.28),
-        inset 0 0 16px rgba(255, 121, 200, 0.06);
-      color: var(--text);
-      padding: 6px;
-      line-height: 1.05;
-      text-transform: uppercase;
-      overflow: hidden;
-      backface-visibility: visible;
+      touch-action: none;
+      cursor: grab;
     }
 
-    .tarot::before {
-      content: "A";
+    .deck.dragging {
+      cursor: grabbing;
+    }
+
+    .card {
+      --i: 0;
+      --active: 0;
+      --flip: 0deg;
       position: absolute;
-      left: 7px;
-      top: 6px;
-      color: var(--hot);
-      font-size: 0.72rem;
-      font-weight: 900;
+      width: var(--cardW);
+      height: var(--cardH);
+      transform-style: preserve-3d;
+      transform:
+        rotateY(calc((var(--i) * 40deg) + var(--rot)))
+        translateZ(var(--ringZ))
+        scale(calc(0.72 + (var(--active) * 0.28)));
+      transition:
+        transform 180ms ease,
+        filter 180ms ease,
+        opacity 180ms ease;
+      opacity: calc(0.44 + (var(--active) * 0.56));
+      filter: blur(calc((1 - var(--active)) * 0.45px)) saturate(calc(0.9 + var(--active) * 0.28));
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      touch-action: none;
     }
 
-    .tarot::after {
+    .card-inner {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transform: rotateY(var(--flip));
+      transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+      border-radius: 18px;
+    }
+
+    .card.flipped .card-inner {
+      --flip: 180deg;
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 7px;
+      padding: 14px 10px;
+      border-radius: 18px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 22%, rgba(255, 79, 216, 0.26), transparent 38%),
+        linear-gradient(150deg, rgba(255, 121, 200, 0.16), rgba(8, 0, 16, 0.98));
+      box-shadow:
+        0 0 18px rgba(255, 79, 216, 0.35),
+        inset 0 0 18px rgba(255, 121, 200, 0.08);
+      text-align: center;
+    }
+
+    .face::before {
+      content: attr(data-rank);
+      position: absolute;
+      top: 8px;
+      left: 9px;
+      color: var(--hot);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.02em;
+    }
+
+    .face::after {
       content: "♠";
       position: absolute;
-      right: 7px;
-      bottom: 5px;
+      right: 10px;
+      bottom: 7px;
       color: var(--hot);
-      font-size: 0.82rem;
+      font-size: 0.92rem;
     }
 
-    .tarot b {
-      display: block;
-      font-size: 1.55rem;
-      color: var(--hot);
-      text-shadow: 0 0 14px rgba(255, 79, 216, 0.78);
+    .back {
+      transform: rotateY(180deg);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%),
+        linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
     }
 
-    .tarot small {
-      display: block;
-      margin-top: 4px;
-      font-size: 0.48rem;
+    .sigil {
+      font-size: clamp(2rem, 14vw, 3.7rem);
+      line-height: 0.9;
+      color: var(--hot);
+      text-shadow: 0 0 20px rgba(255, 79, 216, 0.88);
+    }
+
+    .title {
+      font-size: clamp(0.92rem, 5vw, 1.35rem);
+      font-weight: 950;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sub {
+      max-width: 92%;
+      color: var(--muted);
+      font-size: clamp(0.56rem, 3.1vw, 0.74rem);
+      line-height: 1.16;
+      text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    .tarot:nth-child(1) { --angle: 0deg; }
-    .tarot:nth-child(2) { --angle: 40deg; }
-    .tarot:nth-child(3) { --angle: 80deg; }
-    .tarot:nth-child(4) { --angle: 120deg; }
-    .tarot:nth-child(5) { --angle: 160deg; }
-    .tarot:nth-child(6) { --angle: 200deg; }
-    .tarot:nth-child(7) { --angle: 240deg; }
-    .tarot:nth-child(8) { --angle: 280deg; }
-    .tarot:nth-child(9) { --angle: 320deg; }
-
-    .core {
-      width: 43%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      background: radial-gradient(circle, rgba(255, 121, 200, 0.26), rgba(8, 0, 14, 0.94));
-      color: var(--text);
-      box-shadow: 0 0 22px rgba(255, 79, 216, 0.38);
-      display: grid;
-      place-items: center;
-      position: relative;
-      z-index: 5;
-      text-align: center;
-      line-height: 1.05;
-      font-weight: 900;
+    .micro {
+      color: var(--cyan);
+      font-size: clamp(0.48rem, 2.5vw, 0.62rem);
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .core .spade {
-      display: block;
-      color: var(--hot);
-      font-size: 2.45rem;
-      text-shadow: 0 0 18px rgba(255, 79, 216, 0.88);
-    }
-
-    .core .label {
-      display: block;
-      font-size: 0.68rem;
-    }
-
-    .active {
-      grid-area: active;
-      width: min(92%, 520px);
-      margin: -14px auto 0;
-      padding: 16px;
-      border: 1px solid rgba(255, 121, 200, 0.25);
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(103, 232, 255, 0.18), transparent 48%),
-        rgba(20, 9, 36, 0.72);
-      text-align: center;
-      box-shadow: inset 0 0 28px rgba(255, 79, 216, 0.08);
-    }
-
-    .active .layer {
-      margin: 0 0 4px;
+    .back .title {
       color: var(--green);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-weight: 900;
     }
 
-    .active h2 {
-      margin: 0 0 8px;
-      font-size: clamp(1.45rem, 8vw, 2.15rem);
-      line-height: 1;
-    }
-
-    .active p {
-      margin: 0 auto;
-      max-width: 29rem;
-      color: var(--muted);
-      font-size: clamp(0.88rem, 4vw, 1.05rem);
-      line-height: 1.42;
-    }
-
-    .panel {
-      min-height: 210px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--panel);
-      box-shadow: inset 0 0 22px rgba(255, 79, 216, 0.08);
-      display: grid;
-      gap: 10px;
-      align-content: start;
-    }
-
-    .panel.matt {
-      grid-area: matt;
-    }
-
-    .panel.penny {
-      grid-area: penny;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      flex: 0 0 auto;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 35% 25%, rgba(255, 121, 200, 0.30), transparent 34%),
-        linear-gradient(145deg, rgba(255, 121, 200, 0.18), rgba(103, 232, 255, 0.12));
-      box-shadow: 0 0 16px rgba(255, 79, 216, 0.24);
-      font-weight: 900;
-    }
-
-    .title {
-      min-width: 0;
-    }
-
-    .title strong {
-      display: block;
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .title span {
-      display: block;
-      color: var(--hot);
-      font-size: 0.60rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .panel p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.78rem;
-      line-height: 1.34;
-    }
-
-    .quick {
+    .actions {
+      width: 100%;
       display: grid;
       gap: 7px;
+      margin-top: 4px;
     }
 
-    .quick a {
-      border: 1px solid rgba(255, 121, 200, 0.30);
+    .action {
+      display: block;
+      width: 100%;
+      min-height: 38px;
       border-radius: 999px;
-      padding: 8px 10px;
-      background: rgba(255, 121, 200, 0.08);
+      border: 1px solid rgba(255, 121, 200, 0.44);
+      background: rgba(255, 121, 200, 0.12);
       color: var(--text);
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-
-    .chip {
-      border: 1px solid rgba(255, 121, 200, 0.28);
-      border-radius: 999px;
-      padding: 4px 7px;
-      color: var(--text);
-      background: rgba(255, 121, 200, 0.07);
-      font-size: 0.54rem;
-      white-space: nowrap;
-    }
-
-    footer {
+      text-decoration: none;
+      font-size: clamp(0.58rem, 3.4vw, 0.74rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       display: grid;
-      gap: 3px;
+      place-items: center;
+    }
+
+    .action.primary {
+      background: linear-gradient(135deg, rgba(255, 79, 216, 0.28), rgba(103, 232, 255, 0.12));
+      box-shadow: 0 0 14px rgba(255, 79, 216, 0.25);
+    }
+
+    .wings {
+      position: absolute;
+      width: min(88vw, 330px);
+      height: min(34vw, 120px);
+      border-radius: 999px;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.16), transparent),
+        radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
+      filter: blur(0.2px);
+      opacity: 0.9;
+    }
+
+    .wing-label {
+      position: absolute;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(88vw, 320px);
       text-align: center;
       color: var(--muted);
-      font-size: 0.64rem;
-      letter-spacing: 0.05em;
+      font-size: clamp(0.58rem, 3vw, 0.72rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
     }
 
-    footer a {
+    .route {
+      position: absolute;
+      top: max(10px, env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(86vw, 300px);
+      text-align: center;
       color: var(--hot);
-      font-weight: 900;
+      font-size: clamp(0.58rem, 3.2vw, 0.76rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(255, 79, 216, 0.72);
     }
 
-    @keyframes orbit {
-      to { transform: rotateY(360deg); }
+    .qr-pop {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(5, 0, 10, 0.82);
+      z-index: 20;
+      padding: 18px;
     }
 
-    @keyframes flatspin {
-      to { transform: rotate(360deg); }
+    .qr-pop.open {
+      display: grid;
     }
 
-    @media (max-width: 780px) {
-      :root {
-        --z: 128px;
-      }
+    .qr-card {
+      width: min(86vw, 300px);
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      box-shadow: 0 0 36px rgba(255, 79, 216, 0.36);
+      padding: 18px;
+      text-align: center;
+      display: grid;
+      gap: 12px;
+    }
 
-      .triad {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-          "spin"
-          "active"
-          "matt"
-          "penny";
-      }
+    .qr-box {
+      width: min(58vw, 180px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background:
+        repeating-linear-gradient(90deg, #fff 0 8px, #111 8px 16px),
+        repeating-linear-gradient(0deg, transparent 0 8px, rgba(0,0,0,.7) 8px 16px);
+      color: #000;
+      font-weight: 950;
+      mix-blend-mode: screen;
+    }
 
-      .spinner-wrap {
-        min-height: 330px;
-      }
+    .close {
+      min-height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 121, 200, 0.50);
+      background: rgba(255, 121, 200, 0.14);
+      color: var(--text);
+      font-weight: 950;
+      text-transform: uppercase;
+    }
 
-      .spinner {
-        width: min(88vw, 320px);
-        height: min(88vw, 320px);
-      }
-
-      .panel {
-        min-height: auto;
-      }
-
-      .quick {
-        grid-template-columns: 1fr 1fr;
-      }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.72; transform: rotate(0deg); }
+      50% { opacity: 1; transform: rotate(7deg); }
     }
 
     @media (max-width: 380px), (max-height: 520px) {
       :root {
-        --z: 92px;
+        --cardW: min(64vw, 142px);
+        --ringZ: min(30vw, 82px);
       }
 
-      body {
-        padding: 6px;
+      .route {
+        top: 8px;
       }
 
-      .shell {
-        min-height: calc(100svh - 12px);
-        padding: 9px;
-        border-radius: 22px;
+      .wing-label {
+        bottom: 8px;
       }
 
-      h1 {
-        font-size: 1rem;
-        letter-spacing: 0.18em;
+      .actions {
+        gap: 5px;
       }
 
-      .subtitle {
-        font-size: 0.56rem;
-      }
-
-      .spinner-wrap {
-        min-height: 245px;
-      }
-
-      .spinner {
-        width: min(88vw, 232px);
-        height: min(88vw, 232px);
-      }
-
-      .tarot {
-        width: 44px;
-        height: 62px;
-        margin-left: -22px;
-        margin-top: -31px;
-        border-radius: 9px;
-      }
-
-      .tarot small {
-        display: none;
-      }
-
-      .tarot b {
-        font-size: 1.1rem;
-      }
-
-      .active {
-        margin-top: -12px;
-        padding: 12px;
-      }
-
-      .active p {
-        font-size: 0.76rem;
-      }
-
-      .quick {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .deck,
-      .spinner::before {
-        animation: none;
+      .action {
+        min-height: 34px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="shell">
-    <header>
-      <h1><span class="dot"></span>WildCard DEV</h1>
-      <p class="subtitle">PennyCore // Watch-First Tarot Spinner</p>
-    </header>
+  <main class="app" id="app" aria-label="PennyCore cards-only watch interface">
+    <div class="route" id="routeLabel">PennyCore // Cards Only</div>
+    <div class="halo" aria-hidden="true"></div>
+    <div class="wings" aria-hidden="true"></div>
 
-    <section class="triad" aria-label="PennyCore Watch Boot Triad">
-      <article class="panel matt" aria-label="Matt operator mini panel">
-        <div class="panel-head">
-          <div class="avatar">M♠</div>
-          <div class="title">
-            <strong>Matt</strong>
-            <span>Operator 6</span>
-          </div>
-        </div>
-        <p>Owner route present. Quick tarot is live. Restricted shell waits behind the proper gate.</p>
-        <div class="quick">
-          <a href="https://www.wildcarddev.com/">Root</a>
-          <a href="https://office.wildcarddev.com/">Office</a>
-        </div>
-        <div class="chips">
-          <span class="chip">Owner Gate</span>
-          <span class="chip">VIP Black</span>
-          <span class="chip">Watch Ready</span>
-        </div>
-      </article>
-
-      <section class="spinner-wrap" aria-label="Live tarot route spinner">
-        <nav class="spinner" aria-label="Live quick launch tarot routes">
-          <div class="deck">
-            <a class="tarot" href="https://www.wildcarddev.com/" data-channel="Spawn">
-              <b>Q♠</b><small>Spawn</small>
-            </a>
-
-            <a class="tarot" href="https://party.wildcarddev.com/" data-channel="Party">
-              <b>♣</b><small>Party</small>
-            </a>
-
-            <a class="tarot" href="https://office.wildcarddev.com/" data-channel="Office">
-              <b>♦</b><small>Office</small>
-            </a>
-
-            <a class="tarot" href="https://labs.wildcarddev.com/" data-channel="Labs">
-              <b>⚙</b><small>Labs</small>
-            </a>
-
-            <a class="tarot" href="https://www.wildcarddev.com/#systems" data-channel="Systems">
-              <b>Σ</b><small>Systems</small>
-            </a>
-
-            <a class="tarot" href="https://www.wildcarddev.com/#contact" data-channel="Contact">
-              <b>@</b><small>Contact</small>
-            </a>
-
-            <a class="tarot" href="https://party.wildcarddev.com/#automation" data-channel="Automation">
-              <b>⚡</b><small>Auto</small>
-            </a>
-
-            <a class="tarot" href="https://labs.wildcarddev.com/#photoshoot" data-channel="Photoshoot">
-              <b>📷</b><small>Shoot</small>
-            </a>
-
-            <a class="tarot" href="https://office.wildcarddev.com/#vip" data-channel="VIP">
-              <b>13</b><small>VIP</small>
-            </a>
-          </div>
-
-          <a class="core" href="https://www.wildcarddev.com/" data-channel="Root" aria-label="Open WildCard DEV root">
-            <span>
-              <span class="spade">♠</span>
-              <span class="label">Launch</span>
+    <section class="deck" id="deck" aria-label="Swipe to spin tarot deck">
+      <button class="card" type="button" data-index="0" data-route="https://www.wildcarddev.com/penny-drop" style="--i:0;">
+        <span class="card-inner">
+          <span class="face front" data-rank="Q♠">
+            <span class="sigil">♛</span>
+            <span class="title">Penny</span>
+            <span class="sub">Queen Concierge</span>
+            <span class="micro">Tap to flip</span>
+          </span>
+          <span class="face back" data-rank="Q♠">
+            <span class="title">Master Chip</span>
+            <span class="sub">Penny Prime // VIP After Hours</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/penny-drop">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/watchverse">Watchverse</a>
             </span>
-          </a>
-        </nav>
-      </section>
+          </span>
+        </span>
+      </button>
 
-      <article class="panel penny" aria-label="Penny zero mini panel">
-        <div class="panel-head">
-          <div class="avatar">P♠</div>
-          <div class="title">
-            <strong>Penny</strong>
-            <span>Zero</span>
-          </div>
-        </div>
-        <p>Concierge layer online. Fun load-in available. Photo shoot route keeps current selected presentation as the base.</p>
-        <div class="quick">
-          <a href="https://party.wildcarddev.com/">Party</a>
-          <a href="https://labs.wildcarddev.com/#photoshoot">Shoot</a>
-        </div>
-        <div class="chips">
-          <span class="chip">Spinner First</span>
-          <span class="chip">Tarot Live</span>
-          <span class="chip">PINK Safe</span>
-        </div>
-      </article>
+      <button class="card" type="button" data-index="1" data-route="https://www.wildcarddev.com/operator" style="--i:1;">
+        <span class="card-inner">
+          <span class="face front" data-rank="K♠">
+            <span class="sigil">M</span>
+            <span class="title">Matt</span>
+            <span class="sub">Operator Six</span>
+            <span class="micro">Gate route</span>
+          </span>
+          <span class="face back" data-rank="K♠">
+            <span class="title">Operator</span>
+            <span class="sub">Private panel starts here</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/operator">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/gate">Gate</a>
+            </span>
+          </span>
+        </span>
+      </button>
 
-      <section class="active" aria-live="polite">
-        <p class="layer" id="active-layer">Active Channel</p>
-        <h2 id="active-title">Spawn</h2>
-        <p id="active-copy">
-          Standard quick tarot is live. Every card is a route. Spinner first, then the chosen door.
-        </p>
-      </section>
+      <button class="card" type="button" data-index="2" data-route="https://party.wildcarddev.com/" style="--i:2;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">♣</span>
+            <span class="title">Party</span>
+            <span class="sub">House route</span>
+            <span class="micro">Fun load</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Party</span>
+            <span class="sub">Penny social shell</span>
+            <span class="actions">
+              <a class="action primary" href="https://party.wildcarddev.com/">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/#party">Root</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="3" data-route="https://office.wildcarddev.com/" style="--i:3;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">♦</span>
+            <span class="title">Office</span>
+            <span class="sub">Internal shell</span>
+            <span class="micro">Locked</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Office</span>
+            <span class="sub">Penny’s Office door</span>
+            <span class="actions">
+              <a class="action primary" href="https://office.wildcarddev.com/">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/gate">Gate</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="4" data-route="https://labs.wildcarddev.com/" style="--i:4;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">⚙</span>
+            <span class="title">Labs</span>
+            <span class="sub">Build route</span>
+            <span class="micro">Erica lane</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Labs</span>
+            <span class="sub">Code, deploy, debug</span>
+            <span class="actions">
+              <a class="action primary" href="https://labs.wildcarddev.com/">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/dev">Dev</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="5" data-route="https://www.wildcarddev.com/studio" style="--i:5;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">📷</span>
+            <span class="title">Studio</span>
+            <span class="sub">Pose / loop</span>
+            <span class="micro">Shoot mode</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Studio</span>
+            <span class="sub">Keep outfit, change pose</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/studio">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/penny-drop">Prompt</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="6" data-route="https://www.wildcarddev.com/comms" style="--i:6;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">☎</span>
+            <span class="title">Comms</span>
+            <span class="sub">Phone / email</span>
+            <span class="micro">Route only</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Comms</span>
+            <span class="sub">Calls, texts, voice</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/comms">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/contact">Contact</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="7" data-route="https://www.wildcarddev.com/watchverse" style="--i:7;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">↔</span>
+            <span class="title">Jump</span>
+            <span class="sub">Watchverse</span>
+            <span class="micro">QR bridge</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Jump</span>
+            <span class="sub">Watch to phone/watch</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/watchverse">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/jump">Code</a>
+            </span>
+          </span>
+        </span>
+      </button>
+
+      <button class="card" type="button" data-index="8" data-route="https://www.wildcarddev.com/tasker" style="--i:8;">
+        <span class="card-inner">
+          <span class="face front" data-rank="A♠">
+            <span class="sigil">⚡</span>
+            <span class="title">Tasker</span>
+            <span class="sub">AutoWear</span>
+            <span class="micro">Bridge</span>
+          </span>
+          <span class="face back" data-rank="A♠">
+            <span class="title">Tasker</span>
+            <span class="sub">Phone/watch actuator lane</span>
+            <span class="actions">
+              <a class="action primary" href="https://www.wildcarddev.com/tasker">Open</a>
+              <a class="action" href="https://www.wildcarddev.com/pan">PAN</a>
+            </span>
+          </span>
+        </span>
+      </button>
     </section>
 
-    <footer>
-      <span>Watch / wallet / QR routes start here. All cards are live quick launch routes.</span>
-      <a href="https://www.wildcarddev.com/">https://www.wildcarddev.com/</a>
-    </footer>
+    <div class="wing-label" id="hint">Swipe deck • tap center card • flip to launch</div>
+
+    <section class="qr-pop" id="qrPop" aria-hidden="true">
+      <div class="qr-card">
+        <div class="title">Penny Drop</div>
+        <div class="sub">Scan route from another device</div>
+        <div class="qr-box">QR</div>
+        <a class="action primary" href="https://www.wildcarddev.com/penny-drop">wildcarddev.com/penny-drop</a>
+        <button class="close" type="button" id="closeQr">Close</button>
+      </div>
+    </section>
   </main>
 
   <script>
     (() => {
-      const channels = {
-        Root: {
-          layer: "Root Route",
-          title: "WildCard DEV",
-          copy: "Root selected. Universal route target active."
-        },
-        Spawn: {
-          layer: "Queen of Spades",
-          title: "Spawn",
-          copy: "PennyCore spawn route selected. Default presenter and spinner shell stay ready."
-        },
-        Party: {
-          layer: "Social Route",
-          title: "Party",
-          copy: "Party route selected. Opens the live party subdomain."
-        },
-        Office: {
-          layer: "Business Route",
-          title: "Office",
-          copy: "Office route selected. Opens Penny’s Office shell."
-        },
-        Labs: {
-          layer: "Build Route",
-          title: "Labs",
-          copy: "Labs route selected. Opens WildCard DEV Labs."
-        },
-        Systems: {
-          layer: "Systems Route",
-          title: "Systems",
-          copy: "Systems selected. Routes through the main WildCard DEV site."
-        },
-        Contact: {
-          layer: "Operator Route",
-          title: "Contact",
-          copy: "Contact selected. Direct operator access route."
-        },
-        Automation: {
-          layer: "Automation Route",
-          title: "Automation",
-          copy: "Automation selected. Opens the automation route target."
-        },
-        Photoshoot: {
-          layer: "Immediate Fun Load-In",
-          title: "Photo Shoot",
-          copy: "Shoot mode selected. Current outfit/presentation is the base. Change pose next."
-        },
-        VIP: {
-          layer: "Owner Route",
-          title: "VIP Restricted",
-          copy: "VIP selected. Owner route starts here and stays gated."
+      const cards = Array.from(document.querySelectorAll(".card"));
+      const deck = document.getElementById("deck");
+      const routeLabel = document.getElementById("routeLabel");
+      const hint = document.getElementById("hint");
+      const qrPop = document.getElementById("qrPop");
+      const closeQr = document.getElementById("closeQr");
+
+      const count = cards.length;
+      const step = 360 / count;
+
+      let rotation = 0;
+      let velocity = 0;
+      let dragging = false;
+      let pointerId = null;
+      let startX = 0;
+      let lastX = 0;
+      let lastT = 0;
+      let moved = false;
+      let selected = 0;
+      let raf = null;
+
+      const names = [
+        "Penny // Queen Concierge",
+        "Matt // Operator Six",
+        "Party // House Route",
+        "Office // Internal Shell",
+        "Labs // Build Route",
+        "Studio // Shoot Mode",
+        "Comms // Route Layer",
+        "Jump // Watchverse",
+        "Tasker // AutoWear"
+      ];
+
+      function normIndex(i) {
+        return ((i % count) + count) % count;
+      }
+
+      function nearestIndex() {
+        return normIndex(Math.round(-rotation / step));
+      }
+
+      function snapTo(index) {
+        selected = normIndex(index);
+        rotation = -selected * step;
+        velocity = 0;
+        update();
+      }
+
+      function setSelected(index) {
+        selected = normIndex(index);
+        cards.forEach((card, i) => {
+          card.style.setProperty("--active", i === selected ? 1 : 0);
+          if (i !== selected) card.classList.remove("flipped");
+        });
+        routeLabel.textContent = names[selected] || "PennyCore";
+      }
+
+      function update() {
+        cards.forEach((card, i) => {
+          card.style.setProperty("--rot", rotation + "deg");
+        });
+        setSelected(nearestIndex());
+      }
+
+      function animate() {
+        if (!dragging) {
+          rotation += velocity;
+          velocity *= 0.93;
+
+          if (Math.abs(velocity) < 0.08) {
+            const target = -nearestIndex() * step;
+            rotation += (target - rotation) * 0.16;
+
+            if (Math.abs(target - rotation) < 0.08) {
+              rotation = target;
+              velocity = 0;
+            }
+          }
+
+          update();
         }
-      };
 
-      const layer = document.getElementById("active-layer");
-      const title = document.getElementById("active-title");
-      const copy = document.getElementById("active-copy");
+        raf = requestAnimationFrame(animate);
+      }
 
-      function setChannel(name) {
-        const item = channels[name] || channels.Spawn;
-        layer.textContent = item.layer;
-        title.textContent = item.title;
-        copy.textContent = item.copy;
+      function onDown(event) {
+        if (event.target.closest("a")) return;
+
+        dragging = true;
+        moved = false;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        lastX = event.clientX;
+        lastT = performance.now();
+        velocity = 0;
+        deck.classList.add("dragging");
 
         try {
-          sessionStorage.setItem("wildcard_boot_mode", "watch-first-live-tarot");
-          sessionStorage.setItem("wildcard_active_channel", name);
-          sessionStorage.setItem("wildcard_last_touch", new Date().toISOString());
+          deck.setPointerCapture(pointerId);
         } catch (_) {}
       }
 
-      document.querySelectorAll("[data-channel]").forEach((link) => {
-        const channel = link.getAttribute("data-channel");
+      function onMove(event) {
+        if (!dragging || event.pointerId !== pointerId) return;
 
-        link.addEventListener("pointerenter", () => setChannel(channel));
-        link.addEventListener("focus", () => setChannel(channel));
-        link.addEventListener("touchstart", () => setChannel(channel), { passive: true });
-        link.addEventListener("click", () => setChannel(channel));
+        const now = performance.now();
+        const dx = event.clientX - lastX;
+        const dt = Math.max(16, now - lastT);
+
+        if (Math.abs(event.clientX - startX) > 6) moved = true;
+
+        rotation += dx * 0.42;
+        velocity = (dx / dt) * 12;
+
+        lastX = event.clientX;
+        lastT = now;
+
+        update();
+      }
+
+      function onUp(event) {
+        if (!dragging || event.pointerId !== pointerId) return;
+
+        dragging = false;
+        pointerId = null;
+        deck.classList.remove("dragging");
+
+        try {
+          deck.releasePointerCapture(event.pointerId);
+        } catch (_) {}
+
+        if (!moved) {
+          const card = event.target.closest(".card");
+          if (!card) return;
+
+          const index = Number(card.dataset.index);
+          if (index !== selected) {
+            snapTo(index);
+            return;
+          }
+
+          card.classList.toggle("flipped");
+          hint.textContent = card.classList.contains("flipped")
+            ? "Back of card active • tap OPEN or flip again"
+            : "Swipe deck • tap center card • flip to launch";
+
+          if (selected === 0 && card.classList.contains("flipped")) {
+            setTimeout(() => {
+              qrPop.classList.add("open");
+              qrPop.setAttribute("aria-hidden", "false");
+            }, 280);
+          }
+        }
+      }
+
+      function softBackTrap() {
+        try {
+          history.replaceState({ deck: true }, "", location.href);
+          history.pushState({ deck: true }, "", location.href);
+          window.addEventListener("popstate", () => {
+            if (qrPop.classList.contains("open")) {
+              qrPop.classList.remove("open");
+              qrPop.setAttribute("aria-hidden", "true");
+            } else {
+              cards.forEach(card => card.classList.remove("flipped"));
+              hint.textContent = "Swipe deck • tap center card • flip to launch";
+            }
+            history.pushState({ deck: true }, "", location.href);
+          });
+        } catch (_) {}
+      }
+
+      closeQr.addEventListener("click", () => {
+        qrPop.classList.remove("open");
+        qrPop.setAttribute("aria-hidden", "true");
       });
 
+      document.addEventListener("contextmenu", (event) => event.preventDefault());
+      document.addEventListener("gesturestart", (event) => event.preventDefault());
+
+      deck.addEventListener("pointerdown", onDown);
+      deck.addEventListener("pointermove", onMove);
+      deck.addEventListener("pointerup", onUp);
+      deck.addEventListener("pointercancel", onUp);
+
+      snapTo(0);
+      softBackTrap();
+      animate();
+
       try {
-        const previous = sessionStorage.getItem("wildcard_active_channel");
-        if (previous) setChannel(previous);
+        sessionStorage.setItem("wildcard_boot_mode", "cards-only-watch-physics");
       } catch (_) {}
     })();
   </script>
