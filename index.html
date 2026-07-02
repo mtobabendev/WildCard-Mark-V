@@ -1,1247 +1,794 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WildCard DEV // Penny Lucky You</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07040b" />
+  <meta name="description" content="WildCard DEV public rally point and Penny quick-launch front door." />
+  <title>WildCard DEV | Spinner-First Penny</title>
   <style>
     :root {
-      --bg: #05050a;
-      --panel: rgba(10, 7, 16, 0.88);
-      --panel-strong: rgba(15, 8, 24, 0.96);
-      --pink: #ff4fb7;
-      --pink2: #ff9bd8;
-      --pink3: #ff1e9f;
-      --violet: #9b7cff;
-      --blue: #65a7ff;
-      --green: #66ff99;
-      --gold: #ffd166;
-      --red: #ff4f72;
-      --text: #fff5fb;
-      --muted: #cfc3dc;
-      --line: rgba(255, 79, 183, 0.44);
-      --line2: rgba(255, 155, 216, 0.28);
-      --shadow: 0 26px 80px rgba(0, 0, 0, 0.62);
-      --radius: 26px;
-      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #07040b;
+      --bg-2: #120716;
+      --panel: rgba(18, 9, 24, 0.78);
+      --panel-strong: rgba(10, 5, 14, 0.94);
+      --line: rgba(255, 96, 198, 0.30);
+      --line-soft: rgba(255, 255, 255, 0.12);
+      --text: #fff6ff;
+      --muted: #d6bfd8;
+      --accent: #ff4fc3;
+      --accent-2: #8a2be2;
+      --good: #8dffd8;
+      --warn: #ffd479;
+      --danger: #ff7e9f;
+      --shadow: 0 24px 90px rgba(0, 0, 0, 0.62);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
 
-    html, body {
-      min-height: 100%;
-      background:
-        radial-gradient(circle at 20% 8%, rgba(255, 79, 183, 0.22), transparent 25%),
-        radial-gradient(circle at 78% 18%, rgba(155, 124, 255, 0.20), transparent 30%),
-        radial-gradient(circle at 50% 58%, rgba(255, 30, 159, 0.14), transparent 38%),
-        linear-gradient(180deg, #080814 0%, #07020b 48%, #030306 100%);
+    html { min-height: 100%; background: var(--bg); }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
       color: var(--text);
-      font-family: var(--font);
+      background:
+        radial-gradient(circle at 50% 8%, rgba(255, 79, 195, 0.30), transparent 36%),
+        radial-gradient(circle at 18% 12%, rgba(138, 43, 226, 0.25), transparent 34%),
+        radial-gradient(circle at 86% 14%, rgba(255, 79, 195, 0.12), transparent 30%),
+        linear-gradient(145deg, #050207, #120716 48%, #060209 100%);
       overflow-x: hidden;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 79, 183, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 79, 183, 0.045) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(circle at center, black 0%, transparent 82%);
-      z-index: 0;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), transparent 8%, transparent 92%, rgba(255,79,183,0.05));
-      mix-blend-mode: screen;
-      z-index: 0;
-    }
-
     a { color: inherit; text-decoration: none; }
-    button { border: 0; cursor: pointer; color: inherit; font: inherit; }
 
-    .shell {
-      position: relative;
-      z-index: 1;
-      width: min(1540px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 14px 0 34px;
-    }
-
-    .frame {
-      border: 1px solid rgba(255, 79, 183, 0.42);
-      border-radius: 34px;
-      background: linear-gradient(135deg, rgba(14, 7, 22, 0.94), rgba(4, 4, 10, 0.94));
-      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,0.035);
-      overflow: hidden;
-    }
-
-    .topbar {
-      display: grid;
-      grid-template-columns: 130px 1fr 130px;
-      gap: 16px;
-      align-items: center;
-      padding: 18px 22px 12px;
-      border-bottom: 1px solid rgba(255, 79, 183, 0.28);
-      background:
-        linear-gradient(90deg, rgba(255,79,183,0.10), transparent 24%, transparent 76%, rgba(255,79,183,0.10)),
-        rgba(0,0,0,0.22);
-    }
-
-    .corner-card {
-      min-height: 104px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      color: var(--pink2);
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: rgba(255, 79, 183, 0.07);
-      box-shadow: inset 0 0 28px rgba(255,79,183,0.08);
-    }
-
-    .corner-card .huge {
-      display: block;
-      margin-top: 4px;
-      font-size: 2.3rem;
-      line-height: 1;
-      text-shadow: 0 0 22px rgba(255,79,183,0.9);
-    }
-
-    .brand {
-      text-align: center;
-    }
-
-    .brand .eyebrow {
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.58em;
-      font-weight: 950;
-      font-size: 0.86rem;
-    }
-
-    .brand h1 {
-      margin-top: 6px;
-      font-size: clamp(2.4rem, 7.8vw, 6.8rem);
-      line-height: 0.84;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--pink2);
-      text-shadow: 0 0 18px rgba(255,79,183,0.65), 0 0 54px rgba(255,79,183,0.35);
-    }
-
-    .brand .subline {
-      width: min(680px, 100%);
-      margin: 12px auto 0;
-      padding: 9px 12px;
-      border: 1px solid rgba(255, 79, 183, 0.38);
+    button, .button {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: linear-gradient(135deg, rgba(255, 79, 195, 0.20), rgba(138, 43, 226, 0.20));
+      color: var(--text);
       border-radius: 999px;
-      color: var(--pink2);
-      font-weight: 950;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      background: rgba(255,79,183,0.08);
-      font-size: 0.82rem;
+      padding: 0.82rem 1rem;
+      font: inherit;
+      font-weight: 850;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255, 79, 195, 0.12);
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 290px 1fr 330px;
-      gap: 18px;
-      padding: 18px 22px 20px;
-    }
-
-    .stack {
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .panel {
-      border: 1px solid rgba(255, 79, 183, 0.32);
-      border-radius: 22px;
-      background:
-        linear-gradient(135deg, rgba(255,79,183,0.08), transparent 42%),
-        rgba(0,0,0,0.32);
-      box-shadow: inset 0 0 26px rgba(255,79,183,0.05);
-      overflow: hidden;
-    }
-
-    .panel.pad { padding: 15px; }
-
-    .panel h2,
-    .panel h3 {
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-    }
-
-    .panel p,
-    .panel li {
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 0.92rem;
-    }
-
-    .panel ul {
-      list-style: none;
-      display: grid;
-      gap: 9px;
-    }
-
-    .panel li::before {
-      content: "♠";
-      color: var(--pink);
-      margin-right: 8px;
-    }
-
-    .identity-row {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 11px 0;
-      border-bottom: 1px solid rgba(255, 79, 183, 0.15);
-    }
-
-    .identity-row:last-child { border-bottom: 0; }
-
-    .identity-icon {
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      color: var(--pink2);
-      background: rgba(255,79,183,0.08);
-      font-size: 1.25rem;
-      box-shadow: 0 0 18px rgba(255,79,183,0.08);
-    }
-
-    .identity-row strong {
-      display: block;
-      color: var(--pink2);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .identity-row span {
-      display: block;
-      margin-top: 2px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      line-height: 1.3;
-    }
-
-    .quote {
-      padding: 18px;
-      color: #f5d7ea;
-      font-size: 1.03rem;
-      font-style: italic;
-      line-height: 1.45;
-      border-top: 1px solid rgba(255,79,183,0.22);
-      background: rgba(0,0,0,0.18);
+    button:hover, .button:hover, button:focus-visible, .button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(255, 79, 195, 0.72);
+      background: linear-gradient(135deg, rgba(255, 79, 195, 0.34), rgba(138, 43, 226, 0.30));
+      outline: none;
     }
 
     .stage {
-      min-height: 760px;
-      position: relative;
-      border: 1px solid rgba(255, 79, 183, 0.25);
-      border-radius: 30px;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(255, 79, 183, 0.18), transparent 28%),
-        linear-gradient(180deg, rgba(16,8,24,0.2), rgba(0,0,0,0.38)),
-        repeating-linear-gradient(90deg, rgba(255,79,183,0.06) 0 1px, transparent 1px 74px);
+      width: min(1480px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 0 34px;
+    }
+
+    .spinner-first {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: minmax(250px, 1fr) minmax(300px, 620px) minmax(250px, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 79, 195, 0.07), rgba(18, 9, 24, 0.76));
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
       overflow: hidden;
     }
 
-    .stage::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 32%;
-      width: min(470px, 74vw);
-      aspect-ratio: 1;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 1px solid rgba(255, 79, 183, 0.38);
-      box-shadow: 0 0 40px rgba(255,79,183,0.45), inset 0 0 38px rgba(255,79,183,0.18);
-    }
+    .panel-inner { padding: 16px; }
 
-    .penny-sigil {
-      position: absolute;
-      left: 50%;
-      top: 35%;
-      width: min(390px, 64vw);
-      min-height: 390px;
-      transform: translate(-50%, -50%);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      border-radius: 48px;
-      border: 1px solid rgba(255, 79, 183, 0.34);
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255,155,216,0.22), transparent 24%),
-        linear-gradient(180deg, rgba(255,79,183,0.16), rgba(0,0,0,0.38));
-      box-shadow: 0 0 50px rgba(255,79,183,0.23);
-    }
-
-    .penny-sigil .halo {
-      position: absolute;
-      top: 42px;
-      width: 190px;
-      height: 32px;
-      border: 8px solid rgba(255, 79, 183, 0.72);
-      border-radius: 50%;
-      filter: blur(0.2px) drop-shadow(0 0 16px rgba(255,79,183,0.85));
-      transform: rotate(-8deg);
-    }
-
-    .penny-sigil .avatar {
-      width: 192px;
-      height: 192px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      margin: 48px auto 18px;
-      color: var(--pink2);
-      font-size: 5.6rem;
-      background:
-        radial-gradient(circle at center, rgba(255,155,216,0.30), transparent 56%),
-        rgba(0,0,0,0.30);
-      border: 1px solid rgba(255, 155, 216, 0.36);
-      text-shadow: 0 0 24px rgba(255,79,183,0.9);
-    }
-
-    .penny-sigil h2 {
-      color: var(--pink2);
+    .micro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 1.25rem;
-    }
-
-    .penny-sigil p {
-      width: min(300px, 84%);
-      margin: 12px auto 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .phone-card {
-      position: absolute;
-      right: clamp(16px, 7%, 68px);
-      top: clamp(28px, 8%, 86px);
-      width: 148px;
-      min-height: 220px;
-      border: 1px solid rgba(255,155,216,0.45);
-      border-radius: 24px;
-      background: linear-gradient(180deg, #130617, #07030b);
-      padding: 14px;
-      box-shadow: 0 0 28px rgba(255,79,183,0.30);
-      transform: rotate(-7deg);
-      display: grid;
-      align-content: center;
-      text-align: center;
-      gap: 10px;
-    }
-
-    .phone-card strong {
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
-    }
-
-    .phone-card span {
-      color: var(--green);
-      font-size: 0.76rem;
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-
-    .bubble {
-      position: absolute;
-      left: 6%;
-      bottom: 43%;
-      padding: 14px 18px;
-      border: 1px solid rgba(255, 79, 183, 0.4);
-      border-radius: 22px;
-      color: var(--pink2);
-      background: rgba(0,0,0,0.35);
-      font-style: italic;
-      font-size: 1.05rem;
-      box-shadow: 0 0 24px rgba(255,79,183,0.18);
-    }
-
-    .contact-panel {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 16px;
-      align-items: stretch;
-      padding: 18px;
-      border: 1px solid rgba(255, 79, 183, 0.38);
-      border-radius: 24px;
-      background:
-        linear-gradient(135deg, rgba(16, 8, 24, 0.96), rgba(3, 3, 8, 0.96)),
-        radial-gradient(circle at left, rgba(255,79,183,0.16), transparent 34%);
-      box-shadow: 0 0 38px rgba(0,0,0,0.42);
-    }
-
-    .contact-copy h2 {
-      color: var(--text);
-      font-size: clamp(1.1rem, 2.4vw, 1.75rem);
-      line-height: 1.28;
-      margin-bottom: 12px;
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 1rem;
-    }
-
-    .contact-list a,
-    .contact-list span.pink {
-      color: var(--pink2);
+      letter-spacing: 0.15em;
+      font-size: 0.72rem;
       font-weight: 950;
     }
 
-    .lucky-link {
-      margin-top: 14px;
-      border: 1px solid rgba(255,79,183,0.52);
-      border-radius: 999px;
-      padding: 14px 16px;
-      color: var(--pink2);
-      background: rgba(255,79,183,0.10);
-      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-      font-weight: 900;
-      word-break: break-word;
-      text-align: center;
-      box-shadow: inset 0 0 24px rgba(255,79,183,0.06);
-    }
-
-    .qr-card {
-      padding: 14px;
-      border: 1px solid rgba(255,79,183,0.34);
-      border-radius: 20px;
-      background: rgba(255,79,183,0.07);
-      display: grid;
-      gap: 9px;
-      text-align: center;
-    }
-
-    .qr-card img {
-      width: 100%;
-      max-width: 210px;
-      aspect-ratio: 1;
-      object-fit: contain;
-      margin: 0 auto;
-      border-radius: 18px;
-      image-rendering: pixelated;
-      background: #ff9bd8;
-      box-shadow: 0 0 28px rgba(255,79,183,0.25);
-    }
-
-    .qr-card strong {
-      color: var(--pink2);
+    h1, h2, h3, p { margin-block-start: 0; }
+    h1 {
+      margin-block-end: 0.6rem;
+      font-size: clamp(1.9rem, 5vw, 4.8rem);
+      line-height: 0.92;
+      letter-spacing: 0.055em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.78rem;
+      text-shadow: 0 0 24px rgba(255, 79, 195, 0.45);
     }
+    h2 { margin: 0 0 0.6rem; font-size: 1.03rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    h3 { margin: 0 0 0.45rem; font-size: 0.96rem; }
+    p { color: var(--muted); line-height: 1.55; }
 
-    .status-board {
-      display: grid;
-      gap: 9px;
-    }
+    .hero-copy p { max-width: 38ch; }
 
-    .status-line {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 0.86rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-
-    .status-line strong { color: var(--green); }
-    .led { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px var(--green); }
-
-    .route-chip {
-      width: 100%;
-      min-height: 58px;
-      display: grid;
-      grid-template-columns: 36px 1fr;
-      gap: 10px;
-      align-items: center;
-      border: 1px solid rgba(255,79,183,0.26);
-      border-radius: 16px;
-      background: rgba(255,79,183,0.07);
-      padding: 10px;
-      text-align: left;
-    }
-
-    .route-chip.active {
-      border-color: var(--green);
-      background: rgba(102,255,153,0.08);
-    }
-
-    .route-chip .route-icon {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255,79,183,0.28);
-      border-radius: 12px;
-      color: var(--pink2);
-      background: rgba(0,0,0,0.22);
-    }
-
-    .route-chip strong {
-      display: block;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      font-size: 0.78rem;
-    }
-
-    .route-chip span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.72rem;
-      margin-top: 2px;
-    }
-
-    .route-chip.hot {
-      border-color: rgba(255,209,102,0.42);
-      background: rgba(255,209,102,0.08);
-    }
-
-    .footer-band {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      padding: 0 22px 22px;
-    }
-
-    .tiny-card {
-      border: 1px solid rgba(255, 79, 183, 0.28);
-      border-radius: 18px;
-      padding: 12px;
-      background: rgba(0,0,0,0.28);
-      min-height: 76px;
-    }
-
-    .tiny-card strong {
-      display: block;
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      font-size: 0.72rem;
-      margin-bottom: 4px;
-    }
-
-    .tiny-card span {
-      color: var(--muted);
-      line-height: 1.35;
-      font-size: 0.78rem;
-    }
-
-    .lower {
-      display: grid;
-      grid-template-columns: 1fr 1fr 320px;
-      gap: 16px;
-      padding: 0 22px 22px;
-    }
-
-    .button-row {
+    .status-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       margin-top: 12px;
     }
 
-    .btn {
-      min-height: 42px;
+    .pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255,79,183,0.10);
-      color: var(--text);
-      padding: 10px 13px;
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      font-size: 0.72rem;
-      box-shadow: inset 0 0 20px rgba(255,79,183,0.06);
-    }
-
-    .btn.primary { border-color: rgba(102,255,153,0.48); color: var(--green); background: rgba(102,255,153,0.08); }
-    .btn.gold { border-color: rgba(255,209,102,0.48); color: var(--gold); background: rgba(255,209,102,0.08); }
-    .btn.red { border-color: rgba(255,79,114,0.48); color: #ffb0bf; background: rgba(255,79,114,0.08); }
-
-    textarea, pre {
-      width: 100%;
-      border: 1px solid rgba(255,79,183,0.24);
-      border-radius: 16px;
-      background: rgba(0,0,0,0.32);
-      color: var(--text);
-      padding: 12px;
-      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-      font-size: 0.78rem;
-      line-height: 1.45;
-    }
-
-    textarea { min-height: 180px; resize: vertical; }
-    pre { white-space: pre-wrap; overflow: auto; max-height: 270px; }
-
-    .hotkey {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 20;
-      width: 78px;
-      height: 78px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,155,216,0.52);
-      background:
-        radial-gradient(circle at 50% 20%, rgba(255,155,216,0.28), transparent 38%),
-        linear-gradient(180deg, #210820, #07040b);
-      box-shadow: 0 0 28px rgba(255,79,183,0.44);
-      display: grid;
-      place-items: center;
-      color: var(--pink2);
-      font-size: 2rem;
-      text-shadow: 0 0 18px rgba(255,79,183,0.86);
-    }
-
-    .hotkey span {
-      position: absolute;
-      bottom: -19px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.56rem;
-      font-weight: 950;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-      text-transform: uppercase;
-      color: var(--pink2);
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      display: none;
-      place-items: center;
-      padding: 18px;
-      background: rgba(0,0,0,0.64);
-      backdrop-filter: blur(10px);
-    }
-
-    .modal.active { display: grid; }
-
-    .modal-card {
-      width: min(760px, 100%);
-      border: 1px solid rgba(255,79,183,0.46);
-      border-radius: 26px;
-      background: linear-gradient(135deg, rgba(18,8,28,0.98), rgba(4,4,10,0.98));
-      box-shadow: var(--shadow);
-      padding: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .modal-card h2 {
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 1rem;
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .preset {
-      min-height: 120px;
-      border: 1px solid rgba(255,79,183,0.30);
-      border-radius: 18px;
-      background: rgba(255,79,183,0.07);
-      padding: 12px;
-      text-align: center;
-    }
-
-    .preset .preset-icon { font-size: 2rem; margin-bottom: 8px; }
-    .preset strong { display: block; color: var(--pink2); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.82rem; }
-    .preset span { display: block; margin-top: 5px; color: var(--muted); font-size: 0.74rem; line-height: 1.35; }
-
-    .watch-shell {
-      display: none;
-      min-height: 100svh;
-      padding: 10px;
-      place-items: center;
-    }
-
-    .watch-face-ui {
-      width: min(96vw, 390px);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 1px solid rgba(255,79,183,0.48);
-      background:
-        radial-gradient(circle at 50% 24%, rgba(255,155,216,0.26), transparent 25%),
-        radial-gradient(circle at center, rgba(255,79,183,0.15), transparent 58%),
-        #05050a;
-      box-shadow: 0 0 38px rgba(255,79,183,0.30), inset 0 0 45px rgba(255,79,183,0.08);
-      padding: 34px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .watch-face-ui::before {
-      content: "Q♠";
-      position: absolute;
-      top: 52px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,155,216,0.18);
-      font-size: 7rem;
-      font-weight: 950;
-    }
-
-    .watch-core {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 12px;
-      justify-items: center;
-    }
-
-    .watch-core .watch-icon {
-      width: 112px;
-      height: 112px;
-      border: 1px solid rgba(255,79,183,0.36);
-      border-radius: 36px;
-      display: grid;
-      place-items: center;
-      font-size: 3rem;
-      color: var(--pink2);
-      background: rgba(0,0,0,0.30);
-      box-shadow: 0 0 25px rgba(255,79,183,0.24);
-    }
-
-    .watch-core h1 {
-      color: var(--pink2);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 1.08rem;
-    }
-
-    .watch-core p {
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--muted);
-      line-height: 1.35;
-      font-size: 0.78rem;
-      max-width: 220px;
+      padding: 0.46rem 0.64rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
     }
 
-    .watch-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-top: 4px;
-    }
+    .pill strong { color: var(--text); }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--good); box-shadow: 0 0 14px var(--good); }
+    .dot.warn { background: var(--warn); box-shadow: 0 0 14px var(--warn); }
 
-    .watch-grid button,
-    .watch-grid a {
-      min-height: 48px;
-      border: 1px solid rgba(255,79,183,0.34);
-      border-radius: 14px;
-      background: rgba(255,79,183,0.08);
-      color: var(--text);
+    .spinner-shell {
+      position: relative;
+      min-height: min(88svh, 820px);
       display: grid;
       place-items: center;
-      text-align: center;
-      padding: 7px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 950;
-      font-size: 0.62rem;
+      perspective: 1200px;
+      isolation: isolate;
     }
 
-    .watch-grid .priority {
-      border-color: rgba(102,255,153,0.48);
-      color: var(--green);
-      background: rgba(102,255,153,0.08);
+    .spinner-halo {
+      position: absolute;
+      width: min(76vw, 650px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 79, 195, 0.32);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle, transparent 56%, rgba(255, 79, 195, 0.07) 57%, transparent 70%),
+        conic-gradient(from 0deg, transparent, rgba(255, 79, 195, 0.28), transparent, rgba(138, 43, 226, 0.22), transparent);
+      filter: drop-shadow(0 0 32px rgba(255, 79, 195, 0.18));
+      animation: slowTurn 22s linear infinite;
+      z-index: 0;
     }
+
+    .orbit {
+      position: absolute;
+      width: min(82vw, 700px);
+      aspect-ratio: 1;
+      transform-style: preserve-3d;
+      animation: routeSpin 34s linear infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .orbit-card {
+      --angle: calc(360deg / var(--total) * var(--i));
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: clamp(92px, 12vw, 144px);
+      min-height: 44px;
+      padding: 0.46rem 0.55rem;
+      border-radius: 14px;
+      border-color: rgba(255, 79, 195, 0.34);
+      background: rgba(8, 3, 12, 0.86);
+      color: var(--text);
+      font-size: clamp(0.58rem, 1.2vw, 0.78rem);
+      line-height: 1.1;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transform:
+        rotate(var(--angle))
+        translateX(clamp(170px, 31vw, 338px))
+        rotate(calc(var(--angle) * -1));
+      transform-origin: 0 0;
+      box-shadow: 0 0 18px rgba(255, 79, 195, 0.12), inset 0 0 18px rgba(255, 79, 195, 0.05);
+      pointer-events: auto;
+    }
+
+    .orbit-card span { display: block; }
+
+    .penny-card {
+      position: relative;
+      width: min(72vw, 430px);
+      aspect-ratio: 2 / 3;
+      border: 1px solid rgba(255, 79, 195, 0.42);
+      border-radius: 28px;
+      overflow: hidden;
+      background: #08030c;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.07),
+        0 0 50px rgba(255, 79, 195, 0.26),
+        0 36px 110px rgba(0, 0, 0, 0.75);
+      z-index: 3;
+    }
+
+    .penny-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, 0.13) 43%, transparent 48% 100%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .penny-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .center-actions {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(12px, 6vh, 44px);
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      width: min(94vw, 680px);
+      pointer-events: auto;
+    }
+
+    .primary-action {
+      border-color: rgba(255, 79, 195, 0.70);
+      background: linear-gradient(135deg, rgba(255, 79, 195, 0.72), rgba(138, 43, 226, 0.54));
+      box-shadow: 0 0 36px rgba(255, 79, 195, 0.30);
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .kv {
+      display: grid;
+      grid-template-columns: minmax(88px, auto) 1fr;
+      gap: 7px 10px;
+      font-size: 0.88rem;
+    }
+    .kv dt { color: var(--muted); font-weight: 850; }
+    .kv dd { margin: 0; color: var(--text); }
+
+    .route-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .route-chip { padding: 0.6rem 0.72rem; font-size: 0.78rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.44;
+    }
+    .list li {
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 0.68rem 0.72rem;
+      background: rgba(255,255,255,0.04);
+    }
+    .list strong { color: var(--text); }
+
+    .console {
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid rgba(255, 79, 195, 0.20);
+      background: rgba(0, 0, 0, 0.34);
+      border-radius: 16px;
+      padding: 12px;
+      color: #ffe8fb;
+      font: 0.82rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    .handoff-preview {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #050207;
+    }
+
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.84rem;
+      padding: 18px;
+    }
+
+    @keyframes routeSpin { to { transform: rotate(360deg); } }
+    @keyframes slowTurn { to { transform: rotate(-360deg); } }
+    @keyframes pulseGlow { 0%, 100% { opacity: 0.78; } 50% { opacity: 1; } }
 
     @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
 
-    @media (max-width: 1180px) {
-      .hero { grid-template-columns: 1fr; }
-      .stage { min-height: 720px; }
-      .lower { grid-template-columns: 1fr; }
-      .footer-band { grid-template-columns: repeat(2, 1fr); }
-      .contact-panel { grid-template-columns: 1fr; }
-      .qr-card img { max-width: 180px; }
+    @media (max-width: 1050px) {
+      .spinner-first { grid-template-columns: 1fr; min-height: auto; padding-top: 8px; }
+      .side-stack { order: 2; }
+      .spinner-shell { min-height: 760px; order: 1; }
+      .hero-copy { text-align: center; }
+      .hero-copy p { margin-left: auto; margin-right: auto; }
+      .panel-grid { grid-template-columns: repeat(6, 1fr); }
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 6; }
     }
 
-    @media (max-width: 720px) {
-      .shell { width: min(100% - 14px, 1540px); padding-top: 8px; }
-      .topbar { grid-template-columns: 1fr; }
-      .corner-card { min-height: 72px; }
-      .brand .eyebrow { letter-spacing: 0.28em; }
-      .brand h1 { font-size: 2.2rem; }
-      .brand .subline { font-size: 0.64rem; letter-spacing: 0.09em; }
-      .hero { padding: 14px; }
-      .stage { min-height: 690px; }
-      .penny-sigil { top: 28%; width: min(315px, 90%); min-height: 315px; }
-      .penny-sigil .avatar { width: 150px; height: 150px; font-size: 4.2rem; }
-      .phone-card, .bubble { display: none; }
-      .contact-panel { left: 10px; right: 10px; bottom: 10px; }
-      .footer-band { grid-template-columns: 1fr; padding: 0 14px 14px; }
-      .lower { padding: 0 14px 14px; }
-      .preset-grid { grid-template-columns: 1fr; }
+    @media (max-width: 620px) {
+      .stage { width: min(100% - 14px, 560px); padding-top: 8px; }
+      .spinner-shell { min-height: 650px; }
+      .penny-card { width: min(82vw, 360px); border-radius: 22px; }
+      .spinner-halo { width: min(94vw, 520px); }
+      .orbit { width: min(100vw, 560px); }
+      .orbit-card {
+        width: 98px;
+        min-height: 38px;
+        transform:
+          rotate(var(--angle))
+          translateX(clamp(145px, 43vw, 235px))
+          rotate(calc(var(--angle) * -1));
+      }
+      .center-actions { position: relative; bottom: auto; left: auto; transform: none; margin-top: -22px; padding: 0 8px; }
+      .two-col { grid-template-columns: 1fr; }
+      .panel-grid { grid-template-columns: 1fr; }
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-12 { grid-column: auto; }
     }
 
-    @media (max-width: 430px) {
-      .shell, .hotkey { display: none; }
-      .watch-shell { display: grid; }
-      body { overflow: hidden; }
+    @media (max-width: 380px), (max-height: 520px) {
+      .spinner-first { padding-top: 0; }
+      h1 { font-size: 1.45rem; }
+      .hero-copy p, .side-stack .panel:not(.watch-priority) { display: none; }
+      .spinner-shell { min-height: 100svh; }
+      .penny-card { width: min(72vw, 240px); border-radius: 18px; }
+      .orbit-card {
+        width: 82px;
+        min-height: 34px;
+        font-size: 0.52rem;
+        transform:
+          rotate(var(--angle))
+          translateX(clamp(112px, 38vw, 155px))
+          rotate(calc(var(--angle) * -1));
+      }
+      .center-actions button { padding: 0.64rem 0.72rem; font-size: 0.74rem; }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <section class="frame">
-      <header class="topbar">
-        <div class="corner-card">Queen<br>of<br>Spades <span class="huge">♠</span></div>
-        <section class="brand" aria-label="WildCard DEV Penny Lucky You">
-          <div class="eyebrow">WildCard DEV</div>
-          <h1>Penny Lucky You</h1>
-          <div class="subline">♠ Personal Cell // Auto-Reply Route ♥</div>
-        </section>
-        <div class="corner-card"><span class="huge">♛♠</span><br>Hotkey<br>Penny</div>
-      </header>
-
-      <section class="hero">
-        <aside class="stack">
-          <article class="panel pad">
-            <h2>Penny Black 01</h2>
-            <div class="identity-row">
-              <div class="identity-icon">⏱</div>
-              <div><strong>State</strong><span id="stateMode">After Hours active</span></div>
+  <main class="stage">
+    <section class="spinner-first" aria-label="Active spinner-first Penny interface">
+      <aside class="side-stack hero-copy">
+        <div class="panel watch-priority">
+          <div class="panel-inner">
+            <span class="micro-label">♠ Main / Public Rally Point</span>
+            <h1>WildCard DEV</h1>
+            <p>Public front door, Penny quick-launch rally point, and visible route deck. The first object is the active spinner, not a placeholder shell.</p>
+            <div class="status-row">
+              <span class="pill"><span class="dot"></span><strong>Spinner first</strong></span>
+              <span class="pill"><span class="dot"></span><strong>PAN linked</strong></span>
+              <span class="pill"><span class="dot warn"></span><strong>Owner Gate</strong></span>
             </div>
-            <div class="identity-row">
-              <div class="identity-icon">✦</div>
-              <div><strong>Network</strong><span>PennyCore PAN</span></div>
-            </div>
-            <div class="identity-row">
-              <div class="identity-icon">▣</div>
-              <div><strong>Mode</strong><span>Personal Cell / Lucky Route</span></div>
-            </div>
-            <div class="identity-row">
-              <div class="identity-icon">Q♠</div>
-              <div><strong>Role</strong><span>Auto-reply route operator</span></div>
-            </div>
-          </article>
-          <article class="panel">
-            <div class="quote">“I answer when I’m available. You’re in good hands.”</div>
-          </article>
-          <article class="panel pad">
-            <h3>Flow</h3>
-            <ul>
-              <li>Text Penny or open the route.</li>
-              <li>Open Lucky You landing page.</li>
-              <li>Scan QR or copy Penny chip.</li>
-              <li>Launch AI helper with visible state.</li>
-              <li>Operator confirms real sends.</li>
-            </ul>
-          </article>
-        </aside>
-
-        <section class="stage" aria-label="Penny Lucky You route">
-          <div class="phone-card"><strong>Penny is in.</strong><span>I got you.</span><div style="font-size:3rem;color:var(--pink2);">♠</div></div>
-          <div class="bubble">I’ve got your back. 💋</div>
-          <article class="penny-sigil">
-            <div class="halo"></div>
-            <div>
-              <div class="avatar">Q♠</div>
-              <h2>Queen of Spades Penny</h2>
-              <p>Personal cell route. Guest mode friendly. Human-led. State packet visible.</p>
-            </div>
-          </article>
-          <article class="contact-panel">
-            <section class="contact-copy">
-              <h2>Lucky you. You found Penny’s personal cell. 💋<br>I answer texts here when I’m available.</h2>
-              <div class="contact-list">
-                <div>✉ Email: <a id="emailLink" href="#">penny@wildcarddev.com</a></div>
-                <div>◎ Web: <a href="https://www.wildcarddev.com/" target="_blank" rel="noopener noreferrer">www.WildCardDev.com</a></div>
-                <div>☎ Phone/Text: <a id="phoneLink" href="#">402-915-0798</a></div>
-              </div>
-              <div class="lucky-link" id="luckyUrl">https://labs.wildcarddev.com/?profile=guest&amp;route=lucky-you&amp;source=penny-cell</div>
-              <div class="button-row">
-                <button class="btn primary" type="button" id="openLuckyBtn">Open Lucky You</button>
-                <button class="btn" type="button" id="copyLuckyBtn">Copy Route</button>
-                <button class="btn gold" type="button" id="copyZeroBtn">Copy Zero Prompt</button>
-                <button class="btn red" type="button" id="resetBtn">Reset Room</button>
-              </div>
-            </section>
-            <aside class="qr-card">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAHCAQAAAABUY/ToAAADlklEQVR4nO2cXYqkMBCAv1qFeYwwB+ij2DeYI+2Z9gbmKHOAgeSxIVL7kESjPbAwrNvtbBWMo7YfJlBU6s+I8jXxP74IgpFGGmmkkUYaaeTzkVKkR0R6gFnkGiUf8NKTL0VE5Prg0Rr5lOSoqqoBGAPIFdCJTvEDyE9NAJ2qquqW/Po7jfwmJFktxgCMoVOd1nua8j1wCdXQKdBpVrjpXPM08jiy310LLgBxAD98oMRZIL7cpwDONU8j/x2pGmbBX6ptwqmqhrl6QUe808hzk9UOOQUiQBwQEJQ4IOOv14S/dgkitNboXPM08nDSi4jIAHKlU8bQaT4DkJ8B5Mqcw7K/9U4jvwmZ7VBrX1zK/9VfbqKQ8j3dPnW2eRp5HNnEZU1I1oRfro3QdHIJi8uM3ErO+WioSqOLqmSpSpON0eRSIUyHjKxSNMJVRYJu0RdtDE/OFI2hJBpNh4xcpGhETUJXi5QoaetsglTLGaZDRu6l1ZzQNWc1NdQVDZtqmGb+kJEbafPU/pIQ3E2AWRinuVdcQsYwlHu4gDxutEY+I7kEYiUuo1mtWKO2rkZoAfOpjdxJG9s7bdQn/7o4Svl61OWRc83TyONIdkpTXCHWQ1Gu4gWZT23knTRJxSWir5eq7XOWYzTycylr2T44o8kKFc0JNPG+6ZCRVUq9zEuX8G8JclzmFPzwUaK2MaCCSz3+LfX6uNEa+YxkG5d9lgsqSSIo9Y/VMzrXPI08jtzE9m5Z0HTpj9XULndN6HaueRp5HLnkqYHWk2596mKbcrnVaq5G7iR7PAJdrdTHPjFOoERBia9JYBYlvqiwLnLnmqeRx5PuJhBFskXyuV1x0Zd8Ngvj2ll9znkaeRSp+t7nelk+4FRFhlny5RjmolL51weP1sjnIpveDxovqCaE7jxprF5m5F7WoKu0vK7ZxrVKFljcactTG7mT2pMfh3oApPzNvfq3j179JfVSfujUej+M3IpupenOb5rO9jkjs0NG7sl134/12yC5uvq9vR8AYv8J+fV3GvnNyHFNNMaXZQuHWXRyN8mOEkut4+GjNfKpyLt9P5aMdW32qJ90ZLFah5F/IkUuCVW9CX6YhfFdZG2SXXcneo7RGvkM5H7vGMZfPYILmusf/pqjMZT4mp+w3g8jt9IU5XX9ANG1/fd1DyvAvi8z8l7W3g+W1appGCqJxuoZARbbG7kVsT3OjTTSSCONNNLI/5z8DcvvYTm72I2pAAAAAElFTkSuQmCC" alt="QR code for Penny Lucky You route" />
-              <strong>Scan to open route</strong>
-            </aside>
-          </article>
-        </section>
-
-        <aside class="stack">
-          <article class="panel pad">
-            <h3>Penny Status</h3>
-            <div class="status-board">
-              <div class="status-line"><span><i class="led"></i> After Hours</span><strong>Active</strong></div>
-              <div class="status-line"><span><i class="led"></i> Auto-Reply</span><strong>On</strong></div>
-              <div class="status-line"><span><i class="led"></i> Text/Gateway</span><strong>Online</strong></div>
-              <div class="status-line"><span><i class="led"></i> Personal Cell</span><strong>Live</strong></div>
-              <div class="status-line"><span><i class="led"></i> Reply Route</span><strong>Lucky You</strong></div>
-            </div>
-          </article>
-          <article class="panel pad">
-            <h3>Open Route Deck</h3>
-            <div id="routeStack" class="stack"></div>
-          </article>
-          <article class="panel pad">
-            <h3>PennyCore PAN</h3>
-            <p>Secure by posture, private by design, and visible by manifest. Public pages carry routes, not secrets.</p>
-          </article>
-        </aside>
-      </section>
-
-      <section class="footer-band">
-        <article class="tiny-card"><strong>Private & Controlled</strong><span>Operator confirms texts, payments, logins, hardware, and deployment.</span></article>
-        <article class="tiny-card"><strong>Personal Cell Route</strong><span>Direct visible route to Penny’s public helper surface.</span></article>
-        <article class="tiny-card"><strong>After Hours VIP</strong><span>Queen-backed. Human-led. Soft mode, sharp rails.</span></article>
-        <article class="tiny-card"><strong>AI Helper Ready</strong><span>ChatGPT helper on deck through visible prompt capsule.</span></article>
-      </section>
-
-      <section class="lower">
-        <article class="panel pad">
-          <h3>Hotkey Penny Presets</h3>
-          <p>Quick Launch Penny opens first. The second click chooses Zero, Default, After Hours, QR Portal, or Reset Room.</p>
-          <div class="button-row">
-            <button class="btn primary" data-preset="zero" type="button">Q♠ Zero</button>
-            <button class="btn" data-preset="default" type="button">Default</button>
-            <button class="btn" data-preset="afterhours" type="button">After Hours</button>
-            <button class="btn gold" data-preset="portal" type="button">Portal</button>
-            <button class="btn red" data-preset="reset" type="button">Reset</button>
           </div>
-        </article>
-        <article class="panel pad">
-          <h3>Visible State Capsule</h3>
-          <textarea id="promptBox" readonly></textarea>
-          <div class="button-row">
-            <button class="btn primary" id="copyPromptBtn" type="button">Copy Prompt</button>
-            <button class="btn" id="saveStateBtn" type="button">Save State</button>
-          </div>
-        </article>
-        <article class="panel pad">
-          <h3>State Packet</h3>
-          <pre id="statePacket">State packet ready.</pre>
-        </article>
-      </section>
-    </section>
-  </main>
-
-  <button class="hotkey" id="hotkeyBtn" type="button" aria-label="Open Hotkey Penny">Q♠<span>Hotkey Penny</span></button>
-
-  <section class="modal" id="hotkeyModal" aria-hidden="true">
-    <article class="modal-card">
-      <h2>Hotkey Penny // Second Click</h2>
-      <div class="preset-grid">
-        <button class="preset" data-preset="zero" type="button"><div class="preset-icon">Q♠</div><strong>Penny Zero</strong><span>Visible reset. Truth, inputs, triage, state.</span></button>
-        <button class="preset" data-preset="default" type="button"><div class="preset-icon">⚔</div><strong>Default</strong><span>Main operator mode. WildCard DEV routing.</span></button>
-        <button class="preset" data-preset="afterhours" type="button"><div class="preset-icon">💗</div><strong>After Hours</strong><span>Soft support mode. Still owner-gated.</span></button>
-        <button class="preset" data-preset="portal" type="button"><div class="preset-icon">◎</div><strong>QR Portal</strong><span>Open Lucky You / Labs route.</span></button>
-        <button class="preset" data-preset="reset" type="button"><div class="preset-icon">🧼</div><strong>Reset Room</strong><span>Clear drift. Reload visible state.</span></button>
-        <button class="preset" id="closeModalBtn" type="button"><div class="preset-icon">×</div><strong>Close</strong><span>Return to the deck.</span></button>
-      </div>
-    </article>
-  </section>
-
-  <main class="watch-shell">
-    <section class="watch-face-ui">
-      <div class="watch-core">
-        <div class="watch-icon">Q♠</div>
-        <h1>Hotkey Penny</h1>
-        <p>Tap once for presets. Second tap opens Zero, Route, Reset, or Labs.</p>
-        <div class="watch-grid">
-          <button class="priority" data-preset="zero" type="button">Zero</button>
-          <button data-preset="portal" type="button">QR</button>
-          <button data-preset="reset" type="button">Reset</button>
-          <a href="https://labs.wildcarddev.com/?room=roco&source=watch">Labs</a>
-          <a href="https://chatgpt.com/">ChatGPT</a>
-          <a href="https://www.wildcarddev.com/">Main</a>
         </div>
-      </div>
+        <div class="panel">
+          <div class="panel-inner">
+            <h2>Doctrine</h2>
+            <p><strong>Penny follows state, not memory.</strong> Every route creates a visible packet. Every high-impact action keeps the operator at the final gate.</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="spinner-shell" id="spinnerShell">
+        <div class="spinner-halo" aria-hidden="true"></div>
+        <div class="orbit" aria-hidden="false">
+          <button class="orbit-card" type="button" style="--i:0;--total:20" data-route="QuickSpell Penny"><span>QuickSpell Penny</span></button>
+          <button class="orbit-card" type="button" style="--i:1;--total:20" data-route="Penny Zero"><span>Penny Zero</span></button>
+          <button class="orbit-card" type="button" style="--i:2;--total:20" data-route="Reset Room"><span>Reset Room</span></button>
+          <button class="orbit-card" type="button" style="--i:3;--total:20" data-route="QR Portal"><span>QR Portal</span></button>
+          <button class="orbit-card" type="button" style="--i:4;--total:20" data-route="Dragon’s Lair Portal"><span>Dragon’s Lair Portal</span></button>
+          <button class="orbit-card" type="button" style="--i:5;--total:20" data-route="Quick Roku"><span>Quick Roku</span></button>
+          <button class="orbit-card" type="button" style="--i:6;--total:20" data-route="Star Trek"><span>Star Trek</span></button>
+          <button class="orbit-card" type="button" style="--i:7;--total:20" data-route="WildCard Pay"><span>WildCard Pay</span></button>
+          <button class="orbit-card" type="button" style="--i:8;--total:20" data-route="Stripe Portal"><span>Stripe Portal</span></button>
+          <button class="orbit-card" type="button" style="--i:9;--total:20" data-route="QuickPay"><span>QuickPay</span></button>
+          <button class="orbit-card" type="button" style="--i:10;--total:20" data-route="Gmail / Penny Inbox"><span>Gmail / Penny Inbox</span></button>
+          <button class="orbit-card" type="button" style="--i:11;--total:20" data-route="Calendar / Schedule"><span>Calendar / Schedule</span></button>
+          <button class="orbit-card" type="button" style="--i:12;--total:20" data-route="GitHub / Codespaces"><span>GitHub / Codespaces</span></button>
+          <button class="orbit-card" type="button" style="--i:13;--total:20" data-route="Alfred Viewer"><span>Alfred Viewer</span></button>
+          <button class="orbit-card" type="button" style="--i:14;--total:20" data-route="Camera Station"><span>Camera Station</span></button>
+          <button class="orbit-card" type="button" style="--i:15;--total:20" data-route="Office"><span>Office</span></button>
+          <button class="orbit-card" type="button" style="--i:16;--total:20" data-route="Labs"><span>Labs</span></button>
+          <button class="orbit-card" type="button" style="--i:17;--total:20" data-route="Party"><span>Party</span></button>
+          <button class="orbit-card" type="button" style="--i:18;--total:20" data-route="Comms"><span>Comms</span></button>
+          <button class="orbit-card" type="button" style="--i:19;--total:20" data-route="Lyft Phantom"><span>Lyft Phantom</span></button>
+        </div>
+        <button class="penny-card" type="button" id="pennyCard" aria-label="Tap Penny card to launch QuickSpell Penny">
+          <img id="pennyArt" alt="Penny Pink Queen of Spades card art" src="assets/penny/card-art/penny-quick-launch-portal.png" />
+        </button>
+        <div class="center-actions">
+          <button class="primary-action" type="button" data-action="quickspell">QuickSpell Penny</button>
+          <button type="button" data-route="Quick Roku">Quick Roku</button>
+          <button type="button" data-route="WildCard Pay">WildCard Pay</button>
+          <button type="button" data-route="Penny Zero">Return to Zero</button>
+        </div>
+      </section>
+
+      <aside class="side-stack">
+        <div class="panel">
+          <div class="panel-inner">
+            <span class="micro-label">Next safest action</span>
+            <h2>Make the real front door live</h2>
+            <p>Replace the current index with this spinner-first interface, verify Penny art loads, then install Stripe links when ready.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-inner">
+            <h2>Quick routes</h2>
+            <div class="route-chips">
+          <button class="route-chip" type="button" data-route="QuickSpell Penny">QuickSpell Penny</button>
+          <button class="route-chip" type="button" data-route="Penny Zero">Penny Zero</button>
+          <button class="route-chip" type="button" data-route="Reset Room">Reset Room</button>
+          <button class="route-chip" type="button" data-route="QR Portal">QR Portal</button>
+          <button class="route-chip" type="button" data-route="Dragon’s Lair Portal">Dragon’s Lair Portal</button>
+          <button class="route-chip" type="button" data-route="Quick Roku">Quick Roku</button>
+          <button class="route-chip" type="button" data-route="Star Trek">Star Trek</button>
+          <button class="route-chip" type="button" data-route="WildCard Pay">WildCard Pay</button>
+          <button class="route-chip" type="button" data-route="Stripe Portal">Stripe Portal</button>
+          <button class="route-chip" type="button" data-route="QuickPay">QuickPay</button>
+          <button class="route-chip" type="button" data-route="Gmail / Penny Inbox">Gmail / Penny Inbox</button>
+          <button class="route-chip" type="button" data-route="Calendar / Schedule">Calendar / Schedule</button>
+          <button class="route-chip" type="button" data-route="GitHub / Codespaces">GitHub / Codespaces</button>
+          <button class="route-chip" type="button" data-route="Alfred Viewer">Alfred Viewer</button>
+          <button class="route-chip" type="button" data-route="Camera Station">Camera Station</button>
+          <button class="route-chip" type="button" data-route="Office">Office</button>
+          <button class="route-chip" type="button" data-route="Labs">Labs</button>
+          <button class="route-chip" type="button" data-route="Party">Party</button>
+          <button class="route-chip" type="button" data-route="Comms">Comms</button>
+          <button class="route-chip" type="button" data-route="Lyft Phantom">Lyft Phantom</button>
+            </div>
+          </div>
+        </div>
+      </aside>
     </section>
+
+    <section class="panel-grid" aria-label="PennyCore state panels">
+      <article class="panel span-4">
+        <div class="panel-inner">
+          <span class="micro-label">1. Identity layer</span>
+          <h2>Queen of Spades Online</h2>
+          <dl class="kv">
+            <dt>Site</dt><dd>WildCard DEV Main</dd>
+            <dt>Operator</dt><dd>Matt T</dd>
+            <dt>Presentation</dt><dd>Spinner-first Penny / QuickSpell route deck</dd>
+            <dt>Source</dt><dd>Operator-provided PAN handoff packet</dd>
+          </dl>
+        </div>
+      </article>
+
+      <article class="panel span-4">
+        <div class="panel-inner">
+          <span class="micro-label">2. Mission card</span>
+          <h2>Public rally point</h2>
+          <p>Load Penny actual card art, expose QuickSpell immediately, and route visitors toward Comms, WildCard Pay, Office, Labs, and Party without framework soup.</p>
+        </div>
+      </article>
+
+      <article class="panel span-4">
+        <div class="panel-inner">
+          <span class="micro-label">3. Permission ledger</span>
+          <h2>Allowed versus gated</h2>
+          <ul class="list">
+            <li><strong>Allowed:</strong> conversation, planning, diagnostics, documentation, route staging, visible state packets.</li>
+            <li><strong>Gated:</strong> deletion, core modification, repo push, live deploy, financial execution, private feeds, camera, mic, location, credentials.</li>
+            <li><strong>Rule:</strong> official app/session handles authentication. Public HTML stores no secrets.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel span-7">
+        <div class="panel-inner">
+          <span class="micro-label">4. QuickSpell action packet</span>
+          <h2>Visible state chamber</h2>
+          <p>QuickSpell creates an isolated point-space card chamber from the current interface, scans safe environment signals, proves continuity, and offers Return to Zero.</p>
+          <div class="two-col">
+            <ul class="list">
+              <li><strong>Auto scan:</strong> timestamp, URL, viewport, device class, online status, local storage, asset load, backend health.</li>
+              <li><strong>Manual permission only:</strong> camera, microphone, location, notifications, screen, credentials.</li>
+            </ul>
+            <ul class="list">
+              <li><strong>Hotkey:</strong> Backspace → P within 900ms launches QuickSpell when not typing.</li>
+              <li><strong>Drift rule:</strong> may clear transient UI drift only. No canon/source-of-truth deletion without confirmation.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel span-5">
+        <div class="panel-inner">
+          <span class="micro-label">5. Money rail</span>
+          <h2>Fast hands, locked vault</h2>
+          <ul class="list">
+            <li><strong>Inbound:</strong> WildCard Pay / Stripe portal / card payment links / payment requests.</li>
+            <li><strong>Outbound:</strong> Cash App, Venmo, Chime, Bank of America, watch or phone wallet routes.</li>
+            <li><strong>Gate:</strong> Penny prepares and routes. Operator authenticates and confirms before money moves.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel span-6">
+        <div class="panel-inner">
+          <span class="micro-label">6. PAN restore packet</span>
+          <h2>Field Test: Mark 1</h2>
+          <p>Fresh instances reconstruct from explicit operator packets in three passes: visible layer, fine detail layer, and micro layer. Missing context remains UNKNOWN with confidence.</p>
+          <img class="handoff-preview" src="assets/penny/card-art/penny-pan-handoff-mark1.png" alt="PennyCore PAN handoff schematic" />
+        </div>
+      </article>
+
+      <article class="panel span-6">
+        <div class="panel-inner">
+          <span class="micro-label">7. Route output</span>
+          <h2 id="routeTitle">Ready</h2>
+          <div class="console" id="routeOutput">Tap a route card, launch QuickSpell, or use Backspace → P on desktop.</div>
+        </div>
+      </article>
+
+      <article class="panel span-12">
+        <div class="panel-inner">
+          <span class="micro-label">8. Current workspace</span>
+          <h2>Presentation Layer → State Layer → Capability Layer</h2>
+          <p>Main keeps the public entry clean: identity, quick launch, inbound payment route, comms route, and a visible bridge to the rest of the Penny Area Network.</p>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      WildCard DEV / PennyCore · Main route card online · Public page uses route staging only. No private tokens, passwords, payment secrets, or hidden recording.
+    </footer>
   </main>
 
   <script>
-    const CONFIG = {
-      main: "https://www.wildcarddev.com/",
-      labs: "https://labs.wildcarddev.com/",
-      lucky: "https://labs.wildcarddev.com/?profile=guest&route=lucky-you&source=penny-cell",
-      office: "https://office.wildcarddev.com/",
-      party: "https://party.wildcarddev.com/",
-      discord: "https://discord.com/channels/@me",
-      chatgpt: "https://chatgpt.com/",
-      email: "penny@wildcarddev.com",
-      phoneText: "402-915-0798",
-      phoneHref: "tel:+14029150798"
+    const PENNY_CONFIG = {
+      siteName: 'WildCard DEV Main',
+      room: 'Main / Public Rally Point',
+      primaryArt: 'assets/penny/card-art/penny-quick-launch-portal.png',
+      artFallbacks: [
+        'assets/penny/card-art/penny-qos-private-access.png',
+        'assets/penny/card-art/penny_pink_neon_queen_of_spades.png',
+        'assets/penny/card-art/penny_qos_front.png',
+        'assets/penny/card-art/penny-qos-front.png',
+        'assets/penny/card-art/penny-front.png'
+      ],
+      stripePaymentLinkUrl: '',
+      stripePortalUrl: '',
+      routes: {
+        'Main': 'https://www.wildcarddev.com/',
+        'Labs': 'https://labs.wildcarddev.com/',
+        'Office': 'https://office.wildcarddev.com/',
+        'Party': 'https://party.wildcarddev.com/',
+        'GitHub / Codespaces': 'https://github.com/codespaces',
+        'Gmail / Penny Inbox': 'https://mail.google.com/mail/u/0/#label/Penny',
+        'Calendar / Schedule': 'https://calendar.google.com/calendar/u/0/r/eventedit',
+        'Cash App': 'https://cash.app/',
+        'Venmo': 'https://venmo.com/',
+        'Chime': 'https://www.chime.com/',
+        'Bank of America': 'https://www.bankofamerica.com/',
+        'Alfred Viewer': '',
+        'Camera Station': '',
+        'Quick Roku': '',
+        'Star Trek': '',
+        'WildCard Pay': '',
+        'Stripe Portal': ''
+      }
     };
 
-    const RESET_PROMPT = `PENNYCORE HOTKEY ZERO
-Activation phrases:
-- "Let's get you out of those wet clothes."
-- "Okay, babe, reset the room."
+    const pennyArt = document.getElementById('pennyArt');
+    const routeTitle = document.getElementById('routeTitle');
+    const routeOutput = document.getElementById('routeOutput');
+    let fallbackIndex = 0;
+    let pennyArtLoaded = false;
+    let lastBackspaceAt = 0;
 
-Mode: Visible artifact reload.
-Rules: Truth first. State first. Permission first. No hidden memory claims. No covert action. No owner-gate bypass.
-Action: Read the visible card or manifest, stabilize, summarize current state, and give the next safest action.
-Signature: Drag the deck, honey.`;
+    pennyArt.addEventListener('load', () => { pennyArtLoaded = true; }, { once: true });
+    pennyArt.addEventListener('error', () => {
+      if (fallbackIndex < PENNY_CONFIG.artFallbacks.length) {
+        pennyArt.src = PENNY_CONFIG.artFallbacks[fallbackIndex++];
+      } else {
+        pennyArt.alt = 'Penny card art missing. Check assets/penny/card-art/.';
+        pennyArtLoaded = false;
+      }
+    });
 
-    const routes = [
-      { id: "lucky", label: "Lucky You", icon: "💋", tier: "Personal Cell", url: CONFIG.lucky, action: "Open Penny Lucky You route.", tags: ["guest", "cell", "auto-reply"] },
-      { id: "zero", label: "Penny Zero", icon: "Q♠", tier: "Reset", url: CONFIG.chatgpt, action: "Copy Zero prompt, open AI helper, reload visible state.", tags: ["reset", "truth", "state"] },
-      { id: "labs", label: "Roco Room", icon: "📺", tier: "Labs", url: CONFIG.labs, action: "Open Labs as the Roco Room.", tags: ["watch", "roco", "labs"] },
-      { id: "office", label: "Office", icon: "🏢", tier: "Gated", url: CONFIG.office, action: "Open Penny Office. Owner Gate remains manual.", tags: ["gate", "office", "manual"] },
-      { id: "party", label: "Party", icon: "🎉", tier: "Social", url: CONFIG.party, action: "Open Party front-room route.", tags: ["social", "front", "guest"] },
-      { id: "discord", label: "Discord", icon: "💬", tier: "Backchannel", url: CONFIG.discord, action: "Open Discord. Send manually.", tags: ["comms", "manual", "backup"] }
-    ];
-
-    let selectedRouteId = localStorage.getItem("wcdev:luckyRoute") || "lucky";
-    let activePreset = localStorage.getItem("wcdev:hotkeyPreset") || "afterhours";
-
-    const routeStack = document.getElementById("routeStack");
-    const statePacket = document.getElementById("statePacket");
-    const promptBox = document.getElementById("promptBox");
-    const hotkeyModal = document.getElementById("hotkeyModal");
-    const luckyUrl = document.getElementById("luckyUrl");
-
-    function currentRoute() {
-      return routes.find((route) => route.id === selectedRouteId) || routes[0];
-    }
-
-    function surface() {
+    function deviceClass() {
       const w = window.innerWidth;
-      if (w <= 430) return "watch";
-      if (w <= 720) return "mobile";
-      if (w <= 1180) return "tablet";
-      return "desktop";
+      const h = window.innerHeight;
+      if (w <= 380 || h <= 520) return 'watch / tiny viewport';
+      if (w <= 720) return 'phone';
+      if (w <= 1100) return 'tablet / compact desktop';
+      return 'desktop command room';
     }
 
-    function currentPrompt() {
-      const route = currentRoute();
-      return `PENNYCORE / WILDCARD DEV / LUCKY YOU LOAD-IN
-
-Load this as a visible state capsule only.
-
-Room: WildCard DEV Main
-Mode: Penny Lucky You
-Active preset: ${activePreset}
-Selected route: ${route.label}
-Route URL: ${route.url}
-
-Activation phrases:
-- "Let's get you out of those wet clothes."
-- "Okay, babe, reset the room."
-
-Rules:
-- Penny follows state, not memory.
-- Use visible artifacts only.
-- No hidden memory claims.
-- No covert action.
-- No credential, payment, login, message, call, deployment, or hardware execution without operator confirmation.
-- Owner Gate stays manual.
-
-Next safest action:
-${route.action}
-
-Signature:
-Drag the deck, honey.`;
+    function storageStatus() {
+      try {
+        const key = '__penny_probe__';
+        localStorage.setItem(key, '1');
+        localStorage.removeItem(key);
+        return 'available';
+      } catch (error) {
+        return 'unavailable';
+      }
     }
 
-    function packet() {
-      const route = currentRoute();
+    async function backendStatus() {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 850);
+        const res = await fetch('/health', { cache: 'no-store', signal: controller.signal });
+        clearTimeout(timeout);
+        return res.ok ? 'available /health' : 'unavailable /health returned ' + res.status;
+      } catch (error) {
+        return 'UNKNOWN / static or offline';
+      }
+    }
+
+    async function buildStatePacket(trigger) {
+      const backend = await backendStatus();
       return {
-        packet: "PENNYCORE_WILDCARD_MAIN_LUCKY_YOU",
-        version: "MAIN-LUCKY-YOU-001",
-        timestamp: new Date().toISOString(),
-        room: "WildCard DEV Main",
-        activePreset,
-        selectedRoute: route,
-        surface: surface(),
-        publicContactBlock: {
-          email: CONFIG.email,
-          phoneText: CONFIG.phoneText,
-          note: "Public contact details are configurable in CONFIG."
+        identity_layer: {
+          assistant: 'PennyCore / Penny Pink / Queen of Spades',
+          operator: 'Matt T',
+          site: PENNY_CONFIG.siteName,
+          room: PENNY_CONFIG.room
         },
-        activationPhrases: [
-          "Let's get you out of those wet clothes.",
-          "Let's get you out of these wet clothes.",
-          "Okay, babe, reset the room."
-        ],
-        safetyRules: [
-          "Visible manifest only.",
-          "No hidden memory claims.",
-          "No covert prompt injection.",
-          "No permission escalation.",
-          "Operator confirms real execution."
-        ],
-        nextSafestAction: route.action
+        trigger,
+        timestamp: new Date().toISOString(),
+        current_url: location.href,
+        route_query: location.search || 'none',
+        viewport: { width: innerWidth, height: innerHeight, device_class_guess: deviceClass() },
+        online_status: navigator.onLine ? 'online' : 'offline',
+        user_agent: navigator.userAgent,
+        local_storage: storageStatus(),
+        backend_availability: backend,
+        penny_art_path_status: pennyArtLoaded ? 'loaded' : 'UNKNOWN / check asset aliases',
+        permission_gates: ['camera manual only','microphone manual only','location manual only','notifications manual only','credentials never stored in public HTML'],
+        next_safest_action: 'Make the real front door live'
       };
     }
 
-    function renderRoutes() {
-      routeStack.innerHTML = "";
-      routes.forEach((route) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "route-chip" + (route.id === selectedRouteId ? " active" : "") + (route.id === "zero" ? " hot" : "");
-        button.innerHTML = `<span class="route-icon">${route.icon}</span><span><strong>${route.label}</strong><span>${route.tier}</span></span>`;
-        button.addEventListener("click", () => {
-          selectedRouteId = route.id;
-          localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
-          render();
-        });
-        routeStack.appendChild(button);
-      });
-    }
-
-    function render() {
-      document.getElementById("emailLink").href = "mailto:" + CONFIG.email;
-      document.getElementById("emailLink").textContent = CONFIG.email;
-      document.getElementById("phoneLink").href = CONFIG.phoneHref;
-      document.getElementById("phoneLink").textContent = CONFIG.phoneText;
-      luckyUrl.textContent = CONFIG.lucky;
-      renderRoutes();
-      promptBox.value = currentPrompt();
-      statePacket.textContent = JSON.stringify(packet(), null, 2);
-      document.getElementById("stateMode").textContent = activePreset + " active";
-    }
-
-    async function copyText(text, button, fallbackLabel) {
+    async function launchQuickSpell(trigger = 'button') {
+      routeTitle.textContent = 'QuickSpell Penny launched';
+      routeOutput.textContent = 'Scanning safe visible state…';
+      const packet = await buildStatePacket(trigger);
+      routeOutput.textContent = JSON.stringify(packet, null, 2);
       try {
-        await navigator.clipboard.writeText(text);
-        if (button) {
-          const old = button.textContent;
-          button.textContent = "Copied";
-          setTimeout(() => button.textContent = fallbackLabel || old, 1100);
-        }
-      } catch {
-        if (button) {
-          const old = button.textContent;
-          button.textContent = "Copy Failed";
-          setTimeout(() => button.textContent = fallbackLabel || old, 1300);
-        }
+        localStorage.setItem('pennycore:lastQuickSpellPacket', JSON.stringify(packet));
+      } catch (error) {}
+    }
+
+    function routePacket(route) {
+      const financeRoutes = ['QuickPay','WildCard Pay','Stripe Portal','Cash App','Venmo','Chime','Bank of America','Emergency Funds Route','Card Lock','Balance Check'];
+      const privateRoutes = ['Alfred Viewer','Camera Station','Quick Roku','Star Trek'];
+      const routeUrl = PENNY_CONFIG.routes[route] || '';
+      const isFinance = financeRoutes.includes(route);
+      const isPrivate = privateRoutes.includes(route);
+      const packet = {
+        route,
+        site: PENNY_CONFIG.siteName,
+        timestamp: new Date().toISOString(),
+        intent: describeIntent(route),
+        execution: routeUrl ? 'Open official route in authenticated browser/app session.' : 'Placeholder route. Add official URL or native app bridge before live execution.',
+        url_available: Boolean(routeUrl),
+        url: routeUrl || 'PENDING',
+        permission_gate: isFinance ? 'FINANCIAL OWNER GATE REQUIRED' : isPrivate ? 'PRIVATE/DEVICE OWNER GATE REQUIRED' : 'VISIBLE OPERATOR CONFIRMATION',
+        safety: safetyFor(route)
+      };
+      routeTitle.textContent = route;
+      routeOutput.textContent = JSON.stringify(packet, null, 2);
+      if (routeUrl && confirm('Open route: ' + route + '?')) {
+        window.open(routeUrl, '_blank', 'noopener,noreferrer');
       }
     }
 
-    function openRoute(id) {
-      const route = id ? routes.find((item) => item.id === id) : currentRoute();
-      window.open((route || currentRoute()).url, "_blank", "noopener,noreferrer");
+    function describeIntent(route) {
+      const intents = {
+        'QuickSpell Penny': 'Create visible state chamber, scan allowed signals, offer Return to Zero.',
+        'Penny Zero': 'Return interface to known-good zero state without deleting canon.',
+        'Reset Room': 'Clear transient UI drift and rebuild visible packet.',
+        'QR Portal': 'Prepare a scannable route surface or QR handoff page.',
+        'Dragon’s Lair Portal': 'Open operational rail stack: Roku, Alfred, camera, comms, manual confirm.',
+        'Quick Roku': 'Stage Roku / TV control route. Operator uses official device/session controls.',
+        'Star Trek': 'Stage watch-next entertainment route through official subscribed app/interface.',
+        'WildCard Pay': 'Accept inbound payment through official WildCard DEV / Stripe payment route.',
+        'Stripe Portal': 'Open official Stripe payment/customer portal once link is installed.',
+        'QuickPay': 'Prepare outbound money action packet. Operator authenticates and confirms in official app.',
+        'Gmail / Penny Inbox': 'Open Penny-labeled Gmail workflow.',
+        'Calendar / Schedule': 'Open authenticated calendar event creation flow.',
+        'GitHub / Codespaces': 'Open official Codespaces editor for visible patch/replacement flow.',
+        'Alfred Viewer': 'Open official Alfred viewer/session. No public feed embedding.',
+        'Camera Station': 'Open official camera surface. No silent recording.',
+        'Lyft Phantom': 'Stage transportation route. Operator confirms trip in official app.'
+      };
+      return intents[route] || 'Stage visible route packet for operator review.';
     }
 
-    function setPreset(preset) {
-      activePreset = preset;
-      localStorage.setItem("wcdev:hotkeyPreset", activePreset);
-      if (preset === "portal") {
-        selectedRouteId = "lucky";
-        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
-        openRoute("lucky");
-      }
-      if (preset === "reset" || preset === "zero") {
-        selectedRouteId = "zero";
-        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
-      }
-      hotkeyModal.classList.remove("active");
-      hotkeyModal.setAttribute("aria-hidden", "true");
-      render();
+    function safetyFor(route) {
+      if (['WildCard Pay','Stripe Portal'].includes(route)) return 'Inbound payment links are allowed on public pages. Secret keys, webhooks, refunds, disputes, and customer records stay private/server-side.';
+      if (['QuickPay','Cash App','Venmo','Chime','Bank of America','Emergency Funds Route','Card Lock','Balance Check'].includes(route)) return 'No silent transfers, no stored credentials, no MFA bypass. Operator confirms inside official app/interface.';
+      if (['Alfred Viewer','Camera Station'].includes(route)) return 'No passwords or private feeds in static HTML. Use official authenticated surfaces only.';
+      if (['Quick Roku','Star Trek'].includes(route)) return 'No DRM, subscription, login, or payment bypass. Route to official controls only.';
+      if (['GitHub / Codespaces'].includes(route)) return 'No stored GitHub tokens in public HTML. Operator confirms file changes, commit, and push.';
+      return 'Visible route staging. High-impact actions require confirmation.';
     }
 
-    document.getElementById("openLuckyBtn").addEventListener("click", () => window.open(CONFIG.lucky, "_blank", "noopener,noreferrer"));
-    document.getElementById("copyLuckyBtn").addEventListener("click", (event) => copyText(CONFIG.lucky, event.currentTarget, "Copy Route"));
-    document.getElementById("copyZeroBtn").addEventListener("click", (event) => copyText(RESET_PROMPT, event.currentTarget, "Copy Zero Prompt"));
-    document.getElementById("copyPromptBtn").addEventListener("click", (event) => copyText(currentPrompt(), event.currentTarget, "Copy Prompt"));
-    document.getElementById("saveStateBtn").addEventListener("click", (event) => {
-      localStorage.setItem("wcdev:mainLuckyPacket", JSON.stringify(packet()));
-      event.currentTarget.textContent = "Saved";
-      setTimeout(() => event.currentTarget.textContent = "Save State", 1100);
+    document.querySelectorAll('[data-action="quickspell"]').forEach((button) => {
+      button.addEventListener('click', () => launchQuickSpell('button'));
     });
-    document.getElementById("resetBtn").addEventListener("click", () => setPreset("reset"));
-    document.getElementById("hotkeyBtn").addEventListener("click", () => {
-      hotkeyModal.classList.add("active");
-      hotkeyModal.setAttribute("aria-hidden", "false");
-    });
-    document.getElementById("closeModalBtn").addEventListener("click", () => {
-      hotkeyModal.classList.remove("active");
-      hotkeyModal.setAttribute("aria-hidden", "true");
-    });
-    document.querySelectorAll("[data-preset]").forEach((button) => button.addEventListener("click", () => setPreset(button.dataset.preset)));
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        hotkeyModal.classList.remove("active");
-        hotkeyModal.setAttribute("aria-hidden", "true");
-      }
-      if (event.key.toLowerCase() === "h") {
-        hotkeyModal.classList.add("active");
-        hotkeyModal.setAttribute("aria-hidden", "false");
-      }
-    });
-    window.addEventListener("resize", render);
 
-    window.pennyCue = function pennyCue(input) {
-      const cue = String(input || "").toLowerCase();
-      if (cue.includes("wet clothes") || cue.includes("reset the room")) return setPreset("zero");
-      if (cue.includes("after hours")) return setPreset("afterhours");
-      if (cue.includes("portal") || cue.includes("qr")) return setPreset("portal");
-      if (cue.includes("labs") || cue.includes("roco")) {
-        selectedRouteId = "labs";
-        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
-        render();
-      }
-    };
+    document.getElementById('pennyCard').addEventListener('click', () => launchQuickSpell('penny-card-tap'));
 
-    render();
+    document.querySelectorAll('[data-route]').forEach((button) => {
+      button.addEventListener('click', (event) => routePacket(event.currentTarget.dataset.route));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const target = event.target;
+      const tag = target && target.tagName ? target.tagName.toLowerCase() : '';
+      const typing = tag === 'input' || tag === 'textarea' || tag === 'select' || (target && target.isContentEditable);
+      if (typing) return;
+      if (event.key === 'Backspace') {
+        lastBackspaceAt = Date.now();
+        return;
+      }
+      if ((event.key === 'p' || event.key === 'P') && Date.now() - lastBackspaceAt <= 900) {
+        event.preventDefault();
+        launchQuickSpell('Backspace→P hotkey');
+      }
+    });
   </script>
 </body>
 </html>
