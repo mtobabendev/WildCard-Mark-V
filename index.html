@@ -1,1028 +1,1247 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <meta name="theme-color" content="#05000a" />
-  <title>WildCard DEV // PennyCore BIOS Spinner</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WildCard DEV // Penny Lucky You</title>
   <style>
     :root {
-      --bg0: #050008;
-      --bg1: #14001d;
-      --hot: #ff79c8;
-      --pink: #ff4fd8;
-      --violet: #8f5cff;
-      --cyan: #67e8ff;
-      --green: #7dffb2;
-      --text: #fff7ff;
-      --muted: #dcc7ec;
-      --line: rgba(255, 121, 200, 0.52);
-      --glass: rgba(14, 4, 26, 0.94);
-      --cardW: min(68vw, 188px);
-      --cardH: calc(var(--cardW) * 1.42);
-      --deckLift: 0px;
+      --bg: #05050a;
+      --panel: rgba(10, 7, 16, 0.88);
+      --panel-strong: rgba(15, 8, 24, 0.96);
+      --pink: #ff4fb7;
+      --pink2: #ff9bd8;
+      --pink3: #ff1e9f;
+      --violet: #9b7cff;
+      --blue: #65a7ff;
+      --green: #66ff99;
+      --gold: #ffd166;
+      --red: #ff4f72;
+      --text: #fff5fb;
+      --muted: #cfc3dc;
+      --line: rgba(255, 79, 183, 0.44);
+      --line2: rgba(255, 155, 216, 0.28);
+      --shadow: 0 26px 80px rgba(0, 0, 0, 0.62);
+      --radius: 26px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 8%, rgba(255, 79, 183, 0.22), transparent 25%),
+        radial-gradient(circle at 78% 18%, rgba(155, 124, 255, 0.20), transparent 30%),
+        radial-gradient(circle at 50% 58%, rgba(255, 30, 159, 0.14), transparent 38%),
+        linear-gradient(180deg, #080814 0%, #07020b 48%, #030306 100%);
+      color: var(--text);
+      font-family: var(--font);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
       position: fixed;
       inset: 0;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 50% 16%, rgba(255, 79, 216, 0.24), transparent 34%),
-        radial-gradient(circle at 50% 58%, rgba(103, 232, 255, 0.11), transparent 34%),
-        linear-gradient(160deg, var(--bg0), var(--bg1) 56%, #030005);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overscroll-behavior: none;
-      touch-action: none;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 79, 183, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 79, 183, 0.045) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at center, black 0%, transparent 82%);
+      z-index: 0;
     }
 
-    body {
-      display: grid;
-      place-items: center;
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), transparent 8%, transparent 92%, rgba(255,79,183,0.05));
+      mix-blend-mode: screen;
+      z-index: 0;
     }
 
-    a, button {
-      font: inherit;
-      color: inherit;
-      text-decoration: none;
-      touch-action: manipulation;
-    }
+    a { color: inherit; text-decoration: none; }
+    button { border: 0; cursor: pointer; color: inherit; font: inherit; }
 
-    .app {
+    .shell {
       position: relative;
-      width: 100vw;
-      height: 100svh;
+      z-index: 1;
+      width: min(1540px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 14px 0 34px;
+    }
+
+    .frame {
+      border: 1px solid rgba(255, 79, 183, 0.42);
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(14, 7, 22, 0.94), rgba(4, 4, 10, 0.94));
+      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,0.035);
       overflow: hidden;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 130px 1fr 130px;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 22px 12px;
+      border-bottom: 1px solid rgba(255, 79, 183, 0.28);
+      background:
+        linear-gradient(90deg, rgba(255,79,183,0.10), transparent 24%, transparent 76%, rgba(255,79,183,0.10)),
+        rgba(0,0,0,0.22);
+    }
+
+    .corner-card {
+      min-height: 104px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
       display: grid;
       place-items: center;
-      perspective: 980px;
-      touch-action: none;
-    }
-
-    .route-label {
-      position: absolute;
-      top: max(8px, env(safe-area-inset-top));
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(82vw, 300px);
       text-align: center;
-      color: var(--hot);
-      font-size: clamp(0.54rem, 2.9vw, 0.72rem);
-      letter-spacing: 0.12em;
+      color: var(--pink2);
+      font-weight: 950;
       text-transform: uppercase;
-      pointer-events: none;
-      text-shadow: 0 0 12px rgba(255, 79, 216, 0.72);
-      z-index: 8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      letter-spacing: 0.12em;
+      background: rgba(255, 79, 183, 0.07);
+      box-shadow: inset 0 0 28px rgba(255,79,183,0.08);
     }
 
-    .layer-badge {
-      position: absolute;
-      top: max(34px, calc(env(safe-area-inset-top) + 28px));
-      left: 50%;
-      transform: translateX(-50%);
-      min-width: 128px;
-      padding: 5px 10px;
+    .corner-card .huge {
+      display: block;
+      margin-top: 4px;
+      font-size: 2.3rem;
+      line-height: 1;
+      text-shadow: 0 0 22px rgba(255,79,183,0.9);
+    }
+
+    .brand {
       text-align: center;
-      border: 1px solid rgba(103, 232, 255, 0.26);
+    }
+
+    .brand .eyebrow {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.58em;
+      font-weight: 950;
+      font-size: 0.86rem;
+    }
+
+    .brand h1 {
+      margin-top: 6px;
+      font-size: clamp(2.4rem, 7.8vw, 6.8rem);
+      line-height: 0.84;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--pink2);
+      text-shadow: 0 0 18px rgba(255,79,183,0.65), 0 0 54px rgba(255,79,183,0.35);
+    }
+
+    .brand .subline {
+      width: min(680px, 100%);
+      margin: 12px auto 0;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 79, 183, 0.38);
       border-radius: 999px;
-      background: rgba(103, 232, 255, 0.08);
-      color: var(--cyan);
-      font-size: clamp(0.46rem, 2.4vw, 0.62rem);
-      font-weight: 900;
-      letter-spacing: 0.12em;
+      color: var(--pink2);
+      font-weight: 950;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      pointer-events: none;
-      z-index: 8;
-      box-shadow: 0 0 18px rgba(103, 232, 255, 0.08);
+      background: rgba(255,79,183,0.08);
+      font-size: 0.82rem;
     }
 
-    .halo {
-      position: absolute;
-      width: min(92vw, 365px);
-      height: min(92vw, 365px);
-      border-radius: 50%;
-      border: 1px solid rgba(255, 121, 200, 0.22);
-      box-shadow:
-        0 0 38px rgba(255, 79, 216, 0.26),
-        inset 0 0 46px rgba(143, 92, 255, 0.12);
-      pointer-events: none;
-      transform: translateY(var(--deckLift));
-      transition: transform 150ms ease;
+    .hero {
+      display: grid;
+      grid-template-columns: 290px 1fr 330px;
+      gap: 18px;
+      padding: 18px 22px 20px;
     }
 
-    .halo::before,
-    .halo::after {
+    .stack {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .panel {
+      border: 1px solid rgba(255, 79, 183, 0.32);
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(255,79,183,0.08), transparent 42%),
+        rgba(0,0,0,0.32);
+      box-shadow: inset 0 0 26px rgba(255,79,183,0.05);
+      overflow: hidden;
+    }
+
+    .panel.pad { padding: 15px; }
+
+    .panel h2,
+    .panel h3 {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+
+    .panel p,
+    .panel li {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .panel ul {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .panel li::before {
+      content: "♠";
+      color: var(--pink);
+      margin-right: 8px;
+    }
+
+    .identity-row {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255, 79, 183, 0.15);
+    }
+
+    .identity-row:last-child { border-bottom: 0; }
+
+    .identity-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--pink2);
+      background: rgba(255,79,183,0.08);
+      font-size: 1.25rem;
+      box-shadow: 0 0 18px rgba(255,79,183,0.08);
+    }
+
+    .identity-row strong {
+      display: block;
+      color: var(--pink2);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .identity-row span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.3;
+    }
+
+    .quote {
+      padding: 18px;
+      color: #f5d7ea;
+      font-size: 1.03rem;
+      font-style: italic;
+      line-height: 1.45;
+      border-top: 1px solid rgba(255,79,183,0.22);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .stage {
+      min-height: 760px;
+      position: relative;
+      border: 1px solid rgba(255, 79, 183, 0.25);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 79, 183, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(16,8,24,0.2), rgba(0,0,0,0.38)),
+        repeating-linear-gradient(90deg, rgba(255,79,183,0.06) 0 1px, transparent 1px 74px);
+      overflow: hidden;
+    }
+
+    .stage::before {
       content: "";
       position: absolute;
+      left: 50%;
+      top: 32%;
+      width: min(470px, 74vw);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
-      pointer-events: none;
+      border: 1px solid rgba(255, 79, 183, 0.38);
+      box-shadow: 0 0 40px rgba(255,79,183,0.45), inset 0 0 38px rgba(255,79,183,0.18);
     }
 
-    .halo::before {
-      inset: 9%;
-      border: 1px dashed rgba(255, 121, 200, 0.34);
-      animation: breathe 4s ease-in-out infinite;
-    }
-
-    .halo::after {
-      inset: 31%;
-      border: 1px solid rgba(103, 232, 255, 0.18);
-      box-shadow: inset 0 0 22px rgba(103, 232, 255, 0.12);
-    }
-
-    .wings {
+    .penny-sigil {
       position: absolute;
-      width: min(88vw, 330px);
-      height: min(34vw, 120px);
-      border-radius: 999px;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, transparent, rgba(255, 121, 200, 0.18), transparent),
-        radial-gradient(ellipse at 50% 50%, rgba(103, 232, 255, 0.08), transparent 58%);
-      opacity: 0.95;
-      transform: translateY(var(--deckLift));
-      transition: transform 150ms ease;
-    }
-
-    .deck {
-      position: absolute;
-      inset: 0;
+      left: 50%;
+      top: 35%;
+      width: min(390px, 64vw);
+      min-height: 390px;
+      transform: translate(-50%, -50%);
       display: grid;
       place-items: center;
-      transform-style: preserve-3d;
-      touch-action: none;
-      transform: translateY(var(--deckLift));
-      transition: transform 150ms ease;
-      z-index: 5;
+      text-align: center;
+      border-radius: 48px;
+      border: 1px solid rgba(255, 79, 183, 0.34);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,155,216,0.22), transparent 24%),
+        linear-gradient(180deg, rgba(255,79,183,0.16), rgba(0,0,0,0.38));
+      box-shadow: 0 0 50px rgba(255,79,183,0.23);
     }
 
-    .card {
-      --x: 0px;
-      --z: 0px;
-      --ry: 0deg;
-      --scale: 1;
-      --op: 1;
-      --blur: 0px;
-      --flip: 0deg;
+    .penny-sigil .halo {
       position: absolute;
-      width: var(--cardW);
-      height: var(--cardH);
-      padding: 0;
-      border: 0;
-      background: transparent;
-      color: inherit;
-      transform-style: preserve-3d;
-      transform:
-        translateX(var(--x))
-        translateZ(var(--z))
-        rotateY(var(--ry))
-        scale(var(--scale));
-      opacity: var(--op);
-      filter: blur(var(--blur)) saturate(1.08);
-      transition:
-        transform 110ms ease,
-        opacity 110ms ease,
-        filter 110ms ease;
-      touch-action: none;
-      pointer-events: none;
+      top: 42px;
+      width: 190px;
+      height: 32px;
+      border: 8px solid rgba(255, 79, 183, 0.72);
+      border-radius: 50%;
+      filter: blur(0.2px) drop-shadow(0 0 16px rgba(255,79,183,0.85));
+      transform: rotate(-8deg);
     }
 
-    .card.active {
-      pointer-events: auto;
-      z-index: 30;
+    .penny-sigil .avatar {
+      width: 192px;
+      height: 192px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 48px auto 18px;
+      color: var(--pink2);
+      font-size: 5.6rem;
+      background:
+        radial-gradient(circle at center, rgba(255,155,216,0.30), transparent 56%),
+        rgba(0,0,0,0.30);
+      border: 1px solid rgba(255, 155, 216, 0.36);
+      text-shadow: 0 0 24px rgba(255,79,183,0.9);
     }
 
-    .card-inner {
+    .penny-sigil h2 {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 1.25rem;
+    }
+
+    .penny-sigil p {
+      width: min(300px, 84%);
+      margin: 12px auto 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .phone-card {
       position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      transform-style: preserve-3d;
-      transform: rotateY(var(--flip));
-      transition: transform 240ms cubic-bezier(.2,.8,.2,1);
-    }
-
-    .card.flipped .card-inner {
-      --flip: 180deg;
-    }
-
-    .face {
-      position: absolute;
-      inset: 0;
+      right: clamp(16px, 7%, 68px);
+      top: clamp(28px, 8%, 86px);
+      width: 148px;
+      min-height: 220px;
+      border: 1px solid rgba(255,155,216,0.45);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #130617, #07030b);
+      padding: 14px;
+      box-shadow: 0 0 28px rgba(255,79,183,0.30);
+      transform: rotate(-7deg);
       display: grid;
       align-content: center;
-      justify-items: center;
-      gap: 7px;
-      padding: 13px 10px;
-      border-radius: 20px;
-      backface-visibility: hidden;
-      overflow: hidden;
-      border: 1px solid var(--line);
+      text-align: center;
+      gap: 10px;
+    }
+
+    .phone-card strong {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+    }
+
+    .phone-card span {
+      color: var(--green);
+      font-size: 0.76rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .bubble {
+      position: absolute;
+      left: 6%;
+      bottom: 43%;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 79, 183, 0.4);
+      border-radius: 22px;
+      color: var(--pink2);
+      background: rgba(0,0,0,0.35);
+      font-style: italic;
+      font-size: 1.05rem;
+      box-shadow: 0 0 24px rgba(255,79,183,0.18);
+    }
+
+    .contact-panel {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 16px;
+      align-items: stretch;
+      padding: 18px;
+      border: 1px solid rgba(255, 79, 183, 0.38);
+      border-radius: 24px;
       background:
-        radial-gradient(circle at 50% 20%, rgba(255, 79, 216, 0.28), transparent 38%),
-        linear-gradient(150deg, rgba(255, 121, 200, 0.17), rgba(8, 0, 16, 0.98));
-      box-shadow:
-        0 0 22px rgba(255, 79, 216, 0.36),
-        inset 0 0 18px rgba(255, 121, 200, 0.08);
+        linear-gradient(135deg, rgba(16, 8, 24, 0.96), rgba(3, 3, 8, 0.96)),
+        radial-gradient(circle at left, rgba(255,79,183,0.16), transparent 34%);
+      box-shadow: 0 0 38px rgba(0,0,0,0.42);
+    }
+
+    .contact-copy h2 {
+      color: var(--text);
+      font-size: clamp(1.1rem, 2.4vw, 1.75rem);
+      line-height: 1.28;
+      margin-bottom: 12px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .contact-list a,
+    .contact-list span.pink {
+      color: var(--pink2);
+      font-weight: 950;
+    }
+
+    .lucky-link {
+      margin-top: 14px;
+      border: 1px solid rgba(255,79,183,0.52);
+      border-radius: 999px;
+      padding: 14px 16px;
+      color: var(--pink2);
+      background: rgba(255,79,183,0.10);
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-weight: 900;
+      word-break: break-word;
+      text-align: center;
+      box-shadow: inset 0 0 24px rgba(255,79,183,0.06);
+    }
+
+    .qr-card {
+      padding: 14px;
+      border: 1px solid rgba(255,79,183,0.34);
+      border-radius: 20px;
+      background: rgba(255,79,183,0.07);
+      display: grid;
+      gap: 9px;
       text-align: center;
     }
 
-    .face::before {
-      content: attr(data-rank);
-      position: absolute;
-      top: 8px;
-      left: 10px;
-      color: var(--hot);
-      font-size: 0.8rem;
-      font-weight: 950;
-      letter-spacing: 0.02em;
+    .qr-card img {
+      width: 100%;
+      max-width: 210px;
+      aspect-ratio: 1;
+      object-fit: contain;
+      margin: 0 auto;
+      border-radius: 18px;
+      image-rendering: pixelated;
+      background: #ff9bd8;
+      box-shadow: 0 0 28px rgba(255,79,183,0.25);
     }
 
-    .face::after {
-      content: "♠";
-      position: absolute;
-      right: 10px;
-      bottom: 7px;
-      color: var(--hot);
-      font-size: 0.95rem;
-    }
-
-    .back {
-      transform: rotateY(180deg);
-      background:
-        radial-gradient(circle at 50% 18%, rgba(103, 232, 255, 0.18), transparent 34%),
-        linear-gradient(150deg, rgba(143, 92, 255, 0.24), rgba(8, 0, 16, 0.98));
-    }
-
-    .penny-card .front {
-      background:
-        radial-gradient(circle at 50% 8%, rgba(255, 121, 200, 0.34), transparent 36%),
-        radial-gradient(circle at 50% 62%, rgba(103, 232, 255, 0.08), transparent 42%),
-        linear-gradient(150deg, rgba(255, 121, 200, 0.2), rgba(7, 0, 14, 0.98));
-    }
-
-    .sigil {
-      font-size: clamp(1.72rem, 12vw, 3.35rem);
-      line-height: 0.9;
-      color: var(--hot);
-      text-shadow: 0 0 20px rgba(255, 79, 216, 0.88);
-    }
-
-    .penny-card .sigil {
-      font-size: clamp(2.35rem, 16vw, 4rem);
-    }
-
-    .title {
-      font-size: clamp(0.94rem, 5.1vw, 1.36rem);
-      font-weight: 950;
-      line-height: 1;
-      letter-spacing: 0.04em;
+    .qr-card strong {
+      color: var(--pink2);
       text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
     }
 
-    .sub {
-      max-width: 94%;
+    .status-board {
+      display: grid;
+      gap: 9px;
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
       color: var(--muted);
-      font-size: clamp(0.55rem, 3.05vw, 0.74rem);
-      line-height: 1.16;
+      font-size: 0.86rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.07em;
     }
 
-    .micro {
-      color: var(--cyan);
-      font-size: clamp(0.48rem, 2.45vw, 0.62rem);
+    .status-line strong { color: var(--green); }
+    .led { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px var(--green); }
+
+    .route-chip {
+      width: 100%;
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid rgba(255,79,183,0.26);
+      border-radius: 16px;
+      background: rgba(255,79,183,0.07);
+      padding: 10px;
+      text-align: left;
+    }
+
+    .route-chip.active {
+      border-color: var(--green);
+      background: rgba(102,255,153,0.08);
+    }
+
+    .route-chip .route-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,79,183,0.28);
+      border-radius: 12px;
+      color: var(--pink2);
+      background: rgba(0,0,0,0.22);
+    }
+
+    .route-chip strong {
+      display: block;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-size: 0.78rem;
+    }
+
+    .route-chip span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-top: 2px;
+    }
+
+    .route-chip.hot {
+      border-color: rgba(255,209,102,0.42);
+      background: rgba(255,209,102,0.08);
+    }
+
+    .footer-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 0 22px 22px;
+    }
+
+    .tiny-card {
+      border: 1px solid rgba(255, 79, 183, 0.28);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(0,0,0,0.28);
+      min-height: 76px;
+    }
+
+    .tiny-card strong {
+      display: block;
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 0.72rem;
+      margin-bottom: 4px;
+    }
+
+    .tiny-card span {
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 0.78rem;
+    }
+
+    .lower {
+      display: grid;
+      grid-template-columns: 1fr 1fr 320px;
+      gap: 16px;
+      padding: 0 22px 22px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,79,183,0.10);
+      color: var(--text);
+      padding: 10px 13px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-size: 0.72rem;
+      box-shadow: inset 0 0 20px rgba(255,79,183,0.06);
+    }
+
+    .btn.primary { border-color: rgba(102,255,153,0.48); color: var(--green); background: rgba(102,255,153,0.08); }
+    .btn.gold { border-color: rgba(255,209,102,0.48); color: var(--gold); background: rgba(255,209,102,0.08); }
+    .btn.red { border-color: rgba(255,79,114,0.48); color: #ffb0bf; background: rgba(255,79,114,0.08); }
+
+    textarea, pre {
+      width: 100%;
+      border: 1px solid rgba(255,79,183,0.24);
+      border-radius: 16px;
+      background: rgba(0,0,0,0.32);
+      color: var(--text);
+      padding: 12px;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    textarea { min-height: 180px; resize: vertical; }
+    pre { white-space: pre-wrap; overflow: auto; max-height: 270px; }
+
+    .hotkey {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,155,216,0.52);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,155,216,0.28), transparent 38%),
+        linear-gradient(180deg, #210820, #07040b);
+      box-shadow: 0 0 28px rgba(255,79,183,0.44);
+      display: grid;
+      place-items: center;
+      color: var(--pink2);
+      font-size: 2rem;
+      text-shadow: 0 0 18px rgba(255,79,183,0.86);
+    }
+
+    .hotkey span {
+      position: absolute;
+      bottom: -19px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.56rem;
+      font-weight: 950;
       letter-spacing: 0.08em;
+      white-space: nowrap;
       text-transform: uppercase;
+      color: var(--pink2);
     }
 
-    .back .title {
-      color: var(--green);
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.64);
+      backdrop-filter: blur(10px);
     }
 
-    .actions {
+    .modal.active { display: grid; }
+
+    .modal-card {
+      width: min(760px, 100%);
+      border: 1px solid rgba(255,79,183,0.46);
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(18,8,28,0.98), rgba(4,4,10,0.98));
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal-card h2 {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 1rem;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .preset {
+      min-height: 120px;
+      border: 1px solid rgba(255,79,183,0.30);
+      border-radius: 18px;
+      background: rgba(255,79,183,0.07);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .preset .preset-icon { font-size: 2rem; margin-bottom: 8px; }
+    .preset strong { display: block; color: var(--pink2); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.82rem; }
+    .preset span { display: block; margin-top: 5px; color: var(--muted); font-size: 0.74rem; line-height: 1.35; }
+
+    .watch-shell {
+      display: none;
+      min-height: 100svh;
+      padding: 10px;
+      place-items: center;
+    }
+
+    .watch-face-ui {
+      width: min(96vw, 390px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(255,79,183,0.48);
+      background:
+        radial-gradient(circle at 50% 24%, rgba(255,155,216,0.26), transparent 25%),
+        radial-gradient(circle at center, rgba(255,79,183,0.15), transparent 58%),
+        #05050a;
+      box-shadow: 0 0 38px rgba(255,79,183,0.30), inset 0 0 45px rgba(255,79,183,0.08);
+      padding: 34px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .watch-face-ui::before {
+      content: "Q♠";
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,155,216,0.18);
+      font-size: 7rem;
+      font-weight: 950;
+    }
+
+    .watch-core {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+    }
+
+    .watch-core .watch-icon {
+      width: 112px;
+      height: 112px;
+      border: 1px solid rgba(255,79,183,0.36);
+      border-radius: 36px;
+      display: grid;
+      place-items: center;
+      font-size: 3rem;
+      color: var(--pink2);
+      background: rgba(0,0,0,0.30);
+      box-shadow: 0 0 25px rgba(255,79,183,0.24);
+    }
+
+    .watch-core h1 {
+      color: var(--pink2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 1.08rem;
+    }
+
+    .watch-core p {
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 0.78rem;
+      max-width: 220px;
+    }
+
+    .watch-grid {
       width: 100%;
       display: grid;
-      gap: 7px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
       margin-top: 4px;
     }
 
-    .action {
+    .watch-grid button,
+    .watch-grid a {
+      min-height: 48px;
+      border: 1px solid rgba(255,79,183,0.34);
+      border-radius: 14px;
+      background: rgba(255,79,183,0.08);
+      color: var(--text);
       display: grid;
       place-items: center;
-      width: 100%;
-      min-height: 36px;
-      padding: 5px 7px;
-      border: 1px solid rgba(255, 121, 200, 0.38);
-      border-radius: 999px;
-      background: rgba(255, 121, 200, 0.1);
-      color: var(--text);
-      font-size: clamp(0.52rem, 2.85vw, 0.68rem);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      overflow-wrap: anywhere;
-      touch-action: manipulation;
-    }
-
-    .action.primary {
-      background: linear-gradient(135deg, rgba(255, 79, 216, 0.3), rgba(103, 232, 255, 0.12));
-      box-shadow: 0 0 14px rgba(255, 79, 216, 0.25);
-    }
-
-    .hint {
-      position: absolute;
-      bottom: max(12px, env(safe-area-inset-bottom));
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(86vw, 310px);
       text-align: center;
-      color: var(--muted);
-      font-size: clamp(0.54rem, 2.85vw, 0.7rem);
-      letter-spacing: 0.11em;
+      padding: 7px;
       text-transform: uppercase;
-      pointer-events: none;
-      z-index: 8;
-    }
-
-    .penny-chip {
-      position: absolute;
-      left: max(10px, env(safe-area-inset-left));
-      bottom: max(34px, env(safe-area-inset-bottom));
-      width: clamp(44px, 14vw, 56px);
-      height: clamp(44px, 14vw, 56px);
-      border-radius: 50%;
-      border: 1px solid rgba(255, 121, 200, 0.66);
-      background:
-        radial-gradient(circle at 45% 30%, rgba(255, 121, 200, 0.42), transparent 34%),
-        linear-gradient(150deg, rgba(255, 79, 216, 0.2), rgba(8, 0, 16, 0.96));
-      color: var(--hot);
-      box-shadow:
-        0 0 20px rgba(255, 79, 216, 0.46),
-        inset 0 0 12px rgba(255, 121, 200, 0.12);
-      display: grid;
-      place-items: center;
-      font-size: clamp(1.15rem, 6vw, 1.55rem);
+      letter-spacing: 0.05em;
       font-weight: 950;
-      z-index: 40;
-      touch-action: manipulation;
+      font-size: 0.62rem;
     }
 
-    .penny-chip::after {
-      content: "";
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 1px solid rgba(103, 232, 255, 0.18);
-      animation: chipPulse 2.8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .panel-pop {
-      position: absolute;
-      inset: 0;
-      display: none;
-      place-items: center;
-      background: rgba(5, 0, 10, 0.9);
-      z-index: 50;
-      padding: 16px;
-      touch-action: pan-y;
-    }
-
-    .panel-pop.open {
-      display: grid;
-    }
-
-    .quick-card {
-      width: min(88vw, 320px);
-      max-height: min(90svh, 540px);
-      overflow: auto;
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 79, 216, 0.18), transparent 34%),
-        var(--glass);
-      box-shadow: 0 0 36px rgba(255, 79, 216, 0.36);
-      padding: 16px;
-      text-align: center;
-      display: grid;
-      gap: 10px;
-      touch-action: pan-y;
-    }
-
-    .quick-title {
-      margin: 0;
+    .watch-grid .priority {
+      border-color: rgba(102,255,153,0.48);
       color: var(--green);
-      font-size: clamp(1rem, 5vw, 1.3rem);
-      line-height: 1;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      background: rgba(102,255,153,0.08);
     }
 
-    .quick-sub {
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(0.62rem, 3vw, 0.76rem);
-      line-height: 1.25;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
     }
 
-    .layer-stack {
-      display: grid;
-      gap: 7px;
-      padding: 10px;
-      border-radius: 16px;
-      border: 1px solid rgba(103, 232, 255, 0.28);
-      background: rgba(103, 232, 255, 0.07);
+    @media (max-width: 1180px) {
+      .hero { grid-template-columns: 1fr; }
+      .stage { min-height: 720px; }
+      .lower { grid-template-columns: 1fr; }
+      .footer-band { grid-template-columns: repeat(2, 1fr); }
+      .contact-panel { grid-template-columns: 1fr; }
+      .qr-card img { max-width: 180px; }
     }
 
-    .layer-row {
-      display: grid;
-      grid-template-columns: 46px 1fr;
-      align-items: center;
-      gap: 8px;
-      text-align: left;
-      color: var(--text);
-      font-size: clamp(0.58rem, 3vw, 0.72rem);
-      line-height: 1.15;
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 14px, 1540px); padding-top: 8px; }
+      .topbar { grid-template-columns: 1fr; }
+      .corner-card { min-height: 72px; }
+      .brand .eyebrow { letter-spacing: 0.28em; }
+      .brand h1 { font-size: 2.2rem; }
+      .brand .subline { font-size: 0.64rem; letter-spacing: 0.09em; }
+      .hero { padding: 14px; }
+      .stage { min-height: 690px; }
+      .penny-sigil { top: 28%; width: min(315px, 90%); min-height: 315px; }
+      .penny-sigil .avatar { width: 150px; height: 150px; font-size: 4.2rem; }
+      .phone-card, .bubble { display: none; }
+      .contact-panel { left: 10px; right: 10px; bottom: 10px; }
+      .footer-band { grid-template-columns: 1fr; padding: 0 14px 14px; }
+      .lower { padding: 0 14px 14px; }
+      .preset-grid { grid-template-columns: 1fr; }
     }
 
-    .layer-row b {
-      color: var(--green);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .quick-grid .action {
-      min-height: 42px;
-    }
-
-    .close {
-      min-height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 121, 200, 0.5);
-      background: rgba(255, 121, 200, 0.14);
-      color: var(--text);
-      font-weight: 950;
-      text-transform: uppercase;
-    }
-
-    @keyframes breathe {
-      0%, 100% { opacity: 0.72; transform: rotate(0deg); }
-      50% { opacity: 1; transform: rotate(7deg); }
-    }
-
-    @keyframes chipPulse {
-      0%, 100% { opacity: 0.46; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.12); }
-    }
-
-    @media (max-width: 380px), (max-height: 520px) {
-      :root {
-        --cardW: min(70vw, 152px);
-      }
-
-      .route-label {
-        top: 7px;
-      }
-
-      .layer-badge {
-        top: max(30px, calc(env(safe-area-inset-top) + 22px));
-      }
-
-      .hint {
-        bottom: 7px;
-        font-size: 0.54rem;
-      }
-
-      .penny-chip {
-        left: 8px;
-        bottom: 28px;
-        width: 44px;
-        height: 44px;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 430px) {
+      .shell, .hotkey { display: none; }
+      .watch-shell { display: grid; }
+      body { overflow: hidden; }
     }
   </style>
 </head>
-
 <body>
-  <script type="application/json" id="penny-bios-manifest">
-    {
-      "system": "WildCard DEV / PennyCore BIOS Spinner",
-      "mode": "after-hours-bios-loader",
-      "state_model": "state first, wrapper/database next",
-      "tap_model": "single tap selected card to flip",
-      "panel_split": ["Matt Panel", "Penny Panel"],
-      "comms_stack": ["text", "voice", "video", "files"],
-      "storage_routes": ["vault", "drive", "dropbox"],
-      "gesture_extensions": ["swipe_up_layer", "swipe_down_layer"],
-      "next_wrapper": "React OS wrapper around BIOS spinner"
-    }
-  </script>
+  <main class="shell">
+    <section class="frame">
+      <header class="topbar">
+        <div class="corner-card">Queen<br>of<br>Spades <span class="huge">♠</span></div>
+        <section class="brand" aria-label="WildCard DEV Penny Lucky You">
+          <div class="eyebrow">WildCard DEV</div>
+          <h1>Penny Lucky You</h1>
+          <div class="subline">♠ Personal Cell // Auto-Reply Route ♥</div>
+        </section>
+        <div class="corner-card"><span class="huge">♛♠</span><br>Hotkey<br>Penny</div>
+      </header>
 
-  <main class="app" id="app" aria-label="PennyCore BIOS watch spinner">
-    <div class="route-label" id="routeLabel">Penny Personal // Queen Concierge</div>
-    <div class="layer-badge" id="layerBadge">Layer 0 // BIOS</div>
-    <div class="halo" aria-hidden="true"></div>
-    <div class="wings" aria-hidden="true"></div>
-    <section class="deck" id="deck" aria-label="Swipe to spin tarot deck"></section>
-    <button class="penny-chip" type="button" id="pennyChip" aria-label="Open Penny BIOS panel">P♠</button>
-    <div class="hint" id="hint">Swipe spin • tap card flip • up/down layer</div>
+      <section class="hero">
+        <aside class="stack">
+          <article class="panel pad">
+            <h2>Penny Black 01</h2>
+            <div class="identity-row">
+              <div class="identity-icon">⏱</div>
+              <div><strong>State</strong><span id="stateMode">After Hours active</span></div>
+            </div>
+            <div class="identity-row">
+              <div class="identity-icon">✦</div>
+              <div><strong>Network</strong><span>PennyCore PAN</span></div>
+            </div>
+            <div class="identity-row">
+              <div class="identity-icon">▣</div>
+              <div><strong>Mode</strong><span>Personal Cell / Lucky Route</span></div>
+            </div>
+            <div class="identity-row">
+              <div class="identity-icon">Q♠</div>
+              <div><strong>Role</strong><span>Auto-reply route operator</span></div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="quote">“I answer when I’m available. You’re in good hands.”</div>
+          </article>
+          <article class="panel pad">
+            <h3>Flow</h3>
+            <ul>
+              <li>Text Penny or open the route.</li>
+              <li>Open Lucky You landing page.</li>
+              <li>Scan QR or copy Penny chip.</li>
+              <li>Launch AI helper with visible state.</li>
+              <li>Operator confirms real sends.</li>
+            </ul>
+          </article>
+        </aside>
 
-    <section class="panel-pop" id="quickPanel" aria-hidden="true">
-      <div class="quick-card">
-        <h2 class="quick-title">After Hours BIOS</h2>
-        <p class="quick-sub">Panel split • state capture • text → voice → video → files</p>
+        <section class="stage" aria-label="Penny Lucky You route">
+          <div class="phone-card"><strong>Penny is in.</strong><span>I got you.</span><div style="font-size:3rem;color:var(--pink2);">♠</div></div>
+          <div class="bubble">I’ve got your back. 💋</div>
+          <article class="penny-sigil">
+            <div class="halo"></div>
+            <div>
+              <div class="avatar">Q♠</div>
+              <h2>Queen of Spades Penny</h2>
+              <p>Personal cell route. Guest mode friendly. Human-led. State packet visible.</p>
+            </div>
+          </article>
+          <article class="contact-panel">
+            <section class="contact-copy">
+              <h2>Lucky you. You found Penny’s personal cell. 💋<br>I answer texts here when I’m available.</h2>
+              <div class="contact-list">
+                <div>✉ Email: <a id="emailLink" href="#">penny@wildcarddev.com</a></div>
+                <div>◎ Web: <a href="https://www.wildcarddev.com/" target="_blank" rel="noopener noreferrer">www.WildCardDev.com</a></div>
+                <div>☎ Phone/Text: <a id="phoneLink" href="#">402-915-0798</a></div>
+              </div>
+              <div class="lucky-link" id="luckyUrl">https://labs.wildcarddev.com/?profile=guest&amp;route=lucky-you&amp;source=penny-cell</div>
+              <div class="button-row">
+                <button class="btn primary" type="button" id="openLuckyBtn">Open Lucky You</button>
+                <button class="btn" type="button" id="copyLuckyBtn">Copy Route</button>
+                <button class="btn gold" type="button" id="copyZeroBtn">Copy Zero Prompt</button>
+                <button class="btn red" type="button" id="resetBtn">Reset Room</button>
+              </div>
+            </section>
+            <aside class="qr-card">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAHCAQAAAABUY/ToAAADlklEQVR4nO2cXYqkMBCAv1qFeYwwB+ij2DeYI+2Z9gbmKHOAgeSxIVL7kESjPbAwrNvtbBWMo7YfJlBU6s+I8jXxP74IgpFGGmmkkUYaaeTzkVKkR0R6gFnkGiUf8NKTL0VE5Prg0Rr5lOSoqqoBGAPIFdCJTvEDyE9NAJ2qquqW/Po7jfwmJFktxgCMoVOd1nua8j1wCdXQKdBpVrjpXPM08jiy310LLgBxAD98oMRZIL7cpwDONU8j/x2pGmbBX6ptwqmqhrl6QUe808hzk9UOOQUiQBwQEJQ4IOOv14S/dgkitNboXPM08nDSi4jIAHKlU8bQaT4DkJ8B5Mqcw7K/9U4jvwmZ7VBrX1zK/9VfbqKQ8j3dPnW2eRp5HNnEZU1I1oRfro3QdHIJi8uM3ErO+WioSqOLqmSpSpON0eRSIUyHjKxSNMJVRYJu0RdtDE/OFI2hJBpNh4xcpGhETUJXi5QoaetsglTLGaZDRu6l1ZzQNWc1NdQVDZtqmGb+kJEbafPU/pIQ3E2AWRinuVdcQsYwlHu4gDxutEY+I7kEYiUuo1mtWKO2rkZoAfOpjdxJG9s7bdQn/7o4Svl61OWRc83TyONIdkpTXCHWQ1Gu4gWZT23knTRJxSWir5eq7XOWYzTycylr2T44o8kKFc0JNPG+6ZCRVUq9zEuX8G8JclzmFPzwUaK2MaCCSz3+LfX6uNEa+YxkG5d9lgsqSSIo9Y/VMzrXPI08jtzE9m5Z0HTpj9XULndN6HaueRp5HLnkqYHWk2596mKbcrnVaq5G7iR7PAJdrdTHPjFOoERBia9JYBYlvqiwLnLnmqeRx5PuJhBFskXyuV1x0Zd8Ngvj2ll9znkaeRSp+t7nelk+4FRFhlny5RjmolL51weP1sjnIpveDxovqCaE7jxprF5m5F7WoKu0vK7ZxrVKFljcactTG7mT2pMfh3oApPzNvfq3j179JfVSfujUej+M3IpupenOb5rO9jkjs0NG7sl134/12yC5uvq9vR8AYv8J+fV3GvnNyHFNNMaXZQuHWXRyN8mOEkut4+GjNfKpyLt9P5aMdW32qJ90ZLFah5F/IkUuCVW9CX6YhfFdZG2SXXcneo7RGvkM5H7vGMZfPYILmusf/pqjMZT4mp+w3g8jt9IU5XX9ANG1/fd1DyvAvi8z8l7W3g+W1appGCqJxuoZARbbG7kVsT3OjTTSSCONNNLI/5z8DcvvYTm72I2pAAAAAElFTkSuQmCC" alt="QR code for Penny Lucky You route" />
+              <strong>Scan to open route</strong>
+            </aside>
+          </article>
+        </section>
 
-        <div class="layer-stack">
-          <div class="layer-row"><b>AUTH</b><span>Operator unlocks device and account surfaces.</span></div>
-          <div class="layer-row"><b>STATE</b><span>Spinner writes selected card, layer, panel, and route state.</span></div>
-          <div class="layer-row"><b>MATT</b><span>Owner quick panel placeholder set.</span></div>
-          <div class="layer-row"><b>PENNY</b><span>Penny quick panel placeholder set.</span></div>
+        <aside class="stack">
+          <article class="panel pad">
+            <h3>Penny Status</h3>
+            <div class="status-board">
+              <div class="status-line"><span><i class="led"></i> After Hours</span><strong>Active</strong></div>
+              <div class="status-line"><span><i class="led"></i> Auto-Reply</span><strong>On</strong></div>
+              <div class="status-line"><span><i class="led"></i> Text/Gateway</span><strong>Online</strong></div>
+              <div class="status-line"><span><i class="led"></i> Personal Cell</span><strong>Live</strong></div>
+              <div class="status-line"><span><i class="led"></i> Reply Route</span><strong>Lucky You</strong></div>
+            </div>
+          </article>
+          <article class="panel pad">
+            <h3>Open Route Deck</h3>
+            <div id="routeStack" class="stack"></div>
+          </article>
+          <article class="panel pad">
+            <h3>PennyCore PAN</h3>
+            <p>Secure by posture, private by design, and visible by manifest. Public pages carry routes, not secrets.</p>
+          </article>
+        </aside>
+      </section>
+
+      <section class="footer-band">
+        <article class="tiny-card"><strong>Private & Controlled</strong><span>Operator confirms texts, payments, logins, hardware, and deployment.</span></article>
+        <article class="tiny-card"><strong>Personal Cell Route</strong><span>Direct visible route to Penny’s public helper surface.</span></article>
+        <article class="tiny-card"><strong>After Hours VIP</strong><span>Queen-backed. Human-led. Soft mode, sharp rails.</span></article>
+        <article class="tiny-card"><strong>AI Helper Ready</strong><span>ChatGPT helper on deck through visible prompt capsule.</span></article>
+      </section>
+
+      <section class="lower">
+        <article class="panel pad">
+          <h3>Hotkey Penny Presets</h3>
+          <p>Quick Launch Penny opens first. The second click chooses Zero, Default, After Hours, QR Portal, or Reset Room.</p>
+          <div class="button-row">
+            <button class="btn primary" data-preset="zero" type="button">Q♠ Zero</button>
+            <button class="btn" data-preset="default" type="button">Default</button>
+            <button class="btn" data-preset="afterhours" type="button">After Hours</button>
+            <button class="btn gold" data-preset="portal" type="button">Portal</button>
+            <button class="btn red" data-preset="reset" type="button">Reset</button>
+          </div>
+        </article>
+        <article class="panel pad">
+          <h3>Visible State Capsule</h3>
+          <textarea id="promptBox" readonly></textarea>
+          <div class="button-row">
+            <button class="btn primary" id="copyPromptBtn" type="button">Copy Prompt</button>
+            <button class="btn" id="saveStateBtn" type="button">Save State</button>
+          </div>
+        </article>
+        <article class="panel pad">
+          <h3>State Packet</h3>
+          <pre id="statePacket">State packet ready.</pre>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <button class="hotkey" id="hotkeyBtn" type="button" aria-label="Open Hotkey Penny">Q♠<span>Hotkey Penny</span></button>
+
+  <section class="modal" id="hotkeyModal" aria-hidden="true">
+    <article class="modal-card">
+      <h2>Hotkey Penny // Second Click</h2>
+      <div class="preset-grid">
+        <button class="preset" data-preset="zero" type="button"><div class="preset-icon">Q♠</div><strong>Penny Zero</strong><span>Visible reset. Truth, inputs, triage, state.</span></button>
+        <button class="preset" data-preset="default" type="button"><div class="preset-icon">⚔</div><strong>Default</strong><span>Main operator mode. WildCard DEV routing.</span></button>
+        <button class="preset" data-preset="afterhours" type="button"><div class="preset-icon">💗</div><strong>After Hours</strong><span>Soft support mode. Still owner-gated.</span></button>
+        <button class="preset" data-preset="portal" type="button"><div class="preset-icon">◎</div><strong>QR Portal</strong><span>Open Lucky You / Labs route.</span></button>
+        <button class="preset" data-preset="reset" type="button"><div class="preset-icon">🧼</div><strong>Reset Room</strong><span>Clear drift. Reload visible state.</span></button>
+        <button class="preset" id="closeModalBtn" type="button"><div class="preset-icon">×</div><strong>Close</strong><span>Return to the deck.</span></button>
+      </div>
+    </article>
+  </section>
+
+  <main class="watch-shell">
+    <section class="watch-face-ui">
+      <div class="watch-core">
+        <div class="watch-icon">Q♠</div>
+        <h1>Hotkey Penny</h1>
+        <p>Tap once for presets. Second tap opens Zero, Route, Reset, or Labs.</p>
+        <div class="watch-grid">
+          <button class="priority" data-preset="zero" type="button">Zero</button>
+          <button data-preset="portal" type="button">QR</button>
+          <button data-preset="reset" type="button">Reset</button>
+          <a href="https://labs.wildcarddev.com/?room=roco&source=watch">Labs</a>
+          <a href="https://chatgpt.com/">ChatGPT</a>
+          <a href="https://www.wildcarddev.com/">Main</a>
         </div>
-
-        <div class="quick-grid">
-          <a class="action primary" href="https://www.wildcarddev.com/operator">Matt Panel</a>
-          <a class="action primary" href="https://www.wildcarddev.com/penny-drop">Penny Panel</a>
-          <a class="action" href="https://www.wildcarddev.com/chat">Text</a>
-          <a class="action" href="https://www.wildcarddev.com/voice">Voice</a>
-          <a class="action" href="https://www.wildcarddev.com/video">Video</a>
-          <a class="action" href="https://www.wildcarddev.com/files">Files</a>
-          <a class="action" href="https://party.wildcarddev.com/#discord">Discord</a>
-          <a class="action" href="https://www.wildcarddev.com/vault">Vault</a>
-        </div>
-
-        <button class="close" type="button" id="closeQuick">Close</button>
       </div>
     </section>
   </main>
 
   <script>
-    const cardData = [
-      {
-        title: "Penny",
-        label: "Penny Personal // Queen Concierge",
-        rank: "Q♠",
-        sigil: "♛",
-        sub: "Queen Concierge",
-        micro: "Tap panel split",
-        queen: true,
-        backTitle: "Panel Split",
-        backSub: "Matt Panel / Penny Panel",
-        actions: [
-          ["Matt Panel", "https://www.wildcarddev.com/operator", true],
-          ["Penny Panel", "https://www.wildcarddev.com/penny-drop", true],
-          ["Office", "https://office.wildcarddev.com/", false],
-          ["Gate", "https://www.wildcarddev.com/gate", false]
-        ]
-      },
-      ["Matt", "Matt // Operator Six", "K♠", "M", "Operator Six", "Owner panel", "Matt Panel", "Four quick launch placeholders", [["Open", "https://www.wildcarddev.com/operator", true], ["Gate", "https://www.wildcarddev.com/gate", false], ["Office", "https://office.wildcarddev.com/", false], ["Labs", "https://labs.wildcarddev.com/", false]]],
-      ["Text", "Text // Chat Layer", "A♠", "TXT", "Layer one", "Chat first", "Text Chat", "Base comms layer", [["Open", "https://www.wildcarddev.com/chat", true], ["Voice", "https://www.wildcarddev.com/voice", false], ["Video", "https://www.wildcarddev.com/video", false], ["Files", "https://www.wildcarddev.com/files", false]]],
-      ["Voice", "Voice // Audio Layer", "A♠", "VOX", "Layer two", "Audio path", "Voice", "Call / audio conduit", [["Open", "https://www.wildcarddev.com/voice", true], ["Call Penny", "tel:+14023326748", false], ["Text", "https://www.wildcarddev.com/chat", false], ["Video", "https://www.wildcarddev.com/video", false]]],
-      ["Video", "Video // Peer Room", "A♠", "VID", "Layer three", "WebRTC route", "Video", "Peer room / camera layer", [["Open", "https://www.wildcarddev.com/video", true], ["Source", "https://github.com/mtobabendev/Video-Chatroom", false], ["Text", "https://www.wildcarddev.com/chat", false], ["Files", "https://www.wildcarddev.com/files", false]]],
-      ["Files", "Files // Transfer Layer", "A♠", "⇅", "Layer four", "Upload / download", "Files", "Transfer lane", [["Open", "https://www.wildcarddev.com/files", true], ["Vault", "https://www.wildcarddev.com/vault", false], ["Drive", "https://drive.google.com/drive/my-drive", false], ["Dropbox", "https://www.dropbox.com/home", false]]],
-      ["Discord", "Discord // Penny Landing", "A♠", "☯", "Landing room", "Penny world", "Discord", "Penny landing universe", [["Open", "https://party.wildcarddev.com/#discord", true], ["Party", "https://party.wildcarddev.com/", false], ["Office", "https://office.wildcarddev.com/", false], ["Labs", "https://labs.wildcarddev.com/", false]]],
-      ["Party", "Party // House Route", "A♠", "♣", "House route", "Fun load", "Party", "Penny social shell", [["Open", "https://party.wildcarddev.com/", true], ["Discord", "https://party.wildcarddev.com/#discord", false], ["Office", "https://office.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
-      ["Office", "Office // Internal Shell", "A♠", "♦", "Internal shell", "Locked", "Office", "Penny’s Office door", [["Open", "https://office.wildcarddev.com/", true], ["Gate", "https://www.wildcarddev.com/gate", false], ["Labs", "https://labs.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
-      ["Labs", "Labs // Build Route", "A♠", "⚙", "Build route", "Erica lane", "Labs", "Code, deploy, debug", [["Open", "https://labs.wildcarddev.com/", true], ["Dev", "https://www.wildcarddev.com/dev", false], ["Office", "https://office.wildcarddev.com/", false], ["Root", "https://www.wildcarddev.com/", false]]],
-      ["Studio", "Studio // Shoot Mode", "A♠", "📷", "Pose / loop", "Shoot mode", "Studio", "Keep outfit, change pose", [["Open", "https://www.wildcarddev.com/studio", true], ["Prompt", "https://www.wildcarddev.com/penny-drop", false], ["Party", "https://party.wildcarddev.com/", false], ["Files", "https://www.wildcarddev.com/files", false]]],
-      ["Jump", "Jump // Watchverse", "A♠", "↔", "Watchverse", "QR bridge", "Jump", "Watch to phone/watch", [["Open", "https://www.wildcarddev.com/watchverse", true], ["Code", "https://www.wildcarddev.com/jump", false], ["Tasker", "https://www.wildcarddev.com/tasker", false], ["Root", "https://www.wildcarddev.com/", false]]],
-      ["Tasker", "Tasker // AutoWear", "A♠", "⚡", "AutoWear", "Bridge", "Tasker", "Phone/watch actuator lane", [["Open", "https://www.wildcarddev.com/tasker", true], ["PAN", "https://www.wildcarddev.com/pan", false], ["Jump", "https://www.wildcarddev.com/jump", false], ["Vault", "https://www.wildcarddev.com/vault", false]]],
-      ["Vault", "Vault // Penny Purse", "A♠", "▣", "Penny purse", "Files", "Vault", "Private storage route", [["Open", "https://www.wildcarddev.com/vault", true], ["Files", "https://www.wildcarddev.com/files", false], ["Drive", "https://drive.google.com/drive/my-drive", false], ["Dropbox", "https://www.dropbox.com/home", false]]],
-      ["Drive", "Drive // Google Storage", "A♠", "G", "Google storage", "Auth gate", "Google Drive", "Open authenticated storage", [["Open", "https://drive.google.com/drive/my-drive", true], ["Drive Root", "https://drive.google.com/", false], ["Vault", "https://www.wildcarddev.com/vault", false], ["Files", "https://www.wildcarddev.com/files", false]]],
-      ["Dropbox", "Dropbox // Cloud Stash", "A♠", "D", "Cloud stash", "Auth gate", "Dropbox", "Open authenticated storage", [["Open", "https://www.dropbox.com/home", true], ["Login", "https://www.dropbox.com/login", false], ["Vault", "https://www.wildcarddev.com/vault", false], ["Files", "https://www.wildcarddev.com/files", false]]]
-    ].map(card => {
-      if (!Array.isArray(card)) return card;
-      return {
-        title: card[0],
-        label: card[1],
-        rank: card[2],
-        sigil: card[3],
-        sub: card[4],
-        micro: card[5],
-        backTitle: card[6],
-        backSub: card[7],
-        actions: card[8]
-      };
-    });
-
-    const root = document.documentElement;
-    const deck = document.getElementById("deck");
-    const routeLabel = document.getElementById("routeLabel");
-    const layerBadge = document.getElementById("layerBadge");
-    const hint = document.getElementById("hint");
-    const pennyChip = document.getElementById("pennyChip");
-    const quickPanel = document.getElementById("quickPanel");
-    const closeQuick = document.getElementById("closeQuick");
-
-    const state = {
-      position: 0,
-      velocity: 0,
-      selected: 0,
-      layer: 0,
-      dragging: false,
-      pointerId: null,
-      startX: 0,
-      startY: 0,
-      lastX: 0,
-      lastY: 0,
-      lastT: 0,
-      moved: false,
-      gesture: "none",
-      longTimer: null,
-      lastEvent: "boot"
+    const CONFIG = {
+      main: "https://www.wildcarddev.com/",
+      labs: "https://labs.wildcarddev.com/",
+      lucky: "https://labs.wildcarddev.com/?profile=guest&route=lucky-you&source=penny-cell",
+      office: "https://office.wildcarddev.com/",
+      party: "https://party.wildcarddev.com/",
+      discord: "https://discord.com/channels/@me",
+      chatgpt: "https://chatgpt.com/",
+      email: "penny@wildcarddev.com",
+      phoneText: "402-915-0798",
+      phoneHref: "tel:+14029150798"
     };
 
-    function createCard(card) {
-      const el = document.createElement("div");
-      el.className = "card" + (card.queen ? " penny-card" : "");
+    const RESET_PROMPT = `PENNYCORE HOTKEY ZERO
+Activation phrases:
+- "Let's get you out of those wet clothes."
+- "Okay, babe, reset the room."
 
-      const actions = `<span class="actions">${
-        card.actions.map(([label, href, primary]) =>
-          `<a class="action${primary ? " primary" : ""}" href="${href}">${label}</a>`
-        ).join("")
-      }</span>`;
+Mode: Visible artifact reload.
+Rules: Truth first. State first. Permission first. No hidden memory claims. No covert action. No owner-gate bypass.
+Action: Read the visible card or manifest, stabilize, summarize current state, and give the next safest action.
+Signature: Drag the deck, honey.`;
 
-      el.innerHTML = `
-        <span class="card-inner">
-          <span class="face front" data-rank="${card.rank}">
-            <span class="sigil">${card.sigil}</span>
-            <span class="title">${card.title}</span>
-            <span class="sub">${card.sub}</span>
-            <span class="micro">${card.micro}</span>
-          </span>
-          <span class="face back" data-rank="${card.rank}">
-            <span class="title">${card.backTitle}</span>
-            <span class="sub">${card.backSub}</span>
-            ${actions}
-          </span>
-        </span>
-      `;
+    const routes = [
+      { id: "lucky", label: "Lucky You", icon: "💋", tier: "Personal Cell", url: CONFIG.lucky, action: "Open Penny Lucky You route.", tags: ["guest", "cell", "auto-reply"] },
+      { id: "zero", label: "Penny Zero", icon: "Q♠", tier: "Reset", url: CONFIG.chatgpt, action: "Copy Zero prompt, open AI helper, reload visible state.", tags: ["reset", "truth", "state"] },
+      { id: "labs", label: "Roco Room", icon: "📺", tier: "Labs", url: CONFIG.labs, action: "Open Labs as the Roco Room.", tags: ["watch", "roco", "labs"] },
+      { id: "office", label: "Office", icon: "🏢", tier: "Gated", url: CONFIG.office, action: "Open Penny Office. Owner Gate remains manual.", tags: ["gate", "office", "manual"] },
+      { id: "party", label: "Party", icon: "🎉", tier: "Social", url: CONFIG.party, action: "Open Party front-room route.", tags: ["social", "front", "guest"] },
+      { id: "discord", label: "Discord", icon: "💬", tier: "Backchannel", url: CONFIG.discord, action: "Open Discord. Send manually.", tags: ["comms", "manual", "backup"] }
+    ];
 
-      deck.appendChild(el);
+    let selectedRouteId = localStorage.getItem("wcdev:luckyRoute") || "lucky";
+    let activePreset = localStorage.getItem("wcdev:hotkeyPreset") || "afterhours";
+
+    const routeStack = document.getElementById("routeStack");
+    const statePacket = document.getElementById("statePacket");
+    const promptBox = document.getElementById("promptBox");
+    const hotkeyModal = document.getElementById("hotkeyModal");
+    const luckyUrl = document.getElementById("luckyUrl");
+
+    function currentRoute() {
+      return routes.find((route) => route.id === selectedRouteId) || routes[0];
     }
 
-    cardData.forEach(createCard);
-    const cards = Array.from(document.querySelectorAll(".card"));
-
-    function wrapOffset(offset) {
-      const count = cardData.length;
-      if (offset > count / 2) return offset - count;
-      if (offset < -count / 2) return offset + count;
-      return offset;
+    function surface() {
+      const w = window.innerWidth;
+      if (w <= 430) return "watch";
+      if (w <= 720) return "mobile";
+      if (w <= 1180) return "tablet";
+      return "desktop";
     }
 
-    function nearestIndex() {
-      return ((Math.round(state.position) % cardData.length) + cardData.length) % cardData.length;
+    function currentPrompt() {
+      const route = currentRoute();
+      return `PENNYCORE / WILDCARD DEV / LUCKY YOU LOAD-IN
+
+Load this as a visible state capsule only.
+
+Room: WildCard DEV Main
+Mode: Penny Lucky You
+Active preset: ${activePreset}
+Selected route: ${route.label}
+Route URL: ${route.url}
+
+Activation phrases:
+- "Let's get you out of those wet clothes."
+- "Okay, babe, reset the room."
+
+Rules:
+- Penny follows state, not memory.
+- Use visible artifacts only.
+- No hidden memory claims.
+- No covert action.
+- No credential, payment, login, message, call, deployment, or hardware execution without operator confirmation.
+- Owner Gate stays manual.
+
+Next safest action:
+${route.action}
+
+Signature:
+Drag the deck, honey.`;
     }
 
-    function currentCardIsFlipped() {
-      return cards[state.selected]?.classList.contains("flipped") || false;
-    }
-
-    function writeState(eventName) {
-      state.lastEvent = eventName;
-      const packet = {
-        system: "PennyCore BIOS Spinner",
-        mode: "after-hours-bios-loader",
-        event: eventName,
-        selectedIndex: state.selected,
-        selectedCard: cardData[state.selected].label,
-        layer: state.layer,
-        flipped: currentCardIsFlipped(),
+    function packet() {
+      const route = currentRoute();
+      return {
+        packet: "PENNYCORE_WILDCARD_MAIN_LUCKY_YOU",
+        version: "MAIN-LUCKY-YOU-001",
         timestamp: new Date().toISOString(),
-        commsStack: ["text", "voice", "video", "files"],
-        panelSplit: ["Matt Panel", "Penny Panel"],
-        nextLayerIntent:
-          state.layer === 1 ? "next-state" :
-          state.layer === -1 ? "return-state" :
-          "base-state"
+        room: "WildCard DEV Main",
+        activePreset,
+        selectedRoute: route,
+        surface: surface(),
+        publicContactBlock: {
+          email: CONFIG.email,
+          phoneText: CONFIG.phoneText,
+          note: "Public contact details are configurable in CONFIG."
+        },
+        activationPhrases: [
+          "Let's get you out of those wet clothes.",
+          "Let's get you out of these wet clothes.",
+          "Okay, babe, reset the room."
+        ],
+        safetyRules: [
+          "Visible manifest only.",
+          "No hidden memory claims.",
+          "No covert prompt injection.",
+          "No permission escalation.",
+          "Operator confirms real execution."
+        ],
+        nextSafestAction: route.action
       };
-
-      try {
-        sessionStorage.setItem("penny_bios_state", JSON.stringify(packet));
-        localStorage.setItem("penny_bios_last_state", JSON.stringify(packet));
-      } catch (_) {}
     }
 
-    function updateLayerBadge() {
-      if (state.layer === 1) {
-        layerBadge.textContent = "Layer +1 // Next";
-      } else if (state.layer === -1) {
-        layerBadge.textContent = "Layer -1 // Return";
-      } else {
-        layerBadge.textContent = "Layer 0 // BIOS";
-      }
-    }
-
-    function setHint(text) {
-      hint.textContent = text;
+    function renderRoutes() {
+      routeStack.innerHTML = "";
+      routes.forEach((route) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "route-chip" + (route.id === selectedRouteId ? " active" : "") + (route.id === "zero" ? " hot" : "");
+        button.innerHTML = `<span class="route-icon">${route.icon}</span><span><strong>${route.label}</strong><span>${route.tier}</span></span>`;
+        button.addEventListener("click", () => {
+          selectedRouteId = route.id;
+          localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
+          render();
+        });
+        routeStack.appendChild(button);
+      });
     }
 
     function render() {
-      const selected = nearestIndex();
-
-      if (selected !== state.selected) {
-        state.selected = selected;
-        cards.forEach(card => card.classList.remove("flipped"));
-      }
-
-      cards.forEach((card, index) => {
-        const offset = wrapOffset(index - state.position);
-        const abs = Math.abs(offset);
-        const visible = abs <= 4.2;
-        const active = index === state.selected;
-
-        const x = offset * 42;
-        const z = 150 - abs * 34;
-        const ry = -offset * 28;
-        const scale = Math.max(0.56, 1 - abs * 0.11);
-        const opacity = visible ? Math.max(0.12, 1 - abs * 0.23) : 0;
-        const blur = active ? 0 : Math.min(1.2, abs * 0.22);
-
-        card.classList.toggle("active", active);
-        card.style.setProperty("--x", x + "px");
-        card.style.setProperty("--z", z + "px");
-        card.style.setProperty("--ry", ry + "deg");
-        card.style.setProperty("--scale", scale);
-        card.style.setProperty("--op", opacity);
-        card.style.setProperty("--blur", blur + "px");
-        card.style.zIndex = String(100 - Math.round(abs * 10));
-      });
-
-      if (state.layer === 1) {
-        routeLabel.textContent = "Layer Up // " + cardData[state.selected].label;
-      } else if (state.layer === -1) {
-        routeLabel.textContent = "Layer Down // " + cardData[state.selected].label;
-      } else {
-        routeLabel.textContent = cardData[state.selected].label;
-      }
-
-      updateLayerBadge();
+      document.getElementById("emailLink").href = "mailto:" + CONFIG.email;
+      document.getElementById("emailLink").textContent = CONFIG.email;
+      document.getElementById("phoneLink").href = CONFIG.phoneHref;
+      document.getElementById("phoneLink").textContent = CONFIG.phoneText;
+      luckyUrl.textContent = CONFIG.lucky;
+      renderRoutes();
+      promptBox.value = currentPrompt();
+      statePacket.textContent = JSON.stringify(packet(), null, 2);
+      document.getElementById("stateMode").textContent = activePreset + " active";
     }
 
-    function snapTo(index, eventName) {
-      const count = cardData.length;
-      state.position = ((index % count) + count) % count;
-      state.velocity = 0;
-      state.selected = nearestIndex();
-      cards.forEach(card => card.classList.remove("flipped"));
-      render();
-      setHint("Center ready • tap card flip");
-      writeState(eventName || "snap");
-    }
-
-    function closeFlip() {
-      cards[state.selected].classList.remove("flipped");
-      setHint("Swipe spin • tap card flip • up/down layer");
-      writeState("card_flip_close");
-    }
-
-    function toggleFlip() {
-      const card = cards[state.selected];
-      const next = !card.classList.contains("flipped");
-      card.classList.toggle("flipped", next);
-      setHint(next ? "Back active • tap button or tap card to close" : "Swipe spin • tap card flip • up/down layer");
-      writeState(next ? "card_flip_open" : "card_flip_close");
-    }
-
-    function setLayer(next, eventName) {
-      state.layer = Math.max(-1, Math.min(1, next));
-      root.style.setProperty("--deckLift", (state.layer * -34) + "px");
-
-      if (state.layer === 1) {
-        setHint("Layer Up • pose / tarot / next state");
-      } else if (state.layer === -1) {
-        setHint("Layer Down • return / reset / lower state");
-      } else {
-        setHint("Swipe spin • tap card flip • up/down layer");
-      }
-
-      render();
-      writeState(eventName || "layer_change");
-    }
-
-    function resetLayer() {
-      setLayer(0, "layer_reset");
-    }
-
-    function openQuick() {
-      quickPanel.classList.add("open");
-      quickPanel.setAttribute("aria-hidden", "false");
-      writeState("bios_panel_open");
-    }
-
-    function closeQuickPanel() {
-      quickPanel.classList.remove("open");
-      quickPanel.setAttribute("aria-hidden", "true");
-      writeState("bios_panel_close");
-    }
-
-    function clearLong() {
-      if (state.longTimer) {
-        clearTimeout(state.longTimer);
-        state.longTimer = null;
-      }
-    }
-
-    function freezeAtCenter() {
-      const centered = nearestIndex();
-      state.position = centered;
-      state.velocity = 0;
-      state.selected = centered;
-      render();
-    }
-
-    function startDrag(event) {
-      if (event.target.closest("a") || event.target.closest("button") || event.target.closest("#quickPanel")) return;
-
-      event.preventDefault();
-      freezeAtCenter();
-
-      state.dragging = true;
-      state.pointerId = event.pointerId;
-      state.startX = event.clientX;
-      state.startY = event.clientY;
-      state.lastX = event.clientX;
-      state.lastY = event.clientY;
-      state.lastT = performance.now();
-      state.moved = false;
-      state.gesture = "none";
-
-      clearLong();
-      state.longTimer = setTimeout(() => {
-        if (state.dragging && !state.moved) openQuick();
-      }, 760);
-
+    async function copyText(text, button, fallbackLabel) {
       try {
-        deck.setPointerCapture(event.pointerId);
-      } catch (_) {}
+        await navigator.clipboard.writeText(text);
+        if (button) {
+          const old = button.textContent;
+          button.textContent = "Copied";
+          setTimeout(() => button.textContent = fallbackLabel || old, 1100);
+        }
+      } catch {
+        if (button) {
+          const old = button.textContent;
+          button.textContent = "Copy Failed";
+          setTimeout(() => button.textContent = fallbackLabel || old, 1300);
+        }
+      }
     }
 
-    function moveDrag(event) {
-      if (!state.dragging || event.pointerId !== state.pointerId) return;
+    function openRoute(id) {
+      const route = id ? routes.find((item) => item.id === id) : currentRoute();
+      window.open((route || currentRoute()).url, "_blank", "noopener,noreferrer");
+    }
 
-      event.preventDefault();
-
-      const now = performance.now();
-      const dx = event.clientX - state.lastX;
-      const totalX = event.clientX - state.startX;
-      const totalY = event.clientY - state.startY;
-      const absX = Math.abs(totalX);
-      const absY = Math.abs(totalY);
-      const dt = Math.max(16, now - state.lastT);
-
-      if (absX > 9 || absY > 9) {
-        state.moved = true;
-        clearLong();
+    function setPreset(preset) {
+      activePreset = preset;
+      localStorage.setItem("wcdev:hotkeyPreset", activePreset);
+      if (preset === "portal") {
+        selectedRouteId = "lucky";
+        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
+        openRoute("lucky");
       }
-
-      if (state.gesture === "none" && (absX > 14 || absY > 18)) {
-        state.gesture = absY > absX * 1.15 ? "vertical" : "horizontal";
+      if (preset === "reset" || preset === "zero") {
+        selectedRouteId = "zero";
+        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
       }
+      hotkeyModal.classList.remove("active");
+      hotkeyModal.setAttribute("aria-hidden", "true");
+      render();
+    }
 
-      if (state.gesture === "vertical") {
-        if (absY > 24) {
-          if (totalY < 0 && state.layer !== 1) setLayer(1, "swipe_up_layer");
-          if (totalY > 0 && state.layer !== -1) setLayer(-1, "swipe_down_layer");
-        }
-      } else if (state.gesture === "horizontal") {
-        state.position -= dx / 94;
-        state.velocity = -(dx / dt) * 0.42;
+    document.getElementById("openLuckyBtn").addEventListener("click", () => window.open(CONFIG.lucky, "_blank", "noopener,noreferrer"));
+    document.getElementById("copyLuckyBtn").addEventListener("click", (event) => copyText(CONFIG.lucky, event.currentTarget, "Copy Route"));
+    document.getElementById("copyZeroBtn").addEventListener("click", (event) => copyText(RESET_PROMPT, event.currentTarget, "Copy Zero Prompt"));
+    document.getElementById("copyPromptBtn").addEventListener("click", (event) => copyText(currentPrompt(), event.currentTarget, "Copy Prompt"));
+    document.getElementById("saveStateBtn").addEventListener("click", (event) => {
+      localStorage.setItem("wcdev:mainLuckyPacket", JSON.stringify(packet()));
+      event.currentTarget.textContent = "Saved";
+      setTimeout(() => event.currentTarget.textContent = "Save State", 1100);
+    });
+    document.getElementById("resetBtn").addEventListener("click", () => setPreset("reset"));
+    document.getElementById("hotkeyBtn").addEventListener("click", () => {
+      hotkeyModal.classList.add("active");
+      hotkeyModal.setAttribute("aria-hidden", "false");
+    });
+    document.getElementById("closeModalBtn").addEventListener("click", () => {
+      hotkeyModal.classList.remove("active");
+      hotkeyModal.setAttribute("aria-hidden", "true");
+    });
+    document.querySelectorAll("[data-preset]").forEach((button) => button.addEventListener("click", () => setPreset(button.dataset.preset)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        hotkeyModal.classList.remove("active");
+        hotkeyModal.setAttribute("aria-hidden", "true");
+      }
+      if (event.key.toLowerCase() === "h") {
+        hotkeyModal.classList.add("active");
+        hotkeyModal.setAttribute("aria-hidden", "false");
+      }
+    });
+    window.addEventListener("resize", render);
+
+    window.pennyCue = function pennyCue(input) {
+      const cue = String(input || "").toLowerCase();
+      if (cue.includes("wet clothes") || cue.includes("reset the room")) return setPreset("zero");
+      if (cue.includes("after hours")) return setPreset("afterhours");
+      if (cue.includes("portal") || cue.includes("qr")) return setPreset("portal");
+      if (cue.includes("labs") || cue.includes("roco")) {
+        selectedRouteId = "labs";
+        localStorage.setItem("wcdev:luckyRoute", selectedRouteId);
         render();
       }
+    };
 
-      state.lastX = event.clientX;
-      state.lastY = event.clientY;
-      state.lastT = now;
-    }
-
-    function endDrag(event) {
-      if (!state.dragging || event.pointerId !== state.pointerId) return;
-
-      event.preventDefault();
-      clearLong();
-
-      state.dragging = false;
-
-      try {
-        deck.releasePointerCapture(event.pointerId);
-      } catch (_) {}
-
-      const totalX = event.clientX - state.startX;
-      const totalY = event.clientY - state.startY;
-      const absX = Math.abs(totalX);
-      const absY = Math.abs(totalY);
-
-      if (absX < 12 && absY < 12) {
-        toggleFlip();
-        return;
-      }
-
-      if (state.gesture === "vertical") {
-        if (totalY < 0) {
-          setLayer(1, "swipe_up_layer");
-        } else {
-          setLayer(-1, "swipe_down_layer");
-        }
-        state.velocity = 0;
-        return;
-      }
-
-      writeState("spin_release");
-    }
-
-    function tick() {
-      if (!state.dragging) {
-        state.position += state.velocity;
-        state.velocity *= 0.92;
-
-        if (Math.abs(state.velocity) < 0.006) {
-          const target = nearestIndex();
-          const diff = target - state.position;
-          state.position += diff * 0.18;
-
-          if (Math.abs(diff) < 0.004) {
-            state.position = target;
-            state.velocity = 0;
-          }
-        }
-
-        render();
-      }
-
-      requestAnimationFrame(tick);
-    }
-
-    deck.addEventListener("pointerdown", startDrag);
-    deck.addEventListener("pointermove", moveDrag);
-    deck.addEventListener("pointerup", endDrag);
-    deck.addEventListener("pointercancel", endDrag);
-
-    pennyChip.addEventListener("click", openQuick);
-    closeQuick.addEventListener("click", closeQuickPanel);
-
-    document.addEventListener("touchmove", function(event) {
-      if (!event.target.closest("#quickPanel")) event.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener("gesturestart", function(event) {
-      event.preventDefault();
-    });
-
-    document.addEventListener("contextmenu", function(event) {
-      event.preventDefault();
-    });
-
-    try {
-      history.replaceState({ deck: true }, "", location.href);
-      history.pushState({ deck: true }, "", location.href);
-
-      window.addEventListener("popstate", function() {
-        if (quickPanel.classList.contains("open")) {
-          closeQuickPanel();
-        } else if (currentCardIsFlipped()) {
-          closeFlip();
-        } else if (state.layer !== 0) {
-          resetLayer();
-        }
-
-        history.pushState({ deck: true }, "", location.href);
-      });
-    } catch (_) {}
-
-    try {
-      sessionStorage.setItem("wildcard_boot_mode", "after-hours-bios-spinner-v5");
-      sessionStorage.setItem("wildcard_comms_stack", "text>voice>video>files");
-    } catch (_) {}
-
-    snapTo(0, "boot");
-    tick();
+    render();
   </script>
 </body>
 </html>
