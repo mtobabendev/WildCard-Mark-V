@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#08050d" />
+  <meta name="description" content="Penny Connect Mark 1: a local-first, browser-agnostic network heartbeat and route console." />
+  <title>Penny Connect Mark 1</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08050d;
+      --panel: rgba(20, 14, 28, 0.88);
+      --panel-strong: rgba(10, 7, 15, 0.96);
+      --line: rgba(255, 255, 255, 0.16);
+      --line-hot: rgba(255, 91, 195, 0.72);
+      --text: #fff8ff;
+      --muted: #d8c9dc;
+      --accent: #ff5bc3;
+      --accent-2: #8d6cff;
+      --ok: #94f2d0;
+      --warn: #ffd27d;
+      --bad: #ff8da8;
+      --unknown: #c8c8d2;
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.62);
+      --radius: 22px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(141, 108, 255, 0.20), transparent 34%),
+        radial-gradient(circle at 80% 5%, rgba(255, 91, 195, 0.22), transparent 32%),
+        linear-gradient(150deg, #060309, #100718 50%, #060309);
+    }
+
+    button, input, select { font: inherit; }
+    button {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(255, 91, 195, 0.18), rgba(141, 108, 255, 0.16));
+      border-radius: 999px;
+      padding: 0.78rem 1rem;
+      font-weight: 850;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+    button:hover, button:focus-visible {
+      border-color: var(--line-hot);
+      outline: none;
+      transform: translateY(-1px);
+    }
+    button:disabled { opacity: 0.48; cursor: not-allowed; transform: none; }
+
+    .app {
+      width: min(1500px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: max(12px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-hot);
+      border-radius: 14px;
+      background: rgba(255, 91, 195, 0.10);
+      box-shadow: 0 0 28px rgba(255, 91, 195, 0.18);
+      font-size: 1.3rem;
+    }
+    .brand h1 { margin: 0; font-size: clamp(1.1rem, 3vw, 1.7rem); letter-spacing: 0.06em; text-transform: uppercase; }
+    .brand p { margin: 2px 0 0; color: var(--muted); font-size: 0.82rem; }
+
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.42rem 0.65rem;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(330px, 1.4fr) minmax(280px, 0.9fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 91, 195, 0.05), var(--panel));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+    }
+    .panel-inner { padding: 16px; }
+    .panel h2 { margin: 0 0 8px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.09em; }
+    .panel p { margin: 0; color: var(--muted); line-height: 1.48; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.68rem; font-weight: 950; }
+
+    .heartbeat-stage {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+    }
+    .ring, .ring::before, .ring::after {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 91, 195, 0.30);
+      content: "";
+    }
+    .ring {
+      width: min(78vw, 430px);
+      aspect-ratio: 1;
+      background: conic-gradient(from 0deg, transparent, rgba(255, 91, 195, 0.30), transparent, rgba(141, 108, 255, 0.22), transparent);
+      box-shadow: 0 0 56px rgba(255, 91, 195, 0.16);
+      animation: spin 12s linear infinite;
+      animation-play-state: paused;
+    }
+    .ring::before { inset: 11%; border-style: dashed; }
+    .ring::after { inset: 25%; border-color: rgba(255,255,255,0.16); }
+    .ring.live { animation-play-state: running; }
+    .ring.probing { animation-duration: 2s; animation-play-state: running; }
+
+    .core {
+      position: relative;
+      z-index: 2;
+      width: min(78vw, 270px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 1px solid var(--line-hot);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 35%, rgba(255, 91, 195, 0.22), rgba(8, 5, 13, 0.98) 64%);
+      box-shadow: inset 0 0 40px rgba(255, 91, 195, 0.12), 0 0 54px rgba(255, 91, 195, 0.22);
+      padding: 24px;
+    }
+    .core strong { display: block; font-size: clamp(1.5rem, 5vw, 2.4rem); letter-spacing: 0.08em; }
+    .core span { display: block; color: var(--muted); margin-top: 6px; }
+    .core .count { color: var(--ok); font: 850 0.85rem/1.3 ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+    .primary {
+      border-color: var(--line-hot);
+      background: linear-gradient(135deg, rgba(255, 91, 195, 0.76), rgba(141, 108, 255, 0.54));
+      box-shadow: 0 0 28px rgba(255, 91, 195, 0.24);
+      min-width: 185px;
+    }
+    .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: -58px; position: relative; z-index: 3; padding-bottom: 16px; }
+
+    .route-list { display: grid; gap: 9px; margin-top: 12px; }
+    .route {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(255,255,255,0.035);
+    }
+    .route-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: rgba(255,255,255,0.05); }
+    .route strong { display: block; }
+    .route small { display: block; margin-top: 2px; color: var(--muted); overflow-wrap: anywhere; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .symbol { width: 20px; height: 20px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; }
+    .status.online { color: var(--ok); }
+    .status.offline { color: var(--bad); }
+    .status.blocked { color: var(--warn); }
+    .status.unknown { color: var(--unknown); }
+    .status.probing { color: var(--accent); }
+
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+    .switch-row label { color: var(--muted); font-weight: 800; }
+    input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+
+    .console {
+      min-height: 260px;
+      max-height: 460px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(0,0,0,0.32);
+      color: #ffeefd;
+      font: 0.78rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      margin-top: 10px;
+    }
+
+    .gate {
+      border-left: 4px solid var(--warn);
+      background: rgba(255, 210, 125, 0.06);
+    }
+    .gate strong { color: var(--warn); }
+
+    dialog {
+      width: min(760px, calc(100% - 24px));
+      max-height: 88svh;
+      overflow: auto;
+      color: var(--text);
+      border: 1px solid var(--line-hot);
+      border-radius: 22px;
+      background: var(--panel-strong);
+      box-shadow: var(--shadow);
+      padding: 0;
+    }
+    dialog::backdrop { background: rgba(0,0,0,0.72); backdrop-filter: blur(5px); }
+    .dialog-head, .dialog-body, .dialog-foot { padding: 16px; }
+    .dialog-head { border-bottom: 1px solid var(--line); }
+    .dialog-head h2 { margin: 0; }
+    .dialog-foot { border-top: 1px solid var(--line); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: var(--muted); font-size: 0.78rem; font-weight: 850; }
+    .field input, .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.055);
+      color: var(--text);
+      padding: 0.72rem;
+    }
+    .field input:focus, .field select:focus { border-color: var(--line-hot); outline: none; }
+    .help { color: var(--muted); font-size: 0.76rem; line-height: 1.4; }
+
+    .footer { color: var(--muted); text-align: center; padding: 18px 8px 0; font-size: 0.78rem; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; } }
+    @media (max-width: 1050px) { .layout { grid-template-columns: 1fr; } .heartbeat-stage { min-height: 470px; } }
+    @media (max-width: 620px) { .app { width: min(100% - 12px, 560px); } .field-grid { grid-template-columns: 1fr; } .field.full { grid-column: auto; } .route { grid-template-columns: 32px 1fr; } .route .status { grid-column: 2; justify-self: start; } .heartbeat-stage { min-height: 430px; } .actions { margin-top: -44px; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div>
+          <h1>Penny Connect Mark 1</h1>
+          <p>Local-first network heartbeat, route probe, and hotspot bridge console</p>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge">◇ No secrets</span>
+        <span class="badge">◎ Browser-agnostic</span>
+        <span class="badge">⚿ Owner Gate</span>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="panel">
+        <div class="panel-inner">
+          <span class="eyebrow">Route deck</span>
+          <h2>Known network surfaces</h2>
+          <p>One verified route keeps the heartbeat moving. A frozen ring means no route has been confirmed.</p>
+          <div class="route-list" id="routeList"></div>
+          <div class="switch-row">
+            <label for="autoProbe">Auto-probe every 15 seconds</label>
+            <input id="autoProbe" type="checkbox" />
+          </div>
+          <div class="switch-row">
+            <label for="pinkMode">PINK safe mode</label>
+            <input id="pinkMode" type="checkbox" />
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel">
+        <div class="panel-inner heartbeat-stage">
+          <div class="ring" id="ring" aria-hidden="true"></div>
+          <div class="core" aria-live="polite">
+            <div>
+              <strong id="coreLabel">STANDBY</strong>
+              <span id="coreDetail">No probe completed</span>
+              <span class="count" id="coreCount">0 verified routes</span>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="connectButton" type="button">PENNY CONNECT</button>
+          <button id="hotspotButton" type="button">REQUEST HOTSPOT</button>
+          <button id="configButton" type="button">CONFIGURE</button>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-inner">
+          <span class="eyebrow">Visible state</span>
+          <h2>Probe log</h2>
+          <p>Only visible connection state is recorded. Credentials, audio, camera, screen, and location remain outside this console.</p>
+          <div class="console" id="console" aria-live="polite">Penny Connect ready.\nNo network requests have been made yet.</div>
+          <div class="actions" style="margin:12px 0 0;padding:0;justify-content:flex-start">
+            <button id="copyButton" type="button">COPY STATE</button>
+            <button id="downloadButton" type="button">DOWNLOAD JSON</button>
+            <button id="clearButton" type="button">CLEAR LOG</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel gate" style="margin-top:14px">
+      <div class="panel-inner">
+        <span class="eyebrow">Owner Gate</span>
+        <h2>Observation is automatic. Control is not.</h2>
+        <p><strong>Hotspot requests and route launches require a visible confirmation.</strong> This browser page never changes Windows, Android, Tasker, router, Roku, Home Assistant, or watch settings by itself. PINK safe mode disables all external probes and leaves only local browser telemetry.</p>
+      </div>
+    </section>
+
+    <footer class="footer">WildCard DEV / PennyCore · Penny Connect Mark 1 · additive proposal build · no hidden recording · no automatic transmissions</footer>
+  </main>
+
+  <dialog id="configDialog">
+    <form method="dialog" id="configForm">
+      <div class="dialog-head">
+        <span class="eyebrow">Configuration</span>
+        <h2>Penny Area Network endpoints</h2>
+      </div>
+      <div class="dialog-body">
+        <div class="field-grid">
+          <div class="field full">
+            <label for="s23Url">S23 / Tasker bridge health URL</label>
+            <input id="s23Url" name="s23Url" inputmode="url" placeholder="http://192.168.x.x:port/health" />
+          </div>
+          <div class="field full">
+            <label for="hotspotUrl">S23 / Tasker hotspot command URL</label>
+            <input id="hotspotUrl" name="hotspotUrl" inputmode="url" placeholder="http://192.168.x.x:port/penny-hotspot" />
+          </div>
+          <div class="field full">
+            <label for="nexusUrl">Nexus URL</label>
+            <input id="nexusUrl" name="nexusUrl" inputmode="url" />
+          </div>
+          <div class="field full">
+            <label for="laptopUrl">Laptop / PennyCore health URL</label>
+            <input id="laptopUrl" name="laptopUrl" inputmode="url" />
+          </div>
+          <div class="field full">
+            <label for="piUrl">Pi node health URL</label>
+            <input id="piUrl" name="piUrl" inputmode="url" placeholder="http://penny-pi.local/health" />
+          </div>
+          <div class="field full">
+            <label for="rokuUrl">Roku or local Roku bridge health URL</label>
+            <input id="rokuUrl" name="rokuUrl" inputmode="url" placeholder="http://192.168.x.x:8060/query/device-info" />
+          </div>
+          <div class="field">
+            <label for="timeoutMs">Probe timeout</label>
+            <select id="timeoutMs" name="timeoutMs">
+              <option value="1500">1.5 seconds</option>
+              <option value="3000">3 seconds</option>
+              <option value="5000">5 seconds</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="operator">Operator label</label>
+            <input id="operator" name="operator" value="Matt T" />
+          </div>
+          <div class="field full help">Endpoints are stored only in this browser's localStorage. Do not place passwords, API keys, tokens, or private query parameters in these fields.</div>
+        </div>
+      </div>
+      <div class="dialog-foot">
+        <button value="cancel" type="button" id="cancelConfig">CANCEL</button>
+        <button value="default" type="button" id="resetConfig">RESET DEFAULTS</button>
+        <button class="primary" value="save" type="submit">SAVE CONFIG</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    'use strict';
+
+    const STORAGE_KEY = 'pennycore:penny-connect-mark1';
+    const LOG_LIMIT = 120;
+    const DEFAULT_CONFIG = Object.freeze({
+      s23Url: '',
+      hotspotUrl: '',
+      nexusUrl: 'https://nexus.wildcarddev.com/',
+      laptopUrl: 'http://127.0.0.1:8765/health',
+      piUrl: '',
+      rokuUrl: '',
+      timeoutMs: 3000,
+      operator: 'Matt T',
+      autoProbe: false,
+      pinkMode: false
+    });
+
+    const ROUTE_DEFS = [
+      { id: 'browser', label: 'Browser network', icon: '◎', type: 'local', configKey: null },
+      { id: 'nexus', label: 'Nexus', icon: 'N', type: 'endpoint', configKey: 'nexusUrl' },
+      { id: 's23', label: 'S23 / Tasker bridge', icon: 'S', type: 'endpoint', configKey: 's23Url' },
+      { id: 'laptop', label: 'Laptop / PennyCore', icon: 'L', type: 'endpoint', configKey: 'laptopUrl' },
+      { id: 'pi', label: 'Pi node', icon: 'π', type: 'endpoint', configKey: 'piUrl' },
+      { id: 'roku', label: 'Roku bridge', icon: 'R', type: 'endpoint', configKey: 'rokuUrl' }
+    ];
+
+    const state = {
+      config: loadConfig(),
+      routes: Object.fromEntries(ROUTE_DEFS.map(route => [route.id, {
+        id: route.id,
+        label: route.label,
+        status: 'unknown',
+        detail: route.type === 'local' ? 'Not checked' : 'Endpoint not configured',
+        latencyMs: null,
+        checkedAt: null
+      }])),
+      probing: false,
+      log: [],
+      lastPacket: null,
+      autoTimer: null
+    };
+
+    const els = {
+      routeList: document.getElementById('routeList'),
+      ring: document.getElementById('ring'),
+      coreLabel: document.getElementById('coreLabel'),
+      coreDetail: document.getElementById('coreDetail'),
+      coreCount: document.getElementById('coreCount'),
+      console: document.getElementById('console'),
+      connectButton: document.getElementById('connectButton'),
+      hotspotButton: document.getElementById('hotspotButton'),
+      configButton: document.getElementById('configButton'),
+      copyButton: document.getElementById('copyButton'),
+      downloadButton: document.getElementById('downloadButton'),
+      clearButton: document.getElementById('clearButton'),
+      autoProbe: document.getElementById('autoProbe'),
+      pinkMode: document.getElementById('pinkMode'),
+      configDialog: document.getElementById('configDialog'),
+      configForm: document.getElementById('configForm'),
+      cancelConfig: document.getElementById('cancelConfig'),
+      resetConfig: document.getElementById('resetConfig')
+    };
+
+    function loadConfig() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        return { ...DEFAULT_CONFIG, ...parsed };
+      } catch (error) {
+        return { ...DEFAULT_CONFIG };
+      }
+    }
+
+    function saveConfig() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.config));
+    }
+
+    function nowIso() { return new Date().toISOString(); }
+
+    function log(message, level = 'info', data = null) {
+      const entry = { timestamp: nowIso(), level, message, data };
+      state.log.unshift(entry);
+      state.log = state.log.slice(0, LOG_LIMIT);
+      renderConsole();
+    }
+
+    function renderConsole() {
+      if (!state.log.length) {
+        els.console.textContent = 'Penny Connect ready.\nNo network requests have been made yet.';
+        return;
+      }
+      els.console.textContent = state.log.map(entry => {
+        const extra = entry.data ? `\n${JSON.stringify(entry.data, null, 2)}` : '';
+        return `[${entry.timestamp}] ${entry.level.toUpperCase()} ${entry.message}${extra}`;
+      }).join('\n\n');
+    }
+
+    function statusSymbol(status) {
+      return ({ online: '✓', offline: '×', blocked: '!', probing: '↻', unknown: '?' })[status] || '?';
+    }
+
+    function renderRoutes() {
+      els.routeList.innerHTML = '';
+      for (const def of ROUTE_DEFS) {
+        const route = state.routes[def.id];
+        const endpoint = def.configKey ? state.config[def.configKey] : 'navigator.onLine';
+        const item = document.createElement('div');
+        item.className = 'route';
+        item.innerHTML = `
+          <div class="route-icon" aria-hidden="true">${def.icon}</div>
+          <div>
+            <strong>${escapeHtml(def.label)}</strong>
+            <small>${escapeHtml(route.detail || endpoint || 'Endpoint not configured')}</small>
+          </div>
+          <div class="status ${route.status}" aria-label="${escapeHtml(route.status)}">
+            <span class="symbol" aria-hidden="true">${statusSymbol(route.status)}</span>
+            ${escapeHtml(route.status)}
+          </div>`;
+        if (endpoint && def.type === 'endpoint') {
+          item.title = endpoint;
+          item.addEventListener('dblclick', () => openRoute(def));
+        }
+        els.routeList.appendChild(item);
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
+    }
+
+    function updateCore() {
+      const routes = Object.values(state.routes);
+      const online = routes.filter(route => route.status === 'online').length;
+      const blocked = routes.filter(route => route.status === 'blocked').length;
+      els.ring.classList.toggle('probing', state.probing);
+      els.ring.classList.toggle('live', !state.probing && online > 0);
+      els.connectButton.disabled = state.probing;
+      els.connectButton.textContent = state.probing ? 'PROBING…' : 'PENNY CONNECT';
+
+      if (state.probing) {
+        els.coreLabel.textContent = 'PROBING';
+        els.coreDetail.textContent = 'Listening across configured routes';
+      } else if (online > 0) {
+        els.coreLabel.textContent = 'LINK ALIVE';
+        els.coreDetail.textContent = `${online} route${online === 1 ? '' : 's'} verified`;
+      } else if (blocked > 0) {
+        els.coreLabel.textContent = 'BROWSER BLOCK';
+        els.coreDetail.textContent = 'A route may exist but the page cannot verify it';
+      } else {
+        els.coreLabel.textContent = 'NO LINK';
+        els.coreDetail.textContent = state.config.pinkMode ? 'PINK safe mode is observing locally' : 'No route verified';
+      }
+      els.coreCount.textContent = `${online} verified route${online === 1 ? '' : 's'}`;
+    }
+
+    function renderAll() {
+      renderRoutes();
+      renderConsole();
+      updateCore();
+      els.autoProbe.checked = Boolean(state.config.autoProbe);
+      els.pinkMode.checked = Boolean(state.config.pinkMode);
+      els.hotspotButton.disabled = !state.config.hotspotUrl || state.config.pinkMode || state.probing;
+    }
+
+    function markRoute(id, status, detail, latencyMs = null) {
+      state.routes[id] = {
+        ...state.routes[id],
+        status,
+        detail,
+        latencyMs,
+        checkedAt: nowIso()
+      };
+      renderRoutes();
+      updateCore();
+    }
+
+    async function probeEndpoint(def) {
+      const url = state.config[def.configKey];
+      if (!url) {
+        markRoute(def.id, 'unknown', 'Endpoint not configured');
+        return;
+      }
+
+      if (state.config.pinkMode) {
+        markRoute(def.id, 'unknown', 'PINK safe mode: external probe skipped');
+        return;
+      }
+
+      const currentIsHttps = location.protocol === 'https:';
+      const targetIsHttp = /^http:\/\//i.test(url);
+      if (currentIsHttps && targetIsHttp) {
+        markRoute(def.id, 'blocked', 'Mixed-content block: open this console locally or through HTTP to probe LAN routes');
+        return;
+      }
+
+      markRoute(def.id, 'probing', 'Probe in flight');
+      const start = performance.now();
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), Number(state.config.timeoutMs) || 3000);
+
+      try {
+        const target = new URL(url, location.href);
+        const sameOrigin = target.origin === location.origin;
+        const response = await fetch(target.href, {
+          method: 'GET',
+          mode: sameOrigin ? 'same-origin' : 'no-cors',
+          cache: 'no-store',
+          credentials: 'omit',
+          redirect: 'follow',
+          signal: controller.signal
+        });
+        const latency = Math.round(performance.now() - start);
+        clearTimeout(timeout);
+        const detail = response.type === 'opaque' ? `Route heard in ${latency} ms (opaque browser response)` : `HTTP ${response.status} in ${latency} ms`;
+        markRoute(def.id, response.ok || response.type === 'opaque' ? 'online' : 'offline', detail, latency);
+      } catch (error) {
+        clearTimeout(timeout);
+        const latency = Math.round(performance.now() - start);
+        const aborted = error && error.name === 'AbortError';
+        markRoute(def.id, 'offline', aborted ? `Timed out after ${latency} ms` : `Probe failed: ${error.message || 'unknown error'}`, latency);
+      }
+    }
+
+    async function probeAll(trigger = 'manual') {
+      if (state.probing) return;
+      state.probing = true;
+      log(`Probe started by ${trigger}.`, 'info', { pinkMode: state.config.pinkMode });
+      updateCore();
+
+      const browserOnline = navigator.onLine;
+      markRoute('browser', browserOnline ? 'online' : 'offline', browserOnline ? 'navigator.onLine reports available' : 'navigator.onLine reports unavailable');
+
+      const endpointDefs = ROUTE_DEFS.filter(def => def.type === 'endpoint');
+      await Promise.all(endpointDefs.map(probeEndpoint));
+
+      state.probing = false;
+      state.lastPacket = buildStatePacket(trigger);
+      const onlineCount = Object.values(state.routes).filter(route => route.status === 'online').length;
+      log('Probe complete.', onlineCount > 0 ? 'ok' : 'warn', state.lastPacket);
+      renderAll();
+    }
+
+    function connectionInfo() {
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!connection) return { supported: false };
+      return {
+        supported: true,
+        effectiveType: connection.effectiveType || null,
+        downlinkMbps: connection.downlink ?? null,
+        rttMs: connection.rtt ?? null,
+        saveData: Boolean(connection.saveData)
+      };
+    }
+
+    function buildStatePacket(trigger) {
+      return {
+        packet_type: 'penny_connect_mark1_state',
+        generated_at: nowIso(),
+        trigger,
+        operator: state.config.operator,
+        governance: {
+          owner_gate: true,
+          pink_safe_mode: state.config.pinkMode,
+          automatic_control: false,
+          credentials_stored: false,
+          hidden_recording: false
+        },
+        browser: {
+          online: navigator.onLine,
+          url: location.href,
+          protocol: location.protocol,
+          viewport: { width: innerWidth, height: innerHeight },
+          connection: connectionInfo()
+        },
+        routes: Object.values(state.routes).map(route => ({ ...route })),
+        next_safest_action: Object.values(state.routes).some(route => route.status === 'online')
+          ? 'Keep at least one verified route alive; request hotspot only through visible Owner Gate.'
+          : 'Configure one trusted health endpoint or enable the existing phone hotspot manually.'
+      };
+    }
+
+    async function requestHotspot() {
+      const url = state.config.hotspotUrl;
+      if (!url || state.config.pinkMode || state.probing) return;
+      const approved = confirm('OWNER GATE\n\nSend the configured hotspot request to the S23 / Tasker bridge?');
+      if (!approved) {
+        log('Hotspot request cancelled at Owner Gate.', 'info');
+        return;
+      }
+
+      state.probing = true;
+      updateCore();
+      log('Hotspot request approved. Sending visible bridge command.', 'info', { url });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), Number(state.config.timeoutMs) || 3000);
+      try {
+        const target = new URL(url, location.href);
+        const sameOrigin = target.origin === location.origin;
+        const response = await fetch(target.href, {
+          method: 'POST',
+          mode: sameOrigin ? 'same-origin' : 'no-cors',
+          cache: 'no-store',
+          credentials: 'omit',
+          headers: sameOrigin ? { 'Content-Type': 'application/json' } : undefined,
+          body: sameOrigin ? JSON.stringify({ command: 'enable_hotspot', source: 'penny-connect-mark1', approved_at: nowIso() }) : undefined,
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        log('Hotspot bridge request delivered. Device confirmation still required unless Tasker is explicitly configured otherwise.', 'ok', { responseType: response.type, status: response.status || 'opaque' });
+      } catch (error) {
+        clearTimeout(timeout);
+        log('Hotspot bridge request failed.', 'error', { error: error.message || String(error) });
+      } finally {
+        state.probing = false;
+        renderAll();
+        setTimeout(() => probeAll('post-hotspot-request'), 1200);
+      }
+    }
+
+    function openRoute(def) {
+      const url = state.config[def.configKey];
+      if (!url) return;
+      if (confirm(`Open ${def.label} in a new tab?`)) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    function populateConfigDialog(config = state.config) {
+      for (const key of ['s23Url', 'hotspotUrl', 'nexusUrl', 'laptopUrl', 'piUrl', 'rokuUrl', 'timeoutMs', 'operator']) {
+        const input = document.getElementById(key);
+        if (input) input.value = config[key] ?? '';
+      }
+    }
+
+    function applyAutoProbe() {
+      if (state.autoTimer) {
+        clearInterval(state.autoTimer);
+        state.autoTimer = null;
+      }
+      if (state.config.autoProbe) {
+        state.autoTimer = setInterval(() => probeAll('auto-timer'), 15000);
+      }
+    }
+
+    async function copyState() {
+      const packet = state.lastPacket || buildStatePacket('copy');
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(packet, null, 2));
+        log('State packet copied to clipboard.', 'ok');
+      } catch (error) {
+        log('Clipboard write failed.', 'error', { error: error.message || String(error) });
+      }
+    }
+
+    function downloadState() {
+      const packet = state.lastPacket || buildStatePacket('download');
+      const blob = new Blob([JSON.stringify(packet, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `penny-connect-state-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      log('State packet downloaded.', 'ok');
+    }
+
+    els.connectButton.addEventListener('click', () => probeAll('manual-button'));
+    els.hotspotButton.addEventListener('click', requestHotspot);
+    els.configButton.addEventListener('click', () => {
+      populateConfigDialog();
+      els.configDialog.showModal();
+    });
+    els.cancelConfig.addEventListener('click', () => els.configDialog.close('cancel'));
+    els.resetConfig.addEventListener('click', () => populateConfigDialog(DEFAULT_CONFIG));
+    els.configForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const data = new FormData(els.configForm);
+      state.config = {
+        ...state.config,
+        s23Url: String(data.get('s23Url') || '').trim(),
+        hotspotUrl: String(data.get('hotspotUrl') || '').trim(),
+        nexusUrl: String(data.get('nexusUrl') || '').trim(),
+        laptopUrl: String(data.get('laptopUrl') || '').trim(),
+        piUrl: String(data.get('piUrl') || '').trim(),
+        rokuUrl: String(data.get('rokuUrl') || '').trim(),
+        timeoutMs: Number(data.get('timeoutMs') || 3000),
+        operator: String(data.get('operator') || 'Matt T').trim()
+      };
+      saveConfig();
+      els.configDialog.close('save');
+      log('Endpoint configuration saved locally.', 'ok');
+      renderAll();
+      probeAll('config-save');
+    });
+
+    els.autoProbe.addEventListener('change', event => {
+      state.config.autoProbe = event.target.checked;
+      saveConfig();
+      applyAutoProbe();
+      log(`Auto-probe ${state.config.autoProbe ? 'enabled' : 'disabled'}.`, 'info');
+    });
+
+    els.pinkMode.addEventListener('change', event => {
+      state.config.pinkMode = event.target.checked;
+      saveConfig();
+      log(`PINK safe mode ${state.config.pinkMode ? 'enabled' : 'disabled'}.`, 'info');
+      renderAll();
+      probeAll('pink-mode-change');
+    });
+
+    els.copyButton.addEventListener('click', copyState);
+    els.downloadButton.addEventListener('click', downloadState);
+    els.clearButton.addEventListener('click', () => { state.log = []; renderConsole(); });
+    window.addEventListener('online', () => probeAll('browser-online-event'));
+    window.addEventListener('offline', () => probeAll('browser-offline-event'));
+
+    renderAll();
+    applyAutoProbe();
+    log('Penny Connect Mark 1 initialized.', 'ok', {
+      ownerGate: true,
+      pinkSafeMode: state.config.pinkMode,
+      autoProbe: state.config.autoProbe
+    });
+  </script>
+</body>
+</html>
