@@ -1,19 +1,19 @@
 name: Add Penny coder warning
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'penny-coder-warning-trigger.txt'
+  status:
 
 permissions:
   contents: write
 
 jobs:
   patch:
+    if: github.event.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Insert Penny coder warning only
         shell: bash
         run: |
