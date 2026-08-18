@@ -1,5 +1,6 @@
 name: Final artist wall DOM layer
 
+# second trigger: workflow already exists on main
 on:
   push:
     branches: [main]
@@ -24,7 +25,6 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          # Remove both prior wall experiments if present.
           s = re.sub(r'\n\s*/\* ARTIST WALL INLINE START \*/.*?/\* ARTIST WALL INLINE END \*/\s*', '\n', s, count=1, flags=re.S)
           s = re.sub(r'\n\s*/\* ARTIST WALL DOM LAYER START \*/.*?/\* ARTIST WALL DOM LAYER END \*/\s*', '\n', s, count=1, flags=re.S)
 
@@ -69,21 +69,23 @@ jobs:
           s = s.replace('\n  </style>', '\n' + css + '\n  </style>', 1)
 
           opening = '<section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">'
-          # Remove any previous literal wall image first, then insert one exact layer.
           s = re.sub(r'\s*<img class="artist-exhibition__wall"[^>]*>\s*', '\n', s, count=1)
-          wall = opening + '\n        <img class="artist-exhibition__wall" src="https://raw.githubusercontent.com/mtobabendev/WildCard-Mark-V/main/images/artist-gallery-wall.jpg?raw=1&v=final" alt="" aria-hidden="true" />'
+          wall = opening + '\n        <img class="artist-exhibition__wall" src="https://raw.githubusercontent.com/mtobabendev/WildCard-Mark-V/main/images/artist-gallery-wall.jpg?raw=1%26v=final" alt="" aria-hidden="true" />'
           if opening not in s:
               raise SystemExit('Artist exhibition opening tag not found; refusing broad edit.')
           s = s.replace(opening, wall, 1)
 
           p.write_text(s, encoding='utf-8')
           PY
-      - name: Commit literal wall layer and remove one-shot workflow
+      - name: Commit literal wall layer
         shell: bash
         run: |
           git config user.name 'wildcarddev-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html
-          git rm .github/workflows/final-artist-wall-dom-layer.yml
+          if git diff --cached --quiet; then
+            echo 'No index change required.'
+            exit 0
+          fi
           git commit -m 'Render prison art wall behind artist spinner'
           git push
