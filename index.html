@@ -1377,6 +1377,10 @@
       pointer-events: none;
     }
 
+    .interface-modes--top-preview {
+      margin: 18px auto 64px;
+    }
+
     .interface-mode {
       position: relative;
       padding: 18px;
@@ -2675,39 +2679,6 @@
             </div>
           </div>
 
-          <!-- Interface modes -->
-          <section class="interface-modes" aria-label="WildCard DEV interface modes">
-            <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
-              <p class="interface-mode__kicker">Active Channel</p>
-              <h2>Contact</h2>
-              <p>Direct operator access for WildCard DEV, Matt, and Penny.</p>
-            </article>
-
-            <article class="interface-mode" data-mode="systems" aria-label="Systems mode" hidden>
-              <p class="interface-mode__kicker">System Layer</p>
-              <h2>Systems</h2>
-              <p>Premium web, app, and automation systems built with cinematic precision.</p>
-            </article>
-
-            <article class="interface-mode" data-mode="portfolio" aria-label="Portfolio mode" hidden>
-              <p class="interface-mode__kicker">Proof Layer</p>
-              <h2>Portfolio</h2>
-              <p>Selected builds, experiments, client systems, and interface work.</p>
-            </article>
-
-            <article class="interface-mode" data-mode="penny" aria-label="Penny mode" hidden>
-              <p class="interface-mode__kicker">Concierge Layer</p>
-              <h2>Penny</h2>
-              <p>WildCard DEV’s pink-accented concierge presence for routing, project guidance, interface support, and controlled chaos.</p>
-            </article>
-
-            <article class="interface-mode" data-mode="automation" aria-label="Automation mode" hidden>
-              <p class="interface-mode__kicker">Execution Layer</p>
-              <h2>Automation</h2>
-              <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
-            </article>
-          </section>
-
           <!-- Penny contact card -->
           <article class="contact-card penny">
 
@@ -2721,6 +2692,39 @@
           </article>
           </div>
         </div>
+      </section>
+
+      <!-- Interface modes -->
+      <section class="interface-modes interface-modes--top-preview" aria-label="WildCard DEV interface modes">
+        <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
+          <p class="interface-mode__kicker">Active Channel</p>
+          <h2>Contact</h2>
+          <p>Direct operator access for WildCard DEV, Matt, and Penny.</p>
+        </article>
+
+        <article class="interface-mode" data-mode="systems" aria-label="Systems mode" hidden>
+          <p class="interface-mode__kicker">System Layer</p>
+          <h2>Systems</h2>
+          <p>Premium web, app, and automation systems built with cinematic precision.</p>
+        </article>
+
+        <article class="interface-mode" data-mode="portfolio" aria-label="Portfolio mode" hidden>
+          <p class="interface-mode__kicker">Proof Layer</p>
+          <h2>Portfolio</h2>
+          <p>Selected builds, experiments, client systems, and interface work.</p>
+        </article>
+
+        <article class="interface-mode" data-mode="penny" aria-label="Penny mode" hidden>
+          <p class="interface-mode__kicker">Concierge Layer</p>
+          <h2>Penny</h2>
+          <p>WildCard DEV’s pink-accented concierge presence for routing, project guidance, interface support, and controlled chaos.</p>
+        </article>
+
+        <article class="interface-mode" data-mode="automation" aria-label="Automation mode" hidden>
+          <p class="interface-mode__kicker">Execution Layer</p>
+          <h2>Automation</h2>
+          <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
+        </article>
       </section>
 
       <section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">
@@ -3144,12 +3148,25 @@
 
   <script>
     (() => {
+      const createArtworkPlaceholder = (slot) => {
+        const label = `ARTWORK ${slot}`;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1250" role="img" aria-label="${label} placeholder"><defs><linearGradient id="field" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#21172a"/><stop offset="1" stop-color="#09060d"/></linearGradient></defs><rect width="900" height="1250" fill="url(#field)"/><rect x="56" y="56" width="788" height="1138" rx="18" fill="none" stroke="#b99ac8" stroke-opacity=".48" stroke-width="3"/><path d="M120 960 330 720l145 160 155-205 150 285" fill="none" stroke="#d7c9df" stroke-opacity=".34" stroke-width="12"/><circle cx="278" cy="390" r="108" fill="none" stroke="#d7c9df" stroke-opacity=".24" stroke-width="12"/><text x="450" y="1100" fill="#e9e0ed" font-family="Arial,sans-serif" font-size="48" letter-spacing="9" text-anchor="middle">${label}</text><text x="450" y="1155" fill="#aa94b5" font-family="Arial,sans-serif" font-size="22" letter-spacing="4" text-anchor="middle">IMAGE PLACEHOLDER</text></svg>`;
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+      };
+
       const artworkData = [
-        { id:'first-light', image:'images/Cyberpunk asset preview UI sheet.png', alt:'Temporary featured artwork placeholder with cyberpunk interface imagery', title:'First Light', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition assets.' },
-        { id:'queen-signal', image:'images/penny/penny_canon_v1.png', alt:'Temporary featured artwork placeholder with Penny portrait imagery', title:'Queen Signal', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Replace this record with the artist’s approved title and story.' },
-        { id:'blue-room', image:'images/e-holo-projection.jpg', alt:'Temporary featured artwork placeholder in blue holographic tones', title:'Blue Room', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'The gallery keeps the full image visible and reserves this reverse side for context.' },
-        { id:'night-window', image:'images/WildCardDEV.jpg', alt:'Temporary featured artwork placeholder with dark WildCard imagery', title:'Night Window', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Final metadata can replace this placeholder without changing component code.' },
-        { id:'outside-line', image:'images/penny/penny-lab-source-v1.png', alt:'Temporary featured artwork placeholder with cinematic laboratory imagery', title:'Outside Line', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Commission or contact details can be added in a later approved pass.' }
+        { id:'artwork-01', image:createArtworkPlaceholder('01'), alt:'Placeholder for artwork 01', title:'Artwork 01', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-02', image:createArtworkPlaceholder('02'), alt:'Placeholder for artwork 02', title:'Artwork 02', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-03', image:createArtworkPlaceholder('03'), alt:'Placeholder for artwork 03', title:'Artwork 03', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-04', image:createArtworkPlaceholder('04'), alt:'Placeholder for artwork 04', title:'Artwork 04', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-05', image:createArtworkPlaceholder('05'), alt:'Placeholder for artwork 05', title:'Artwork 05', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-06', image:createArtworkPlaceholder('06'), alt:'Placeholder for artwork 06', title:'Artwork 06', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-07', image:createArtworkPlaceholder('07'), alt:'Placeholder for artwork 07', title:'Artwork 07', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-08', image:createArtworkPlaceholder('08'), alt:'Placeholder for artwork 08', title:'Artwork 08', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-09', image:createArtworkPlaceholder('09'), alt:'Placeholder for artwork 09', title:'Artwork 09', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-10', image:createArtworkPlaceholder('10'), alt:'Placeholder for artwork 10', title:'Artwork 10', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-11', image:createArtworkPlaceholder('11'), alt:'Placeholder for artwork 11', title:'Artwork 11', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' },
+        { id:'artwork-12', image:createArtworkPlaceholder('12'), alt:'Placeholder for artwork 12', title:'Artwork 12', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition asset.' }
       ];
 
       class ArtistSpinner {
