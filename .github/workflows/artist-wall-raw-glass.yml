@@ -1,0 +1,58 @@
+name: Raw artist wall and glass foreground
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/artist-wall-raw-glass.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove wall filters and glass the foreground
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          replacements = {
+            '.artist-exhibition__wall { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: inherit; opacity: 1; filter: brightness(2.8) contrast(1.02); pointer-events: none; }':
+            '.artist-exhibition__wall { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: inherit; opacity: 1; filter: none; image-rendering: auto; pointer-events: none; }',
+
+            '.artist-card__inner { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.15); border-radius: inherit; box-shadow: 0 24px 62px rgba(0,0,0,.65); transform-style: preserve-3d; transition: transform 620ms cubic-bezier(.2,.75,.18,1); }':
+            '.artist-card__inner { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.30); border-radius: inherit; background: rgba(10,6,16,.10); box-shadow: 0 18px 48px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.14); backdrop-filter: blur(7px) saturate(1.05); -webkit-backdrop-filter: blur(7px) saturate(1.05); transform-style: preserve-3d; transition: transform 620ms cubic-bezier(.2,.75,.18,1); }',
+
+            '.artist-card__face { position: absolute; inset: 0; display: grid; overflow: hidden; border-radius: inherit; background: #08040d; backface-visibility: hidden; }':
+            '.artist-card__face { position: absolute; inset: 0; display: grid; overflow: hidden; border-radius: inherit; background: rgba(8,4,13,.10); backface-visibility: hidden; }',
+
+            '.artist-card__back { align-content: center; gap: 10px; padding: clamp(18px,4vw,30px); transform: rotateY(180deg); background: radial-gradient(circle at 80% 12%,rgba(255,47,209,.18),transparent 36%),linear-gradient(145deg,#25122f,#0b0710); text-align: left; }':
+            '.artist-card__back { align-content: center; gap: 10px; padding: clamp(18px,4vw,30px); transform: rotateY(180deg); background: rgba(16,8,22,.28); backdrop-filter: blur(14px) saturate(1.08); -webkit-backdrop-filter: blur(14px) saturate(1.08); text-align: left; }',
+
+            '.artist-spinner__controls button { min-width: 48px; min-height: 46px; padding: .65rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(12,6,17,.9); color: var(--text); font: inherit; cursor: pointer; }':
+            '.artist-spinner__controls button { min-width: 48px; min-height: 46px; padding: .65rem .9rem; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(12,6,17,.18); backdrop-filter: blur(14px) saturate(1.08); -webkit-backdrop-filter: blur(14px) saturate(1.08); color: var(--text); font: inherit; cursor: pointer; }'
+          }
+
+          for old, new in replacements.items():
+              if old not in s:
+                  raise SystemExit('Expected CSS target not found; refusing broad edit: ' + old[:80])
+              s = s.replace(old, new, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and remove one-shot workflow
+        shell: bash
+        run: |
+          git config user.name 'wildcarddev-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/artist-wall-raw-glass.yml
+          git commit -m 'Remove artist wall filters and glass foreground'
+          git push
