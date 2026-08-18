@@ -1,11 +1,10 @@
-# trigger
 name: Add Penny coder warning
 
 on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/add-penny-coder-warning.yml'
+      - 'penny-coder-warning-trigger.txt'
 
 permissions:
   contents: write
@@ -96,12 +95,12 @@ jobs:
 
           p.write_text(s, encoding='utf-8')
           PY
-      - name: Commit warning and remove one-shot workflow
+      - name: Commit warning and clean up one-shot files
         shell: bash
         run: |
           git config user.name 'wildcarddev-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html
-          git rm .github/workflows/add-penny-coder-warning.yml
+          git rm .github/workflows/add-penny-coder-warning.yml penny-coder-warning-trigger.txt
           git commit -m 'Add Penny ChatGPT coding warning'
           git push
