@@ -1,0 +1,89 @@
+name: Artist wall DOM layer
+
+on:
+  push:
+    branches: [fix/artist-wall-dom-layer-11]
+    paths:
+      - '.github/workflows/artist-wall-dom-layer.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Put literal wall image behind artist spinner
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Remove the failed pseudo-element/base64 experiment cleanly.
+          s = re.sub(r'\n\s*/\* ARTIST WALL INLINE START \*/.*?/\* ARTIST WALL INLINE END \*/\s*', '\n', s, count=1, flags=re.S)
+
+          css = r'''
+    /* ARTIST WALL DOM LAYER START */
+    .artist-exhibition {
+      position: relative;
+      isolation: isolate;
+      background: #050209 !important;
+    }
+    .artist-exhibition__wall {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+      object-position: center center;
+      opacity: .92;
+      filter: brightness(.88) contrast(1.12);
+      pointer-events: none;
+      user-select: none;
+    }
+    .artist-exhibition::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(5,2,9,.04) 0%, rgba(5,2,9,.10) 38%, rgba(5,2,9,.24) 100%);
+      pointer-events: none;
+    }
+    .artist-exhibition__header,
+    .artist-spinner {
+      position: relative;
+      z-index: 2;
+    }
+    /* ARTIST WALL DOM LAYER END */
+'''
+
+          if '/* ARTIST WALL DOM LAYER START */' not in s:
+              s = s.replace('\n  </style>', '\n' + css + '\n  </style>', 1)
+
+          opening = '<section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">'
+          wall = opening + '\n        <img class="artist-exhibition__wall" src="https://raw.githubusercontent.com/mtobabendev/WildCard-Mark-V/main/images/artist-gallery-wall.jpg?v=375801d" alt="" aria-hidden="true" />'
+          if 'class="artist-exhibition__wall"' not in s:
+              if opening not in s:
+                  raise SystemExit('Artist exhibition opening tag not found; refusing broad edit.')
+              s = s.replace(opening, wall, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit patched gallery and remove one-shot workflow
+        shell: bash
+        run: |
+          git config user.name 'wildcarddev-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/artist-wall-dom-layer.yml
+          git commit -m 'Render artist wall as literal gallery layer'
+          git push
