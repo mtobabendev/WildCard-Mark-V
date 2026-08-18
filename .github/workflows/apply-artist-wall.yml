@@ -1,0 +1,45 @@
+name: Apply artist gallery wall
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-artist-wall.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply background to artist panel only
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '.artist-exhibition { margin: 30px auto 0; width: min(1180px,calc(100% - 32px)); padding: clamp(22px,4vw,42px); overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: radial-gradient(circle at 50% 36%,rgba(134,60,255,.17),transparent 35%),linear-gradient(145deg,rgba(19,8,27,.98),rgba(5,2,9,.98)); box-shadow: var(--shadow); }'
+          new = '.artist-exhibition { margin: 30px auto 0; width: min(1180px,calc(100% - 32px)); padding: clamp(22px,4vw,42px); overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(180deg,rgba(5,2,9,.36),rgba(5,2,9,.72)),radial-gradient(circle at 50% 36%,rgba(134,60,255,.14),transparent 35%),url("images/artist-gallery-wall.jpg") center/cover no-repeat,#050209; box-shadow: var(--shadow); }'
+          if new in s:
+              print('Artist gallery wall already applied.')
+          elif old in s:
+              p.write_text(s.replace(old, new, 1), encoding='utf-8')
+              print('Applied artist gallery wall background.')
+          else:
+              raise SystemExit('Expected artist-exhibition CSS line was not found; refusing broad edit.')
+          PY
+      - name: Commit patch if needed
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo 'No index change required.'
+            exit 0
+          fi
+          git config user.name 'wildcarddev-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Apply artist gallery wall background'
+          git push
