@@ -2476,7 +2476,33 @@
         font-size: 0.78rem;
       }
     }
-
+    /* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */
+    .artist-exhibition { margin: 30px auto 0; width: min(1180px,calc(100% - 32px)); padding: clamp(22px,4vw,42px); overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: radial-gradient(circle at 50% 36%,rgba(134,60,255,.17),transparent 35%),linear-gradient(145deg,rgba(19,8,27,.98),rgba(5,2,9,.98)); box-shadow: var(--shadow); }
+    .artist-exhibition__header { max-width: 720px; margin: 0 auto 20px; text-align: center; }
+    .artist-exhibition__header h2 { margin: 8px 0; font-size: clamp(1.7rem,4vw,3rem); }
+    .artist-exhibition__header p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .artist-spinner { --artist-radius: clamp(190px,31vw,350px); position: relative; min-height: 590px; outline: none; perspective: 1100px; touch-action: pan-y; }
+    .artist-spinner:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; border-radius: 18px; }
+    .artist-spinner__track { position: absolute; top: 50%; left: 50%; width: clamp(190px,30vw,290px); aspect-ratio: .72; transform-style: preserve-3d; transform: translate(-50%,-50%) rotateY(var(--artist-rotation,0deg)); transition: transform 680ms cubic-bezier(.2,.75,.18,1); }
+    .artist-spinner__track.is-idle { transition: none; }
+    .artist-card { position: absolute; inset: 0; padding: 0; transform: rotateY(var(--artist-angle)) translateZ(var(--artist-radius)); border: 0; border-radius: 18px; background: transparent; color: var(--text); cursor: pointer; transform-style: preserve-3d; transition: opacity 280ms ease,filter 280ms ease; }
+    .artist-spinner.has-selection .artist-card:not(.is-selected) { opacity: .25; filter: saturate(.45) brightness(.62); }
+    .artist-card__inner { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.15); border-radius: inherit; box-shadow: 0 24px 62px rgba(0,0,0,.65); transform-style: preserve-3d; transition: transform 620ms cubic-bezier(.2,.75,.18,1); }
+    .artist-card.is-flipped .artist-card__inner { transform: rotateY(180deg); }
+    .artist-card__face { position: absolute; inset: 0; display: grid; overflow: hidden; border-radius: inherit; background: #08040d; backface-visibility: hidden; }
+    .artist-card__front { place-items: center; }
+    .artist-card__front img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .artist-card__back { align-content: center; gap: 10px; padding: clamp(18px,4vw,30px); transform: rotateY(180deg); background: radial-gradient(circle at 80% 12%,rgba(255,47,209,.18),transparent 36%),linear-gradient(145deg,#25122f,#0b0710); text-align: left; }
+    .artist-card__back h3 { margin: 0; font-size: clamp(1.3rem,3vw,2rem); }
+    .artist-card__back p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .artist-card__back strong { color: var(--cyan); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+    .artist-card__commission { margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--line); color: #d9c8e9; font-size: .72rem; }
+    .artist-spinner__controls { position: absolute; z-index: 20; right: 0; bottom: 6px; left: 0; display: flex; justify-content: center; gap: 10px; }
+    .artist-spinner__controls button { min-width: 48px; min-height: 46px; padding: .65rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(12,6,17,.9); color: var(--text); font: inherit; cursor: pointer; }
+    .artist-spinner__controls button:hover,.artist-spinner__controls button:focus-visible { border-color: var(--pink); outline: none; box-shadow: 0 0 20px rgba(255,47,209,.2); }
+    .artist-spinner__status { position: absolute; right: 0; bottom: 66px; left: 0; margin: 0; color: var(--muted); font-size: .76rem; text-align: center; }
+    @media (max-width:620px) { .artist-exhibition { width: calc(100% - 14px); padding-inline: 12px; border-radius: 20px; } .artist-spinner { --artist-radius: clamp(145px,40vw,195px); min-height: 520px; } .artist-spinner__track { width: min(58vw,230px); } .artist-card__back { padding: 16px; } .artist-card__back p { font-size: .72rem; } }
+    @media (max-width:380px),(max-height:520px) { .artist-spinner { --artist-radius:min(39vw,145px); min-height:430px; } .artist-spinner__track { width:min(54vw,178px); } .artist-card__back p { font-size:.62rem; } }
 
   </style>
 </head>
@@ -2694,6 +2720,19 @@
             <a class="contact-button" href="#">Enter Penny’s Office</a>
           </article>
           </div>
+        </div>
+      </section>
+
+      <section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">
+        <header class="artist-exhibition__header">
+          <span class="interface-mode__kicker">Featured prison artist / independent gallery</span>
+          <h2 id="artistExhibitionTitle">Art That Refuses a Cage</h2>
+          <p>Select a piece to hold it in front. Select it again to turn the card over and read its story.</p>
+        </header>
+        <div class="artist-spinner" id="artistSpinner" tabindex="0" aria-label="Featured artist gallery. Use left and right arrow keys to browse.">
+          <div class="artist-spinner__track" id="artistSpinnerTrack"></div>
+          <p class="artist-spinner__status" id="artistSpinnerStatus" aria-live="polite">Gallery rotating slowly. Select an artwork to pause.</p>
+          <div class="artist-spinner__controls"><button type="button" data-artist-control="previous" aria-label="Previous artwork">←</button><button type="button" data-artist-control="resume">Resume rotation</button><button type="button" data-artist-control="next" aria-label="Next artwork">→</button></div>
         </div>
       </section>
     </main>
@@ -3100,6 +3139,56 @@
           closePanels();
         }
       });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const artworkData = [
+        { id:'first-light', image:'images/Cyberpunk asset preview UI sheet.png', alt:'Temporary featured artwork placeholder with cyberpunk interface imagery', title:'First Light', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Artwork story and artist notes will be added with the final exhibition assets.' },
+        { id:'queen-signal', image:'images/penny/penny_canon_v1.png', alt:'Temporary featured artwork placeholder with Penny portrait imagery', title:'Queen Signal', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Replace this record with the artist’s approved title and story.' },
+        { id:'blue-room', image:'images/e-holo-projection.jpg', alt:'Temporary featured artwork placeholder in blue holographic tones', title:'Blue Room', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'The gallery keeps the full image visible and reserves this reverse side for context.' },
+        { id:'night-window', image:'images/WildCardDEV.jpg', alt:'Temporary featured artwork placeholder with dark WildCard imagery', title:'Night Window', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Final metadata can replace this placeholder without changing component code.' },
+        { id:'outside-line', image:'images/penny/penny-lab-source-v1.png', alt:'Temporary featured artwork placeholder with cinematic laboratory imagery', title:'Outside Line', artist:'Featured Artist', medium:'Medium forthcoming', year:'Year forthcoming', dimensions:'Dimensions forthcoming', description:'Commission or contact details can be added in a later approved pass.' }
+      ];
+
+      class ArtistSpinner {
+        constructor(root, artworks) {
+          this.root=root; this.track=root.querySelector('#artistSpinnerTrack'); this.status=root.querySelector('#artistSpinnerStatus'); this.artworks=artworks;
+          this.rotation=0; this.selectedIndex=null; this.flippedIndex=null; this.lastFrame=performance.now(); this.reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+          this.renderCards(); this.bindEvents(); this.update(); this.start();
+        }
+        renderCards() {
+          this.track.innerHTML='';
+          this.artworks.forEach((artwork,index)=>{
+            const card=document.createElement('button'); card.type='button'; card.className='artist-card'; card.style.setProperty('--artist-angle',(index*360/this.artworks.length)+'deg'); card.dataset.artistIndex=String(index);
+            card.setAttribute('aria-label','View '+artwork.title+' by '+artwork.artist);
+            card.innerHTML='<span class="artist-card__inner"><span class="artist-card__face artist-card__front"><img src="'+artwork.image+'" alt="'+artwork.alt+'"></span><span class="artist-card__face artist-card__back"><strong>'+artwork.artist+'</strong><h3>'+artwork.title+'</h3><p>'+artwork.medium+' · '+artwork.year+'<br>'+artwork.dimensions+'</p><p>'+artwork.description+'</p><span class="artist-card__commission">Commission / contact information reserved for a future approved update.</span></span></span>';
+            card.addEventListener('pointerdown',(event)=>{event.preventDefault();this.activate(index);card.focus();});
+            card.addEventListener('click',(event)=>{if(event.detail===0)this.activate(index);});
+            this.track.appendChild(card);
+          });
+        }
+        bindEvents() {
+          this.root.querySelector('[data-artist-control="previous"]').addEventListener('click',()=>this.selectRelative(-1));
+          this.root.querySelector('[data-artist-control="next"]').addEventListener('click',()=>this.selectRelative(1));
+          this.root.querySelector('[data-artist-control="resume"]').addEventListener('click',()=>this.release());
+          this.root.addEventListener('keydown',(event)=>{if(event.key==='ArrowLeft'){event.preventDefault();this.selectRelative(-1);}if(event.key==='ArrowRight'){event.preventDefault();this.selectRelative(1);}if(event.key==='Escape'&&this.selectedIndex!==null){event.preventDefault();this.release();}});
+          this.reducedMotion.addEventListener('change',()=>{this.lastFrame=performance.now();this.update();});
+        }
+        activate(index) {
+          if(this.selectedIndex===index){this.flippedIndex=this.flippedIndex===index?null:index;this.status.textContent=this.flippedIndex===index?'Viewing artwork details. Gallery paused.':'Viewing artwork. Gallery paused.';}
+          else {this.selectedIndex=index;this.flippedIndex=null;this.rotation=-(index*360/this.artworks.length);this.status.textContent=this.artworks[index].title+' selected. Gallery paused.';}
+          this.update();
+        }
+        selectRelative(direction) {const current=this.selectedIndex===null?this.frontIndex():this.selectedIndex;this.activate((current+direction+this.artworks.length)%this.artworks.length);}
+        frontIndex() {const step=360/this.artworks.length;return Math.round((((-this.rotation%360)+360)%360)/step)%this.artworks.length;}
+        release() {this.selectedIndex=null;this.flippedIndex=null;this.lastFrame=performance.now();this.status.textContent=this.reducedMotion.matches?'Gallery ready. Use the controls to choose artwork.':'Gallery rotating slowly. Select an artwork to pause.';this.update();}
+        update() {this.track.style.setProperty('--artist-rotation',this.rotation+'deg');this.track.classList.toggle('is-idle',this.selectedIndex===null&&!this.reducedMotion.matches);this.root.classList.toggle('has-selection',this.selectedIndex!==null);[...this.track.children].forEach((card,index)=>{card.classList.toggle('is-selected',index===this.selectedIndex);card.classList.toggle('is-flipped',index===this.flippedIndex);card.setAttribute('aria-pressed',String(index===this.selectedIndex));});}
+        start() {const tick=(now)=>{if(this.selectedIndex===null&&!this.reducedMotion.matches){const elapsed=Math.min(now-this.lastFrame,64);this.rotation=(this.rotation+elapsed*.0022)%360;this.update();}this.lastFrame=now;requestAnimationFrame(tick);};requestAnimationFrame(tick);}
+      }
+
+      new ArtistSpinner(document.getElementById('artistSpinner'),artworkData);
     })();
   </script>
 
