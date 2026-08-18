@@ -1,0 +1,49 @@
+name: Glass artist placeholder cards
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/glass-artist-placeholders.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make artist placeholders transparent glass
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          old = '''        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1250" role="img" aria-label="${label} placeholder"><defs><linearGradient id="field" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#21172a"/><stop offset="1" stop-color="#09060d"/></linearGradient></defs><rect width="900" height="1250" fill="url(#field)"/><rect x="56" y="56" width="788" height="1138" rx="18" fill="none" stroke="#b99ac8" stroke-opacity=".48" stroke-width="3"/><path d="M120 960 330 720l145 160 155-205 150 285" fill="none" stroke="#d7c9df" stroke-opacity=".34" stroke-width="12"/><circle cx="278" cy="390" r="108" fill="none" stroke="#d7c9df" stroke-opacity=".24" stroke-width="12"/><text x="450" y="1100" fill="#e9e0ed" font-family="Arial,sans-serif" font-size="48" letter-spacing="9" text-anchor="middle">${label}</text><text x="450" y="1155" fill="#aa94b5" font-family="Arial,sans-serif" font-size="22" letter-spacing="4" text-anchor="middle">IMAGE PLACEHOLDER</text></svg>`;'''
+
+          new = '''        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1250" role="img" aria-label="${label} placeholder"><rect width="900" height="1250" fill="#08040d" fill-opacity=".08"/><rect x="56" y="56" width="788" height="1138" rx="18" fill="none" stroke="#f5eaff" stroke-opacity=".46" stroke-width="3"/><path d="M120 960 330 720l145 160 155-205 150 285" fill="none" stroke="#f5eaff" stroke-opacity=".28" stroke-width="12"/><circle cx="278" cy="390" r="108" fill="none" stroke="#f5eaff" stroke-opacity=".22" stroke-width="12"/><text x="450" y="1100" fill="#fff8ff" fill-opacity=".86" font-family="Arial,sans-serif" font-size="48" letter-spacing="9" text-anchor="middle">${label}</text><text x="450" y="1155" fill="#f1dff4" fill-opacity=".64" font-family="Arial,sans-serif" font-size="22" letter-spacing="4" text-anchor="middle">IMAGE PLACEHOLDER</text></svg>`;'''
+
+          if old not in s:
+              raise SystemExit('Expected placeholder SVG not found; refusing broad edit.')
+          s = s.replace(old, new, 1)
+
+          old_filter = '.artist-spinner.has-selection .artist-card:not(.is-selected) { opacity: .25; filter: saturate(.45) brightness(.62); }'
+          new_filter = '.artist-spinner.has-selection .artist-card:not(.is-selected) { opacity: .25; filter: none; }'
+          if old_filter in s:
+              s = s.replace(old_filter, new_filter, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and remove one-shot workflow
+        shell: bash
+        run: |
+          git config user.name 'wildcarddev-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/glass-artist-placeholders.yml
+          git commit -m 'Make artist placeholders transparent glass'
+          git push
