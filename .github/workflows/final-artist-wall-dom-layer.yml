@@ -1,0 +1,89 @@
+name: Final artist wall DOM layer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/final-artist-wall-dom-layer.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace failed wall rendering with literal image layer
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # Remove both prior wall experiments if present.
+          s = re.sub(r'\n\s*/\* ARTIST WALL INLINE START \*/.*?/\* ARTIST WALL INLINE END \*/\s*', '\n', s, count=1, flags=re.S)
+          s = re.sub(r'\n\s*/\* ARTIST WALL DOM LAYER START \*/.*?/\* ARTIST WALL DOM LAYER END \*/\s*', '\n', s, count=1, flags=re.S)
+
+          css = r'''
+    /* ARTIST WALL DOM LAYER START */
+    .artist-exhibition {
+      position: relative;
+      isolation: isolate;
+      background: #050209 !important;
+    }
+    .artist-exhibition__wall {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+      object-position: center center;
+      opacity: .96;
+      filter: brightness(.98) contrast(1.12);
+      pointer-events: none;
+      user-select: none;
+    }
+    .artist-exhibition::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(5,2,9,.02) 0%, rgba(5,2,9,.06) 42%, rgba(5,2,9,.18) 100%);
+      pointer-events: none;
+    }
+    .artist-exhibition__header,
+    .artist-spinner {
+      position: relative;
+      z-index: 2;
+    }
+    /* ARTIST WALL DOM LAYER END */
+'''
+          s = s.replace('\n  </style>', '\n' + css + '\n  </style>', 1)
+
+          opening = '<section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">'
+          # Remove any previous literal wall image first, then insert one exact layer.
+          s = re.sub(r'\s*<img class="artist-exhibition__wall"[^>]*>\s*', '\n', s, count=1)
+          wall = opening + '\n        <img class="artist-exhibition__wall" src="https://raw.githubusercontent.com/mtobabendev/WildCard-Mark-V/main/images/artist-gallery-wall.jpg?raw=1&v=final" alt="" aria-hidden="true" />'
+          if opening not in s:
+              raise SystemExit('Artist exhibition opening tag not found; refusing broad edit.')
+          s = s.replace(opening, wall, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit literal wall layer and remove one-shot workflow
+        shell: bash
+        run: |
+          git config user.name 'wildcarddev-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/final-artist-wall-dom-layer.yml
+          git commit -m 'Render prison art wall behind artist spinner'
+          git push
