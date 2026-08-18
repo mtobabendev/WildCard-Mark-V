@@ -1,14 +1,15 @@
 name: Add Penny coder warning
 
 on:
-  status:
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   patch:
-    if: github.event.state == 'success'
+    if: github.event.issue.title == 'PENNY-WARNING-TRIGGER'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
