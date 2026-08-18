@@ -2482,7 +2482,7 @@
     }
     /* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */
     .artist-exhibition { position: relative; isolation: isolate; margin: 30px auto 0; width: min(1180px,calc(100% - 32px)); padding: clamp(22px,4vw,42px); overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: #050209; box-shadow: var(--shadow); }
-    .artist-exhibition__wall { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: inherit; opacity: 1; filter: none; image-rendering: auto; pointer-events: none; }
+    .artist-exhibition__wall { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: inherit; opacity: 1; filter: none; mix-blend-mode: normal; image-rendering: auto; pointer-events: none; }
     .artist-exhibition__header { max-width: 720px; margin: 0 auto 20px; text-align: center; }
     .artist-exhibition__header h2 { margin: 8px 0; font-size: clamp(1.7rem,4vw,3rem); }
     .artist-exhibition__header p { margin: 0; color: var(--muted); line-height: 1.6; }
@@ -2492,18 +2492,18 @@
     .artist-spinner__track.is-idle { transition: none; }
     .artist-card { position: absolute; inset: 0; padding: 0; transform: rotateY(var(--artist-angle)) translateZ(var(--artist-radius)); border: 0; border-radius: 18px; background: transparent; color: var(--text); cursor: pointer; transform-style: preserve-3d; transition: opacity 280ms ease,filter 280ms ease; }
     .artist-spinner.has-selection .artist-card:not(.is-selected) { opacity: .25; filter: none; }
-    .artist-card__inner { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.30); border-radius: inherit; background: rgba(10,6,16,.10); box-shadow: 0 18px 48px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.14); backdrop-filter: blur(7px) saturate(1.05); -webkit-backdrop-filter: blur(7px) saturate(1.05); transform-style: preserve-3d; transition: transform 620ms cubic-bezier(.2,.75,.18,1); }
+    .artist-card__inner { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.34); border-radius: inherit; background: rgba(255,255,255,.025); box-shadow: 0 16px 42px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.18); backdrop-filter: none; -webkit-backdrop-filter: none; transform-style: preserve-3d; transition: transform 620ms cubic-bezier(.2,.75,.18,1); }
     .artist-card.is-flipped .artist-card__inner { transform: rotateY(180deg); }
-    .artist-card__face { position: absolute; inset: 0; display: grid; overflow: hidden; border-radius: inherit; background: rgba(8,4,13,.10); backface-visibility: hidden; }
+    .artist-card__face { position: absolute; inset: 0; display: grid; overflow: hidden; border-radius: inherit; background: transparent; backface-visibility: hidden; }
     .artist-card__front { place-items: center; }
     .artist-card__front img { display: block; width: 100%; height: 100%; object-fit: contain; }
-    .artist-card__back { align-content: center; gap: 10px; padding: clamp(18px,4vw,30px); transform: rotateY(180deg); background: rgba(16,8,22,.28); backdrop-filter: blur(14px) saturate(1.08); -webkit-backdrop-filter: blur(14px) saturate(1.08); text-align: left; }
+    .artist-card__back { align-content: center; gap: 10px; padding: clamp(18px,4vw,30px); transform: rotateY(180deg); background: rgba(8,4,13,.20); backdrop-filter: none; -webkit-backdrop-filter: none; text-align: left; }
     .artist-card__back h3 { margin: 0; font-size: clamp(1.3rem,3vw,2rem); }
     .artist-card__back p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
     .artist-card__back strong { color: var(--cyan); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
     .artist-card__commission { margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--line); color: #d9c8e9; font-size: .72rem; }
     .artist-spinner__controls { position: absolute; z-index: 20; right: 0; bottom: 6px; left: 0; display: flex; justify-content: center; gap: 10px; }
-    .artist-spinner__controls button { min-width: 48px; min-height: 46px; padding: .65rem .9rem; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(12,6,17,.18); backdrop-filter: blur(14px) saturate(1.08); -webkit-backdrop-filter: blur(14px) saturate(1.08); color: var(--text); font: inherit; cursor: pointer; }
+    .artist-spinner__controls button { min-width: 48px; min-height: 46px; padding: .65rem .9rem; border: 1px solid rgba(255,255,255,.32); border-radius: 999px; background: rgba(8,4,13,.14); backdrop-filter: none; -webkit-backdrop-filter: none; color: var(--text); font: inherit; cursor: pointer; }
     .artist-spinner__controls button:hover,.artist-spinner__controls button:focus-visible { border-color: var(--pink); outline: none; box-shadow: 0 0 20px rgba(255,47,209,.2); }
     .artist-spinner__status { position: absolute; right: 0; bottom: 66px; left: 0; margin: 0; color: var(--muted); font-size: .76rem; text-align: center; }
     .artist-exhibition__header,
@@ -3160,7 +3160,7 @@
     (() => {
       const createArtworkPlaceholder = (slot) => {
         const label = `ARTWORK ${slot}`;
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1250" role="img" aria-label="${label} placeholder"><rect width="900" height="1250" fill="#08040d" fill-opacity=".08"/><rect x="56" y="56" width="788" height="1138" rx="18" fill="none" stroke="#f5eaff" stroke-opacity=".46" stroke-width="3"/><path d="M120 960 330 720l145 160 155-205 150 285" fill="none" stroke="#f5eaff" stroke-opacity=".28" stroke-width="12"/><circle cx="278" cy="390" r="108" fill="none" stroke="#f5eaff" stroke-opacity=".22" stroke-width="12"/><text x="450" y="1100" fill="#fff8ff" fill-opacity=".86" font-family="Arial,sans-serif" font-size="48" letter-spacing="9" text-anchor="middle">${label}</text><text x="450" y="1155" fill="#f1dff4" fill-opacity=".64" font-family="Arial,sans-serif" font-size="22" letter-spacing="4" text-anchor="middle">IMAGE PLACEHOLDER</text></svg>`;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1250" role="img" aria-label="${label} placeholder"><rect width="900" height="1250" fill="none"/><rect x="56" y="56" width="788" height="1138" rx="18" fill="none" stroke="#f5eaff" stroke-opacity=".46" stroke-width="3"/><path d="M120 960 330 720l145 160 155-205 150 285" fill="none" stroke="#f5eaff" stroke-opacity=".28" stroke-width="12"/><circle cx="278" cy="390" r="108" fill="none" stroke="#f5eaff" stroke-opacity=".22" stroke-width="12"/><text x="450" y="1100" fill="#fff8ff" fill-opacity=".86" font-family="Arial,sans-serif" font-size="48" letter-spacing="9" text-anchor="middle">${label}</text><text x="450" y="1155" fill="#f1dff4" fill-opacity=".64" font-family="Arial,sans-serif" font-size="22" letter-spacing="4" text-anchor="middle">IMAGE PLACEHOLDER</text></svg>`;
         return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
       };
 
