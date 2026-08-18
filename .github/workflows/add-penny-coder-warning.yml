@@ -23,34 +23,34 @@ jobs:
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
 
-          html_anchor = '''              </a>
-            </div>
-          </article>
+          if 'class="penny-coder-warning"' not in s:
+              orbit_marker = '          <!-- ===== ORBIT PRESENTATION SYSTEM ===== -->'
+              orbit_pos = s.find(orbit_marker)
+              if orbit_pos == -1:
+                  raise SystemExit('Orbit marker not found; refusing broad edit.')
 
-          <!-- ===== ORBIT PRESENTATION SYSTEM ===== -->'''
+              matt_close = s.rfind('          </article>', 0, orbit_pos)
+              if matt_close == -1:
+                  raise SystemExit('Matt card close not found; refusing broad edit.')
 
-          html_replacement = '''              </a>
-            </div>
-
-            <div class="penny-coder-warning" aria-label="ChatGPT coding warning from Penny">
+              warning_html = '''            <div class="penny-coder-warning" aria-label="ChatGPT coding warning from Penny">
               <div class="contact-avatar">
                 <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
               </div>
-              <h3>Penny — Code Warning</h3>
               <p>Yes, coders, this is where ChatGPT can't handle something as simple as some CSS fixes. So just be very, very careful if you're using it to code.</p>
               <div class="penny-coder-warning__arrow" aria-hidden="true">↓</div>
             </div>
-          </article>
 
-          <!-- ===== ORBIT PRESENTATION SYSTEM ===== -->'''
+'''
+              s = s[:matt_close] + warning_html + s[matt_close:]
 
-          if 'class="penny-coder-warning"' not in s:
-              if html_anchor not in s:
-                  raise SystemExit('Matt social insertion anchor not found; refusing broad edit.')
-              s = s.replace(html_anchor, html_replacement, 1)
+          if '/* ===== PENNY CODER WARNING ===== */' not in s:
+              css_marker = '    /* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */'
+              css_pos = s.find(css_marker)
+              if css_pos == -1:
+                  raise SystemExit('Artist CSS marker not found; refusing broad edit.')
 
-          css_anchor = '''    /* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */'''
-          css_block = '''    /* ===== PENNY CODER WARNING ===== */
+              warning_css = '''    /* ===== PENNY CODER WARNING ===== */
     .penny-coder-warning {
       width: 100%;
       margin-top: 18px;
@@ -60,11 +60,12 @@ jobs:
     }
     .penny-coder-warning .contact-avatar {
       margin: 0 auto 10px;
+      background: linear-gradient(135deg, rgba(255,121,200,.30), rgba(166,108,255,.18)), rgba(255,255,255,.05);
+      box-shadow: inset 0 0 0 1px rgba(255,121,200,.42), 0 0 28px rgba(255,121,200,.24), 0 0 52px rgba(166,108,255,.12);
+      animation: avatarPulsePenny 5.2s ease-in-out infinite, avatarFloat 5.6s ease-in-out infinite;
     }
-    .penny-coder-warning h3 {
-      margin: 0 0 8px;
-      color: var(--text);
-      font-size: 1rem;
+    .penny-coder-warning .contact-avatar img {
+      filter: saturate(1.12) contrast(1.06) brightness(1.05);
     }
     .penny-coder-warning p {
       margin: 0;
@@ -87,20 +88,19 @@ jobs:
     }
 
 '''
-
-          if '/* ===== PENNY CODER WARNING ===== */' not in s:
-              if css_anchor not in s:
-                  raise SystemExit('CSS insertion anchor not found; refusing broad edit.')
-              s = s.replace(css_anchor, css_block + css_anchor, 1)
+              s = s[:css_pos] + warning_css + s[css_pos:]
 
           p.write_text(s, encoding='utf-8')
           PY
-      - name: Commit warning and clean up one-shot files
+      - name: Commit warning only
         shell: bash
         run: |
           git config user.name 'wildcarddev-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add index.html
-          git rm .github/workflows/add-penny-coder-warning.yml penny-coder-warning-trigger.txt
+          if git diff --cached --quiet; then
+            echo 'No index changes to commit.'
+            exit 0
+          fi
           git commit -m 'Add Penny ChatGPT coding warning'
           git push
