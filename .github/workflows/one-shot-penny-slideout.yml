@@ -1,0 +1,214 @@
+name: One-shot Penny avatar slideout
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.pull_request.head.ref == 'penny-slideout-trigger'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch only Penny main avatar stack
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          if 'PENNY AVATAR SLIDEOUT START' in text:
+              raise SystemExit('Penny slideout already present; refusing duplicate patch')
+
+          marker = '<!-- Penny contact card -->'
+          start = text.find(marker)
+          if start == -1:
+              raise SystemExit('Penny main contact card marker not found')
+          end = text.find('</article>', start)
+          if end == -1:
+              raise SystemExit('Penny main contact card closing article not found')
+          end += len('</article>')
+          block = text[start:end]
+
+          avatar_pattern = re.compile(
+              r'<div class="contact-avatar">\s*'
+              r'<video\s+src="images/penny/PennyVsInstagram\.mp4"[^>]*></video>\s*'
+              r'</div>',
+              re.S,
+          )
+
+          replacement = '''<!-- PENNY AVATAR SLIDEOUT START -->
+            <div class="penny-avatar-stack">
+              <div class="contact-avatar">
+                <video class="penny-autoplay-video penny-main-avatar-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="images/penny/penny-hot-still.png" aria-label="Penny, WildCard DEV concierge">
+                  <source src="images/penny/PennyVsInstagram.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div class="penny-avatar-slideout" aria-label="Penny animated companion panel">
+                <video class="penny-autoplay-video penny-avatar-slideout__video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="images/penny/PennyAnime-poster.jpg" aria-label="Penny animated companion">
+                  <source src="images/penny/PennyAnime-slide.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+            <!-- PENNY AVATAR SLIDEOUT END -->'''
+
+          updated_block, count = avatar_pattern.subn(replacement, block, count=1)
+          if count != 1:
+              raise SystemExit(f'Expected one Penny MAIN avatar video block, replaced {count}')
+          text = text[:start] + updated_block + text[end:]
+
+          css_anchor = '    .contact-card h3 {'
+          css = r'''
+
+    /* PENNY AVATAR SLIDEOUT CSS START */
+    .contact-card.penny .penny-avatar-stack {
+      position: relative;
+      width: 168px;
+      height: 154px;
+      margin: 0 auto 12px;
+      overflow: visible;
+    }
+
+    .contact-card.penny .penny-avatar-stack > .contact-avatar {
+      position: relative;
+      z-index: 3;
+      margin: 0 auto;
+    }
+
+    .contact-card.penny .penny-main-avatar-video,
+    .contact-card.penny .penny-avatar-slideout__video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      background: #050712;
+    }
+
+    .contact-card.penny .penny-avatar-slideout {
+      position: absolute;
+      top: 62px;
+      left: 50%;
+      z-index: 2;
+      width: 168px;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border: 1px solid rgba(255, 121, 200, 0.42);
+      border-radius: 18px;
+      background: rgba(5, 7, 18, 0.96);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.44), 0 0 28px rgba(255, 121, 200, 0.24), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      transform: translate(-50%, -48px) scale(0.84);
+      transform-origin: top center;
+      opacity: 0;
+      pointer-events: none;
+      animation: pennyAvatarSlideOut 900ms cubic-bezier(.2,.78,.22,1) 500ms forwards;
+    }
+
+    @keyframes pennyAvatarSlideOut {
+      to {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contact-card.penny .penny-avatar-slideout {
+        animation: none;
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 760px) and (max-width: 980px) {
+      .contact-card.penny .penny-avatar-stack {
+        width: 148px;
+        height: 136px;
+      }
+      .contact-card.penny .penny-avatar-slideout {
+        top: 54px;
+        width: 148px;
+      }
+    }
+    /* PENNY AVATAR SLIDEOUT CSS END */
+
+'''
+          if css_anchor not in text:
+              raise SystemExit('Contact card CSS anchor not found')
+          text = text.replace(css_anchor, css + css_anchor, 1)
+
+          js = r'''
+<script>
+  /* PENNY AUTOPLAY COMPAT START */
+  (() => {
+    const startPennyVideos = () => {
+      document.querySelectorAll('.penny-autoplay-video').forEach((video) => {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        const tryPlay = () => {
+          const promise = video.play();
+          if (promise && typeof promise.catch === 'function') promise.catch(() => {});
+        };
+        if (video.readyState >= 2) tryPlay();
+        else video.addEventListener('canplay', tryPlay, { once: true });
+      });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startPennyVideos, { once: true });
+    else startPennyVideos();
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) startPennyVideos();
+    });
+  })();
+  /* PENNY AUTOPLAY COMPAT END */
+</script>
+'''
+          if '</body>' not in text:
+              raise SystemExit('Closing body tag not found')
+          text = text.replace('</body>', js + '\n</body>', 1)
+
+          penny_start = text.find(marker)
+          penny_end = text.find('</article>', penny_start) + len('</article>')
+          penny_block = text[penny_start:penny_end]
+          if penny_block.count('PennyVsInstagram.mp4') != 1:
+              raise SystemExit('Main Penny video reference count changed unexpectedly')
+          if penny_block.count('PennyAnime-slide.mp4') != 1:
+              raise SystemExit('Penny slideout video reference missing')
+          if 'No longer welcome on Meta Platforms for being a Bad Girl.' not in penny_block:
+              raise SystemExit('Penny card copy changed unexpectedly')
+
+          warning_start = text.find('<div class="penny-coder-warning"')
+          if warning_start == -1:
+              raise SystemExit('Separate Penny coder warning clone missing')
+          warning_end = text.find('</article>', warning_start)
+          if warning_end == -1 or 'penny-hot-still.png' not in text[warning_start:warning_end]:
+              raise SystemExit('Separate Penny warning clone changed unexpectedly')
+
+          if text.count('PENNY AVATAR SLIDEOUT START') != 1:
+              raise SystemExit('Slideout markup count invalid')
+          if text.count('PENNY AVATAR SLIDEOUT CSS START') != 1:
+              raise SystemExit('Slideout CSS count invalid')
+          if text.count('PENNY AUTOPLAY COMPAT START') != 1:
+              raise SystemExit('Autoplay compatibility script count invalid')
+
+          path.write_text(text, encoding='utf-8')
+
+      - name: Commit only index.html
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "WildCard DEV Build"
+          git config user.email "matt@wildcarddev.com"
+          git add index.html
+          git commit -m "Add Penny avatar slideout video"
+          git push origin HEAD:main
