@@ -1,7 +1,7 @@
 name: One-shot Penny main avatar replacement
 
 on:
-  issues:
+  pull_request:
     types: [opened]
 
 permissions:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   replace-avatar:
-    if: github.event.issue.title == 'REPLACE_PENNY_MAIN_AVATAR_20260819'
+    if: github.event.pull_request.head.ref == 'penny-avatar-trigger'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,7 +48,6 @@ jobs:
           updated_block = block.replace(old, new, 1)
           updated = text[:start] + updated_block + text[end:]
 
-          # Acceptance: only the main Penny card changes; the warning clone remains its original still image.
           if updated.count('src="images/penny/PennyVsInstagram.mp4"') != 1:
               raise SystemExit('Penny avatar video reference count is not exactly one')
           if 'No longer welcome on Meta Platforms for being a Bad Girl.' not in updated:
