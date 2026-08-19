@@ -1,0 +1,43 @@
+name: One-shot Penny video binary repair
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.event.pull_request.head.ref == 'penny-video-fix-trigger'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Reconstruct and validate Penny avatar video
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .tmp/penny-video/chunk1.b64 \
+              .tmp/penny-video/chunk2.b64 \
+              .tmp/penny-video/chunk3.b64 \
+              .tmp/penny-video/chunk4.b64 \
+              .tmp/penny-video/chunk5.b64 \
+            | base64 -d > images/penny/PennyVsInstagram.mp4
+
+          test "$(stat -c%s images/penny/PennyVsInstagram.mp4)" -eq 29545
+          echo "a5816b30dd5f71f8033d89c5f762a39683558b28e6d51027627673dd0f95a779  images/penny/PennyVsInstagram.mp4" | sha256sum -c -
+
+          if command -v ffprobe >/dev/null 2>&1; then
+            ffprobe -v error images/penny/PennyVsInstagram.mp4 >/dev/null
+          fi
+
+      - name: Commit only repaired binary
+        run: |
+          git config user.name "WildCard DEV Build"
+          git config user.email "matt@wildcarddev.com"
+          git add images/penny/PennyVsInstagram.mp4
+          git commit -m "Repair Penny avatar video binary"
+          git push origin HEAD:main
