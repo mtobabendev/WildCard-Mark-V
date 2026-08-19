@@ -1,5 +1,6 @@
 name: Install Out4Good center panel
 
+# Trigger pass 2: workflow now exists on main before this push.
 on:
   push:
     paths:
