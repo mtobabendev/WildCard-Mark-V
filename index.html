@@ -20,10 +20,10 @@
   <meta name="theme-color" content="#050712" />
   <link rel="icon" href="images/brands/favicon-wildcard.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" href="images/brands/favicon-wildcard.png" />
-  <style>
-    /* ============================================================
+  <style>/* ============================================================
    CORE FOUNDATION
    ============================================================ */
+    
 
     :root {
       --bg: #050712;
@@ -71,10 +71,10 @@
     .page {
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-    }
+    }/* ===== HEADER / NAVIGATION ===== */
 
 
-    /* ===== HEADER / NAVIGATION ===== */
+    
 
     header {
       padding: 22px 0 0;
@@ -122,12 +122,12 @@
       background: rgba(103, 216, 255, 0.13);
       outline: none;
       transform: translateY(-2px);
-    }
-
-
-    /* ============================================================
+    }/* ============================================================
    CORE EXPERIENCE LAYER
    ============================================================ */
+
+
+    
 
     .hero {
       display: block;
@@ -158,10 +158,10 @@
 
     .hero-interface .contact-card.penny {
       order: 3;
-    }
+    }/* ===== ORBIT PRESENTATION SYSTEM ===== */
 
 
-    /* ===== ORBIT PRESENTATION SYSTEM ===== */
+    
 
     .orbit-stage {
       position: relative;
@@ -174,6 +174,61 @@
       perspective: 1200px;
       user-select: none;
       touch-action: none;
+    }
+
+
+
+    /* ===== STANDALONE TOP-SPINNER CENTER PANEL ===== */
+    .orbit-center-panel {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      z-index: 1;
+      width: clamp(190px, 56vw, 340px);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #020408;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.52), inset 0 0 0 1px rgba(182, 255, 0, 0.22);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .orbit-center-panel__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 1;
+      filter: none;
+    }
+
+    .orbit-center-panel__warning {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      margin: 0;
+      padding: 7px 9px;
+      border-radius: 999px;
+      color: #b6ff00;
+      background: rgba(0, 7, 0, 0.74);
+      font-size: clamp(0.56rem, 1.4vw, 0.74rem);
+      font-weight: 900;
+      line-height: 1.3;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(182, 255, 0, 0.88), 0 0 18px rgba(182, 255, 0, 0.52);
+      animation: out4goodWarningPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes out4goodWarningPulse {
+      0%, 100% { opacity: 0.64; text-shadow: 0 0 7px rgba(182, 255, 0, 0.58), 0 0 14px rgba(182, 255, 0, 0.30); }
+      50% { opacity: 1; text-shadow: 0 0 11px rgba(182, 255, 0, 1), 0 0 24px rgba(182, 255, 0, 0.72); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .orbit-center-panel__warning { animation: none; opacity: 1; }
     }
 
     .orbit-guidance {
@@ -281,10 +336,10 @@
       outline: none;
       filter: brightness(1.12) saturate(1.08) contrast(1.03);
       box-shadow: 0 28px 62px rgba(0, 0, 0, 0.56), 0 0 34px rgba(103, 216, 255, 0.42), 0 0 62px rgba(166, 108, 255, 0.28), inset 0 0 0 1px rgba(103, 216, 255, 0.30), inset 0 0 26px rgba(103, 216, 255, 0.08);
-    }
+    }/* --- Penny orbit variants --- */
 
 
-    /* --- Penny orbit variants --- */
+    
 
     .orbit-card.penny {
       background: linear-gradient(145deg, rgba(255, 121, 200, 0.18), rgba(255, 255, 255, 0.045)), rgba(255, 255, 255, 0.045);
@@ -429,10 +484,10 @@
     .orbit-card.penny:focus-visible .card-corner img,
     .orbit-card.penny:active .card-corner img {
       filter: drop-shadow(0 0 8px rgba(255, 121, 200, 1)) drop-shadow(0 0 18px rgba(255, 121, 200, 0.82));
-    }
+    }/* --- Front-card energy states --- */
 
 
-    /* --- Front-card energy states --- */
+    
 
     .orbit-card:not(.is-front) {
       opacity: 0.92;
@@ -491,12 +546,12 @@
 
     .orbit-card.penny.is-front .card-corner img {
       filter: drop-shadow(0 0 10px rgba(255, 121, 200, 1)) drop-shadow(0 0 22px rgba(255, 121, 200, 0.92)) drop-shadow(0 0 34px rgba(255, 121, 200, 0.52));
-    }
+    }/* ===== HOLO FLOOR ===== *//* --- Projection field container --- */
 
 
-    /* ===== HOLO FLOOR ===== */
+    
 
-    /* --- Projection field container --- */
+    
 
     .holo-floor {
       position: absolute;
@@ -510,9 +565,9 @@
       transform: translateX(-50%) rotateX(70deg);
       transform-style: preserve-3d;
       pointer-events: none;
-    }
+    }/* --- Energy grid layers --- */
 
-    /* --- Energy grid layers --- */
+    
 
     .holo-floor-grid {
       position: absolute;
@@ -549,9 +604,9 @@
       -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black 42%, transparent 72%);
       filter: blur(0.7px);
       opacity: 0.26;
-    }
+    }/* --- Projection branding --- */
 
-    /* --- Projection branding --- */
+    
 
     .holo-floor-spade {
       position: absolute;
@@ -743,18 +798,18 @@
         transform: translateX(58%);
         opacity: 0.32;
       }
-    }
-
-
-
-
-    /* ============================================================
+    }/* ============================================================
    DESKTOP SHOWROOM LAYER
-   ============================================================ */
+   ============================================================ *//* ===== CONTACT SYSTEM ===== *//* --- Contact grid --- */
 
-    /* ===== CONTACT SYSTEM ===== */
 
-    /* --- Contact grid --- */
+
+
+    
+
+    
+
+    
 
     #contact {
       scroll-margin-top: 24px;
@@ -786,11 +841,11 @@
       transform: scale(1.02);
       transform-origin: center;
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.32), 0 0 38px rgba(255, 121, 200, 0.16), 0 18px 42px rgba(0, 0, 0, 0.18);
-    }
+    }/* --- Contact avatar FX --- */
 
 
 
-    /* --- Contact avatar FX --- */
+    
 
     .contact-avatar {
       position: relative;
@@ -878,10 +933,10 @@
       color: var(--muted);
       font-size: 1rem;
       line-height: 1.65;
-    }
+    }/* --- Contact channels and actions --- */
 
 
-    /* --- Contact channels and actions --- */
+    
 
     .contact-comm {
       display: grid;
@@ -941,9 +996,9 @@
       display: block;
       width: 21px;
       height: 21px;
-    }
+    }/* --- Social transmission tags --- */
 
-    /* --- Social transmission tags --- */
+    
 
     .contact-socials a[data-social-label]::after {
       content: attr(data-social-label);
@@ -1000,11 +1055,11 @@
       transform: translateY(-2px);
       background: linear-gradient(135deg, rgba(255, 121, 200, 0.38), rgba(166, 108, 255, 0.20));
       box-shadow: inset 0 0 0 1px rgba(255, 121, 200, 0.48), 0 0 32px rgba(255, 121, 200, 0.24), 0 0 42px rgba(166, 108, 255, 0.14);
-    }
+    }/* --- Mobile corner contact interface --- */
 
 
 
-    /* --- Mobile corner contact interface --- */
+    
 
     .mobile-corner-interface {
       display: none;
@@ -1361,152 +1416,10 @@
         right: 3%;
         bottom: 14%;
       }
-    }
+    }/* ===== REFERRAL SYSTEM ===== */
 
 
-
-
-
-    /* ===== INTERFACE MODES ===== */
-
-    .interface-modes {
-      position: relative;
-      z-index: 3;
-      width: min(100%, 360px);
-      margin: 18px auto 0;
-      pointer-events: none;
-    }
-
-    .interface-modes--top-preview {
-      margin: 18px auto 64px;
-    }
-
-    .interface-mode {
-      position: relative;
-      padding: 18px;
-      border-radius: 22px;
-      text-align: center;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(2, 4, 12, 0.28),
-          rgba(5, 7, 18, 0.22)
-        ),
-        linear-gradient(
-          145deg,
-          rgba(103, 216, 255, 0.008),
-          rgba(166, 108, 255, 0.008),
-          rgba(255, 121, 200, 0.006)
-        );
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.048),
-        0 0 16px rgba(103, 216, 255, 0.055),
-        0 0 30px rgba(166, 108, 255, 0.04);
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
-      overflow: hidden;
-      isolation: isolate;
-      opacity: 0;
-      transform: translateY(10px);
-      transition:
-        opacity 220ms ease,
-        transform 220ms ease,
-        filter 220ms ease,
-        box-shadow 220ms ease;
-    }
-
-    .interface-modes.is-transitioning .interface-mode.is-active {
-      opacity: 0.72;
-      transform: translateY(4px) scale(0.992);
-      filter: blur(0.4px);
-    }
-
-    .interface-mode::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background:
-        linear-gradient(
-          105deg,
-          transparent 0%,
-          rgba(255,255,255,0.026) 42%,
-          rgba(103,216,255,0.034) 50%,
-          transparent 62%
-        ),
-        repeating-linear-gradient(
-          180deg,
-          rgba(255,255,255,0.010) 0,
-          rgba(255,255,255,0.010) 1px,
-          transparent 1px,
-          transparent 10px
-        );
-      mix-blend-mode: screen;
-      filter: blur(10px);
-      opacity: 0.07;
-      pointer-events: none;
-    }
-
-    .interface-mode::after {
-      content: "";
-      position: absolute;
-      inset: -18%;
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(103,216,255,0.045),
-          transparent 62%
-        );
-      opacity: 0.24;
-      filter: blur(14px);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .interface-mode.is-active {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    .interface-mode[hidden] {
-      display: none;
-    }
-
-    .interface-mode__kicker {
-      margin: 0;
-      color: var(--pink);
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      text-shadow:
-        0 0 10px rgba(255,121,200,0.24);
-    }
-
-    .interface-mode h2 {
-      margin: 8px 0 0;
-      color: rgba(248, 250, 255, 0.98);
-      font-size: clamp(1.6rem, 4vw, 2.3rem);
-      line-height: 1;
-      letter-spacing: -0.05em;
-      text-shadow:
-        0 0 10px rgba(103,216,255,0.22),
-        0 0 18px rgba(166,108,255,0.12);
-    }
-
-    .interface-mode p:not(.interface-mode__kicker) {
-      margin: 10px 0 0;
-      color: rgba(228, 234, 248, 0.84);
-      font-size: 0.9rem;
-      line-height: 1.55;
-      max-width: 30ch;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-
-    /* ===== REFERRAL SYSTEM ===== */
+    
 
     .penny-referral {
       position: fixed;
@@ -1668,163 +1581,6 @@
         order: 1;
       }
 
-      .hero-interface .interface-modes {
-        order: 2;
-        width: min(calc(100% - 22px), 390px);
-        margin-top: -54px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: clamp(8px, 4vh, 32px);
-        transform: translateX(-4px);
-      }
-
-      .interface-mode {
-        min-height: clamp(168px, 30vh, 268px);
-        padding: 16px 17px 18px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background:
-          linear-gradient(180deg, rgba(2, 4, 12, 0.23), rgba(5, 7, 18, 0.12) 54%, rgba(5, 7, 18, 0.020) 86%, transparent),
-          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.038), transparent 62%),
-          radial-gradient(ellipse at 50% 108%, rgba(103, 216, 255, 0.026), transparent 64%),
-          radial-gradient(ellipse at 72% 78%, rgba(166, 108, 255, 0.026), transparent 60%),
-          radial-gradient(ellipse at 28% 86%, rgba(255, 121, 200, 0.018), transparent 58%),
-          radial-gradient(ellipse at 72% 24%, rgba(166, 108, 255, 0.028), transparent 58%),
-          radial-gradient(ellipse at 28% 18%, rgba(255, 121, 200, 0.022), transparent 56%);
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 255, 255, 0.046),
-          inset 0 -36px 76px rgba(103, 216, 255, 0.020),
-          0 9px 26px rgba(0, 0, 0, 0.095),
-          0 0 18px rgba(103, 216, 255, 0.050),
-          0 0 38px rgba(166, 108, 255, 0.032),
-          0 34px 82px rgba(103, 216, 255, 0.018),
-          0 58px 118px rgba(166, 108, 255, 0.014);
-        backdrop-filter: blur(0.8px);
-        -webkit-backdrop-filter: blur(0.8px);
-      }
-
-      .interface-mode::before {
-        inset: -2% -2% -34%;
-        background:
-          linear-gradient(
-            106deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0.030) 40%,
-            rgba(103, 216, 255, 0.042) 49%,
-            rgba(255, 121, 200, 0.018) 52%,
-            transparent 64%
-          ),
-          repeating-linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.012) 0,
-            rgba(255, 255, 255, 0.012) 1px,
-            transparent 1px,
-            transparent 9px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent 17px,
-            rgba(103, 216, 255, 0.010) 18px,
-            transparent 19px
-          ),
-          radial-gradient(ellipse at 50% 94%, rgba(103, 216, 255, 0.020), transparent 58%);
-        mask-image: linear-gradient(180deg, black 0%, black 58%, rgba(0, 0, 0, 0.68) 76%, transparent 100%);
-        -webkit-mask-image: linear-gradient(180deg, black 0%, black 58%, rgba(0, 0, 0, 0.68) 76%, transparent 100%);
-        opacity: 0.086;
-        filter: blur(7px);
-        transform: translate3d(0, 0, 0);
-        animation: mobileSystemTraceDrift 7.4s ease-in-out infinite, mobileSystemCrackle 11.2s steps(1, end) infinite;
-      }
-
-      .interface-mode::after {
-        inset: auto -22% -58% -22%;
-        height: 104%;
-        background:
-          radial-gradient(ellipse at 50% 0%, rgba(103, 216, 255, 0.052), transparent 28%, transparent 62%),
-          radial-gradient(ellipse at 48% 34%, rgba(103, 216, 255, 0.026), transparent 56%),
-          radial-gradient(ellipse at 28% 18%, rgba(255, 121, 200, 0.020), transparent 42%),
-          radial-gradient(ellipse at 74% 20%, rgba(166, 108, 255, 0.030), transparent 46%),
-          radial-gradient(ellipse at 52% 72%, rgba(166, 108, 255, 0.014), transparent 62%),
-          linear-gradient(180deg, rgba(103, 216, 255, 0.014), rgba(166, 108, 255, 0.008) 42%, transparent 76%);
-        opacity: 0.18;
-        filter: blur(12px);
-        transform: translateY(0) scaleX(1);
-        animation: mobileSystemFieldDrift 8.6s ease-in-out infinite;
-      }
-
-      .interface-mode.is-active {
-        box-shadow:
-          inset 0 0 0 1px rgba(255, 255, 255, 0.050),
-          inset 0 -38px 78px rgba(103, 216, 255, 0.022),
-          0 9px 28px rgba(0, 0, 0, 0.11),
-          0 0 18px rgba(103, 216, 255, 0.054),
-          0 0 40px rgba(166, 108, 255, 0.036),
-          0 28px 72px rgba(103, 216, 255, 0.020),
-          0 54px 128px rgba(166, 108, 255, 0.014),
-          0 0 14px rgba(174, 255, 92, 0.020);
-      }
-
-
-    /* ===== MOBILE ATMOSPHERIC FX ===== */
-
-      @keyframes mobileSystemFieldDrift {
-        0%,
-        100% {
-          opacity: 0.145;
-          filter: blur(12px);
-          transform: translateY(0) scaleX(0.99);
-        }
-
-        47% {
-          opacity: 0.205;
-          filter: blur(13px);
-          transform: translateY(3px) scaleX(1.012);
-        }
-      }
-
-      @keyframes mobileSystemTraceDrift {
-        0%,
-        100% {
-          opacity: 0.058;
-          transform: translateY(0) translateX(0);
-        }
-
-        52% {
-          opacity: 0.105;
-          transform: translateY(1px) translateX(0.5px);
-        }
-      }
-
-      @keyframes mobileSystemCrackle {
-        0%,
-        100% {
-          opacity: 0.070;
-          background-position: 0 0, 0 0, 0 0;
-        }
-
-        21% {
-          opacity: 0.092;
-          background-position: 1px -1px, 0 2px, -1px 0;
-        }
-
-        22% {
-          opacity: 0.062;
-          background-position: 0 0, 0 0, 0 0;
-        }
-
-        61% {
-          opacity: 0.088;
-          background-position: -1px 1px, 0 -1px, 1px 0;
-        }
-
-        62% {
-          opacity: 0.064;
-          background-position: 0 0, 0 0, 0 0;
-        }
-      }
-
       .orbit-stage {
         margin-top: -72px;
       }
@@ -1842,8 +1598,7 @@
         overflow: hidden;
       }
 
-      .orbit-card.is-front,
-      .orbit-card.is-mode-active {
+      .orbit-card.is-front{
         border-radius: 18px;
       }
 
@@ -1860,7 +1615,6 @@
 
       .orbit-card .orbit-label,
       .orbit-card.is-front .orbit-label,
-      .orbit-card.is-mode-active .orbit-label,
       .orbit-card:hover .orbit-label,
       .orbit-card:focus-visible .orbit-label,
       .orbit-card:active .orbit-label,
@@ -1957,8 +1711,7 @@
         filter: brightness(1);
       }
 
-      .orbit-card.is-front,
-      .orbit-card.is-mode-active {
+      .orbit-card.is-front{
         filter: brightness(1.08) saturate(1.04) contrast(1.01);
       }
 
@@ -1979,12 +1732,6 @@
 
       .holo-floor-grid {
         opacity: 0.22;
-      }
-
-      .interface-mode,
-      .interface-mode::before,
-      .interface-mode::after {
-        will-change: opacity, transform;
       }
     }
 
@@ -2024,15 +1771,6 @@
         margin-left: auto;
         margin-right: auto;
         transform: none;
-      }
-
-      .hero-interface .interface-modes {
-        position: absolute;
-        left: 50%;
-        top: 72%;
-        transform: translateX(-50%);
-        width: min(34vw, 360px);
-        margin: 0;
       }
 
       .orbit-stage {
@@ -2152,12 +1890,6 @@
         margin-top: -86px;
       }
 
-      .hero-interface .interface-modes {
-        width: min(calc(100% - 26px), 390px);
-        margin-top: -58px;
-        transform: translateX(-4px);
-      }
-
       .orbit-card,
       .orbit-card::before,
       .orbit-card::after,
@@ -2210,7 +1942,6 @@
 
       .orbit-card .orbit-label,
       .orbit-card.is-front .orbit-label,
-      .orbit-card.is-mode-active .orbit-label,
       .orbit-card:hover .orbit-label,
       .orbit-card:focus-visible .orbit-label,
       .orbit-card:active .orbit-label,
@@ -2237,21 +1968,6 @@
       .hero-interface {
         gap: 12px;
         margin-top: -12px;
-      }
-
-      .hero-interface .interface-modes {
-        margin-top: -28px;
-        padding-bottom: clamp(22px, 7vh, 60px);
-      }
-
-      .interface-mode {
-        min-height: clamp(172px, 32vh, 284px);
-        padding: 17px 16px 19px;
-      }
-
-      .interface-mode::after {
-        inset: auto -20% -46% -20%;
-        height: 88%;
       }
 
       .contact-grid {
@@ -2307,69 +2023,13 @@
       .contact-card.penny .contact-avatar {
         animation: none;
       }
-    }
-
-    .orbit-card.is-mode-active {
-      outline: 1px solid rgba(174, 255, 92, 0.62);
-      filter: brightness(1.16) saturate(1.12) contrast(1.04);
-      box-shadow:
-        0 28px 62px rgba(0, 0, 0, 0.58),
-        0 0 14px rgba(174, 255, 92, 0.28),
-        0 0 32px rgba(174, 255, 92, 0.14),
-        0 0 72px rgba(103, 216, 255, 0.12),
-        inset 0 0 0 1px rgba(174, 255, 92, 0.50),
-        inset 0 0 18px rgba(174, 255, 92, 0.08);
-    }
-
-    .orbit-card.is-mode-active .orbit-label {
-      color: #f7ffe8;
-      background: rgba(8, 18, 8, 0.68);
-      filter:
-        drop-shadow(0 0 8px rgba(174, 255, 92, 0.48))
-        drop-shadow(0 0 14px rgba(103, 216, 255, 0.16));
-      box-shadow:
-        inset 0 0 0 1px rgba(174, 255, 92, 0.42),
-        0 0 18px rgba(174, 255, 92, 0.16);
-    }
-
-    .orbit-card.is-mode-active .card-corner span {
-      background: linear-gradient(135deg, #f7ffe8, #aeff5c);
-      -webkit-background-clip: text;
-      color: transparent;
-      filter:
-        drop-shadow(0 0 9px rgba(174, 255, 92, 0.92))
-        drop-shadow(0 0 18px rgba(174, 255, 92, 0.42));
-    }
-
-    .orbit-card.is-mode-active .card-corner img {
-      filter:
-        drop-shadow(0 0 7px rgba(174, 255, 92, 0.86))
-        drop-shadow(0 0 16px rgba(174, 255, 92, 0.42));
-    }
-
-    .interface-mode.is-active {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.052),
-        0 0 16px rgba(103, 216, 255, 0.06),
-        0 0 30px rgba(166, 108, 255, 0.045),
-        0 0 14px rgba(174, 255, 92, 0.026);
-    }
-
-    .interface-mode.is-active .interface-mode__kicker {
-      color: #ecffd2;
-      text-shadow:
-        0 0 7px rgba(174, 255, 92, 0.26),
-        0 0 16px rgba(103, 216, 255, 0.12);
-    }
+    }/* ===== META TRANSITION SYSTEM ===== *//* --- Meta transition overlay shell --- */
 
 
 
-    /* ===== META TRANSITION SYSTEM ===== */
+    
 
-    /* --- Meta transition overlay shell --- */
+    
 
     .penny-meta-transition {
       position: fixed;
@@ -2411,9 +2071,9 @@
       mix-blend-mode: screen;
       opacity: 0.18;
       pointer-events: none;
-    }
+    }/* --- Meta transition media panel --- */
 
-    /* --- Meta transition media panel --- */
+    
 
     .penny-meta-transition__media {
       position: relative;
@@ -2433,9 +2093,9 @@
       height: 100%;
       object-fit: cover;
       filter: saturate(1.12) contrast(1.08) brightness(1.04);
-    }
+    }/* --- Meta transition message text --- */
 
-    /* --- Meta transition message text --- */
+    
 
     .penny-meta-transition__text {
       position: relative;
@@ -2459,8 +2119,8 @@
       line-height: 1.48;
     }
 
-    @media (max-width: 759px) {
-      /* --- Mobile meta transition staging --- */
+    @media (max-width: 759px) {/* --- Mobile meta transition staging --- */
+      
 
       .penny-meta-transition {
         left: 14px;
@@ -2479,11 +2139,12 @@
       .penny-meta-transition__text p:last-child {
         font-size: 0.78rem;
       }
-    }
-    /* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */
+    }/* ===== INDEPENDENT FEATURED ARTIST SPINNER ===== */
+    
     .artist-exhibition { position: relative; isolation: isolate; margin: 30px auto 0; width: min(1180px,calc(100% - 32px)); padding: clamp(22px,4vw,42px); overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: #050209; box-shadow: var(--shadow); }
     .artist-exhibition__wall { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: inherit; opacity: 1; filter: none; mix-blend-mode: normal; image-rendering: auto; pointer-events: none; }
     .artist-exhibition__header { max-width: 720px; margin: 0 auto 20px; text-align: center; }
+    .artist-exhibition__kicker { display: inline-block; margin: 0; color: var(--pink); font-size: .7rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
     .artist-exhibition__header h2 { margin: 8px 0; font-size: clamp(1.7rem,4vw,3rem); }
     .artist-exhibition__header p { margin: 0; color: var(--muted); line-height: 1.6; }
     .artist-spinner { --artist-radius: clamp(475px,36vw,525px); position: relative; min-height: 590px; outline: none; perspective: 1100px; touch-action: pan-y; }
@@ -2584,7 +2245,7 @@
             <p class="orbit-guidance" aria-hidden="true">Drag the deck, honey.</p>
             <div class="orbit-drag">
               <div class="orbit-ring">
-                <button class="orbit-card" type="button" data-target="systems" aria-label="Open Systems">
+                <button class="orbit-card" type="button" aria-label="Open Systems">
                   <video src="images/spinner/holo-panel-1.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2596,7 +2257,7 @@
                   </span>
                   <span class="orbit-label">Systems</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="portfolio" aria-label="Open Portfolio">
+                <button class="orbit-card" type="button" aria-label="Open Portfolio">
                   <video src="images/spinner/holo-panel-2.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2608,7 +2269,7 @@
                   </span>
                   <span class="orbit-label">Portfolio</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="penny" aria-label="Open Penny">
+                <button class="orbit-card" type="button" aria-label="Open Penny">
                   <video src="images/spinner/holo-panel-3.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2620,7 +2281,7 @@
                   </span>
                   <span class="orbit-label">Penny</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Open Contact">
+                <button class="orbit-card" type="button" aria-label="Open Contact">
                   <video src="images/spinner/holo-panel-4.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2632,7 +2293,7 @@
                   </span>
                   <span class="orbit-label">Contact</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="automation" aria-label="Open Automation">
+                <button class="orbit-card" type="button" aria-label="Open Automation">
                   <video src="images/spinner/holo-panel-5.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2644,7 +2305,7 @@
                   </span>
                   <span class="orbit-label">Automation</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="systems" aria-label="Go to Systems">
+                <button class="orbit-card" type="button" aria-label="Go to Systems">
                   <video src="images/spinner/holo-panel-6.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2656,7 +2317,7 @@
                   </span>
                   <span class="orbit-label">Systems</span>
                 </button>
-                <button class="orbit-card" type="button" data-target="contact" aria-label="Go to Interface">
+                <button class="orbit-card" type="button" aria-label="Go to Interface">
                   <video src="images/spinner/holo-panel-7.webm" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>A</span>
@@ -2668,7 +2329,7 @@
                   </span>
                   <span class="orbit-label">Interface</span>
                 </button>
-                <button class="orbit-card penny" type="button" data-target="penny" aria-label="Open Penny Concierge">
+                <button class="orbit-card penny" type="button" aria-label="Open Penny Concierge">
                   <video src="images/penny/penny_office_working_v2.mp4" autoplay muted loop playsinline></video>
                   <span class="card-corner card-corner--top">
                     <span>Q</span>
@@ -2681,6 +2342,11 @@
                   <span class="orbit-label">Concierge</span>
                 </button>
               </div>
+            </div>
+
+            <div class="orbit-center-panel" aria-label="Out4Good re-entry warning">
+              <img class="orbit-center-panel__image" src="images/spinner/out4good-static.webp" alt="Out4Good re-entry resources" />
+              <p class="orbit-center-panel__warning">out4good is part of the system. Plan your re-entry accordingly...</p>
             </div>
 
             <!-- Holo Floor projection system -->
@@ -2705,41 +2371,7 @@
           </div>
         </div>
       </section>
-
-      <!-- Interface modes -->
-      <section class="interface-modes interface-modes--top-preview" aria-label="WildCard DEV interface modes">
-        <article class="interface-mode is-active" data-mode="contact" aria-label="Contact mode">
-          <p class="interface-mode__kicker">Active Channel</p>
-          <h2>Contact</h2>
-          <p>Direct operator access for WildCard DEV, Matt, and Penny.</p>
-        </article>
-
-        <article class="interface-mode" data-mode="systems" aria-label="Systems mode" hidden>
-          <p class="interface-mode__kicker">System Layer</p>
-          <h2>Systems</h2>
-          <p>Premium web, app, and automation systems built with cinematic precision.</p>
-        </article>
-
-        <article class="interface-mode" data-mode="portfolio" aria-label="Portfolio mode" hidden>
-          <p class="interface-mode__kicker">Proof Layer</p>
-          <h2>Portfolio</h2>
-          <p>Selected builds, experiments, client systems, and interface work.</p>
-        </article>
-
-        <article class="interface-mode" data-mode="penny" aria-label="Penny mode" hidden>
-          <p class="interface-mode__kicker">Concierge Layer</p>
-          <h2>Penny</h2>
-          <p>WildCard DEV’s pink-accented concierge presence for routing, project guidance, interface support, and controlled chaos.</p>
-        </article>
-
-        <article class="interface-mode" data-mode="automation" aria-label="Automation mode" hidden>
-          <p class="interface-mode__kicker">Execution Layer</p>
-          <h2>Automation</h2>
-          <p>Workflow logic, task support, AI-assisted operations, and smart execution systems.</p>
-        </article>
-      </section>
-
-      <section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">
+<section class="artist-exhibition" aria-labelledby="artistExhibitionTitle">
         <img
           class="artist-exhibition__wall"
           src="./images/artist-gallery-wall.jpg"
@@ -2747,7 +2379,7 @@
           aria-hidden="true"
         />
         <header class="artist-exhibition__header">
-          <span class="interface-mode__kicker">Featured prison artist / independent gallery</span>
+          <span class="artist-exhibition__kicker">Featured prison artist / independent gallery</span>
           <h2 id="artistExhibitionTitle">Art That Refuses a Cage</h2>
           <p>Select a piece to hold it in front. Select it again to turn the card over and read its story.</p>
         </header>
@@ -2873,7 +2505,7 @@
       const dragSurface = document.querySelector(".orbit-drag");
       const ring = document.querySelector(".orbit-ring");
       const cards = Array.from(document.querySelectorAll(".orbit-card"));
-      if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); let pointerDownCard = null; let pointerDownX = 0; let pointerDownY = 0; function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; pointerDownCard = event.target.closest(".orbit-card"); pointerDownX = event.clientX; pointerDownY = event.clientY; startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); const dragThreshold = event.pointerType === "mouse" ? 16 : 10; if (dragDistance > dragThreshold) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; const movementDistance = Math.hypot(event.clientX - pointerDownX, event.clientY - pointerDownY); const clickThreshold = event.pointerType === "mouse" ? 18 : 10; const isClick = movementDistance <= clickThreshold; if (isClick) { const clickedCard = pointerDownCard || (event.target.closest && event.target.closest(".orbit-card")); const target = clickedCard?.dataset.target; if (target && typeof window.setInterfaceMode === "function") { rotationVelocity = 0; window.setInterfaceMode(target); stage.dataset.dragged = "false"; } } pointerDownCard = null; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
+      if (!stage || !dragSurface || !ring || !cards.length) return; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; let rotation = 0; let rotationVelocity = 0; let previousRotation = 0; let previousPointerTime = 0; let tilt = -8; let isDragging = false; let startX = 0; let startY = 0; let startRotation = 0; let startTilt = 0; let lastTime = performance.now(); function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); } function positionCards() { const count = cards.length; cards.forEach((card, index) => { const angle = (360 / count) * index; card.style.transform = "translate(-50%, -50%) rotateY(" + angle + "deg) translateZ(var(--orbit-depth))"; }); updateFrontCard(); } function normalizeAngle(angle) { return ((angle % 360) + 360) % 360; } function frontDistance(angle) { const normalized = normalizeAngle(angle); return Math.min(normalized, 360 - normalized); } function updateFrontCard() { const count = cards.length; let frontCard = null; let closestDistance = Infinity; cards.forEach((card, index) => { const baseAngle = (360 / count) * index; const visualAngle = baseAngle + rotation; const distance = frontDistance(visualAngle); if (distance < closestDistance - 0.5) { closestDistance = distance; frontCard = card; } }); cards.forEach((card) => { card.classList.toggle("is-front", card === frontCard); }); } function render() { ring.style.transform = "rotateX(" + tilt + "deg) rotateY(" + rotation + "deg)"; updateFrontCard(); } function animate(now) { const delta = now - lastTime; lastTime = now; if (isDragging) { requestAnimationFrame(animate); return; } if (reducedMotion) { requestAnimationFrame(animate); return; } if (Math.abs(rotationVelocity) > 0.001) { rotation += rotationVelocity * delta; rotationVelocity *= 0.94; render(); } else { rotationVelocity = 0; rotation += delta * 0.012; render(); } requestAnimationFrame(animate); } function scrollToTarget(targetId) { const target = document.getElementById(targetId); if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); } cards.forEach((card) => { card.addEventListener("click", (event) => { event.preventDefault(); }); }); dragSurface.addEventListener("pointerdown", (event) => { isDragging = true; stage.dataset.dragged = "false"; startX = event.clientX; startY = event.clientY; startRotation = rotation; startTilt = tilt; rotationVelocity = 0; previousRotation = rotation; previousPointerTime = event.timeStamp || performance.now(); dragSurface.setPointerCapture(event.pointerId); }); dragSurface.addEventListener("pointermove", (event) => { if (!isDragging) return; const deltaX = event.clientX - startX; const deltaY = event.clientY - startY; const dragDistance = Math.hypot(deltaX, deltaY); const dragThreshold = event.pointerType === "mouse" ? 16 : 10; if (dragDistance > dragThreshold) { stage.dataset.dragged = "true"; } rotation = startRotation + deltaX * 0.35; const currentPointerTime = event.timeStamp || performance.now(); const elapsedTime = Math.max(1, currentPointerTime - previousPointerTime); rotationVelocity = clamp((rotation - previousRotation) / elapsedTime, -0.18, 0.18); previousRotation = rotation; previousPointerTime = currentPointerTime; tilt = clamp(startTilt - deltaY * 0.15, -18, -2); render(); }); function endDrag(event) { if (!isDragging) return; isDragging = false; if (dragSurface.hasPointerCapture(event.pointerId)) { dragSurface.releasePointerCapture(event.pointerId); } window.setTimeout(() => { stage.dataset.dragged = "false"; }, 80); } dragSurface.addEventListener("pointerup", endDrag); dragSurface.addEventListener("pointercancel", endDrag); dragSurface.addEventListener("pointerleave", (event) => { if (isDragging) endDrag(event); }); positionCards(); render(); requestAnimationFrame(animate);
     })();
 
     (() => {
@@ -2991,89 +2623,7 @@
       });
     })();
   </script>
-
-
-  <!-- ===== MODE TRANSITIONS ===== -->
-  <script>
-    (() => {
-      const orbitCards = Array.from(document.querySelectorAll(".orbit-card[data-target]"));
-      const interfaceModeShell = document.querySelector(".interface-modes");
-      const orbitStage = document.querySelector(".orbit-stage");
-      const interfaceModes = Array.from(document.querySelectorAll(".interface-mode"));
-
-      if (!orbitCards.length || !interfaceModes.length || !interfaceModeShell) return;
-
-      let revealTimer = null;
-      let transitionTimer = null;
-
-      function setInterfaceMode(modeName) {
-        window.clearTimeout(revealTimer);
-        window.clearTimeout(transitionTimer);
-
-        const safeModeName = modeName || "contact";
-        let targetMode = document.querySelector(`.interface-mode[data-mode="${safeModeName}"]`);
-
-        if (!targetMode) {
-          targetMode = document.querySelector('.interface-mode[data-mode="contact"]');
-        }
-
-        if (!targetMode) return;
-
-        const activeModeName = targetMode.dataset.mode || safeModeName;
-
-        interfaceModeShell.classList.add("is-transitioning");
-
-        interfaceModes.forEach((mode) => {
-          mode.classList.remove("is-active");
-        });
-
-        orbitCards.forEach((card) => {
-          card.classList.remove("is-mode-active");
-        });
-
-        revealTimer = window.setTimeout(() => {
-          interfaceModes.forEach((mode) => {
-            mode.hidden = true;
-            mode.classList.remove("is-active");
-          });
-
-          targetMode.hidden = false;
-          targetMode.offsetHeight;
-          targetMode.classList.add("is-active");
-
-          orbitCards.forEach((card) => {
-            if (card.dataset.target === activeModeName) {
-              card.classList.add("is-mode-active");
-            }
-          });
-
-          transitionTimer = window.setTimeout(() => {
-            interfaceModeShell.classList.remove("is-transitioning");
-          }, 220);
-        }, 90);
-      }
-
-      window.setInterfaceMode = setInterfaceMode;
-
-      orbitCards.forEach((card) => {
-        card.addEventListener("click", (event) => {
-          event.preventDefault();
-          if (orbitStage?.dataset.dragged === "true") return;
-          const modeName = card.dataset.target || "contact";
-          setInterfaceMode(modeName);
-        });
-      });
-
-      const initialMode = document.querySelector(".interface-mode.is-active")?.dataset.mode || "contact";
-
-      orbitCards.forEach((card) => {
-        card.classList.toggle("is-mode-active", card.dataset.target === initialMode);
-      });
-    })();
-  </script>
-
-
-  <!-- ===== INITIALIZATION ===== -->
+<!-- ===== INITIALIZATION ===== -->
   <script>
     (() => {
       const mobileInterface = document.querySelector(".mobile-corner-interface");
