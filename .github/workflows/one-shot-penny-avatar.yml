@@ -1,0 +1,67 @@
+name: One-shot Penny main avatar replacement
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+
+jobs:
+  replace-avatar:
+    if: github.event.issue.title == 'REPLACE_PENNY_MAIN_AVATAR_20260819'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Replace only Penny main avatar image with uploaded loop
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          marker = '<!-- Penny contact card -->'
+          start = text.find(marker)
+          if start == -1:
+              raise SystemExit('Penny contact card marker not found')
+
+          end = text.find('</article>', start)
+          if end == -1:
+              raise SystemExit('Penny contact card closing article not found')
+          end += len('</article>')
+
+          block = text[start:end]
+          old = '''            <div class="contact-avatar">
+              <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
+            </div>'''
+          new = '''            <div class="contact-avatar">
+              <video src="images/penny/PennyVsInstagram.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Penny, WildCard DEV concierge" style="display:block;width:100%;height:100%;object-fit:cover;"></video>
+            </div>'''
+
+          if block.count(old) != 1:
+              raise SystemExit(f'Expected exactly one Penny main avatar image in target block, found {block.count(old)}')
+
+          updated_block = block.replace(old, new, 1)
+          updated = text[:start] + updated_block + text[end:]
+
+          # Acceptance: only the main Penny card changes; the warning clone remains its original still image.
+          if updated.count('src="images/penny/PennyVsInstagram.mp4"') != 1:
+              raise SystemExit('Penny avatar video reference count is not exactly one')
+          if 'No longer welcome on Meta Platforms for being a Bad Girl.' not in updated:
+              raise SystemExit('Penny card copy changed unexpectedly')
+          if '<div class="penny-coder-warning"' not in updated or 'penny-hot-still.png' not in updated:
+              raise SystemExit('Coder-warning Penny clone changed unexpectedly')
+
+          path.write_text(updated, encoding='utf-8')
+
+      - name: Commit only index.html
+        run: |
+          git config user.name "WildCard DEV Build"
+          git config user.email "matt@wildcarddev.com"
+          git add index.html
+          git commit -m "Replace Penny main avatar with looping video"
+          git push origin HEAD:main
