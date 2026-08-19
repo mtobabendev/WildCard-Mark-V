@@ -20,6 +20,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "1a210e5d1bb7cd5bf0e6c1fa28a199489cf694b84fda5e605d6dd7aee8cafd2d  .tmp/penny-video/chunk1.b64" | sha256sum -c -
+          echo "4794961eaa1351dfa5df2a1784e58ec44391134c50adcad33c93543ba8250687  .tmp/penny-video/chunk2.b64" | sha256sum -c -
+          echo "2da6ff247fd0ad3efbd355eab55a5afb2f2d8cb4ec8832c9c76f3e133e5c5f32  .tmp/penny-video/chunk3.b64" | sha256sum -c -
+          echo "b44890f02bbd7b8864ed8ae463e982e9b7a0843c6b518fcb7bcf068490311dd3  .tmp/penny-video/chunk4.b64" | sha256sum -c -
+          echo "6a4a60b1f01939fac53a2cf6443441ed43223d9e1d18c89cf96f3ec78e4c39ea  .tmp/penny-video/chunk5.b64" | sha256sum -c -
+
           cat .tmp/penny-video/chunk1.b64 \
               .tmp/penny-video/chunk2.b64 \
               .tmp/penny-video/chunk3.b64 \
