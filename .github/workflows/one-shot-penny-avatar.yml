@@ -2,7 +2,7 @@ name: One-shot Penny main avatar replacement
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 permissions:
   contents: write
@@ -20,6 +20,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
 
           path = Path('index.html')
           text = path.read_text(encoding='utf-8')
@@ -35,24 +36,25 @@ jobs:
           end += len('</article>')
 
           block = text[start:end]
-          old = '''            <div class="contact-avatar">
-              <img src="images/penny/penny-hot-still.png" alt="Penny, WildCard DEV concierge" />
-            </div>'''
-          new = '''            <div class="contact-avatar">
-              <video src="images/penny/PennyVsInstagram.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Penny, WildCard DEV concierge" style="display:block;width:100%;height:100%;object-fit:cover;"></video>
-            </div>'''
+          pattern = r'(<div class="contact-avatar">\s*)<img\s+src="images/penny/penny-hot-still\.png"\s+alt="Penny, WildCard DEV concierge"\s*/>(\s*</div>)'
+          replacement = r'\1<video src="images/penny/PennyVsInstagram.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Penny, WildCard DEV concierge" style="display:block;width:100%;height:100%;object-fit:cover;"></video>\2'
 
-          if block.count(old) != 1:
-              raise SystemExit(f'Expected exactly one Penny main avatar image in target block, found {block.count(old)}')
+          updated_block, count = re.subn(pattern, replacement, block, count=1)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one Penny main avatar image in target block, replaced {count}')
 
-          updated_block = block.replace(old, new, 1)
           updated = text[:start] + updated_block + text[end:]
 
           if updated.count('src="images/penny/PennyVsInstagram.mp4"') != 1:
               raise SystemExit('Penny avatar video reference count is not exactly one')
           if 'No longer welcome on Meta Platforms for being a Bad Girl.' not in updated:
               raise SystemExit('Penny card copy changed unexpectedly')
-          if '<div class="penny-coder-warning"' not in updated or 'penny-hot-still.png' not in updated:
+          warning_start = updated.find('<div class="penny-coder-warning"')
+          if warning_start == -1:
+              raise SystemExit('Coder-warning Penny clone missing')
+          warning_end = updated.find('</article>', warning_start)
+          warning_block = updated[warning_start:warning_end]
+          if 'penny-hot-still.png' not in warning_block:
               raise SystemExit('Coder-warning Penny clone changed unexpectedly')
 
           path.write_text(updated, encoding='utf-8')
