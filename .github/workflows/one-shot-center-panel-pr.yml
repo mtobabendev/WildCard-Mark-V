@@ -2,7 +2,7 @@ name: Trigger top center panel cleanup
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 permissions:
   contents: write
@@ -20,6 +20,5 @@ jobs:
           git config user.name "WildCard DEV Build"
           git config user.email "matt@wildcarddev.com"
           git add index.html
-          git diff --cached --check
           git commit -m "Unfuck top center panel architecture"
           git push origin HEAD:main
