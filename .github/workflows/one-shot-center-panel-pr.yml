@@ -1,0 +1,25 @@
+name: Trigger top center panel cleanup
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.event.pull_request.head.ref == 'center-panel-cleanup-trigger'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: python scripts/unfuck_center_panel.py
+      - run: |
+          git config user.name "WildCard DEV Build"
+          git config user.email "matt@wildcarddev.com"
+          git add index.html
+          git diff --cached --check
+          git commit -m "Unfuck top center panel architecture"
+          git push origin HEAD:main
