@@ -72,17 +72,24 @@ def matching_brace(src, opening):
         i += 1
     raise ValueError('Unbalanced CSS braces')
 
+def remove_comments(value):
+    return re.sub(r'/\*.*?\*/', '', value, flags=re.S)
+
 def clean_selector_header(header):
-    stripped = header.strip()
-    if not stripped:
+    comments = re.findall(r'/\*.*?\*/', header, flags=re.S)
+    core = remove_comments(header)
+    if not core.strip():
         return header
-    selectors = header.split(',')
+    selectors = core.split(',')
     kept = []
     for selector in selectors:
         if '.interface-mode' in selector or '.interface-modes' in selector or '.orbit-card.is-mode-active' in selector:
             continue
         kept.append(selector)
-    return ','.join(kept) if kept else None
+    if not kept:
+        return None
+    prefix = ''.join(comments)
+    return prefix + ','.join(kept)
 
 def clean_css(src):
     out = []
@@ -95,15 +102,16 @@ def clean_css(src):
         header = src[i:opening]
         closing = matching_brace(src, opening)
         body = src[opening + 1:closing]
-        stripped = header.strip()
-        if stripped.startswith('@keyframes') or stripped.startswith('@-webkit-keyframes'):
-            if 'mobileSystem' not in stripped:
+        code = remove_comments(header).strip()
+
+        if code.startswith('@keyframes') or code.startswith('@-webkit-keyframes'):
+            if 'mobileSystem' not in code:
                 out.append(header + '{' + body + '}')
-        elif stripped.startswith('@media') or stripped.startswith('@supports') or stripped.startswith('@container') or stripped.startswith('@layer'):
+        elif code.startswith('@media') or code.startswith('@supports') or code.startswith('@container') or code.startswith('@layer'):
             cleaned_body = clean_css(body)
             if cleaned_body.strip():
                 out.append(header + '{' + cleaned_body + '}')
-        elif stripped.startswith('@'):
+        elif code.startswith('@'):
             out.append(header + '{' + body + '}')
         else:
             cleaned_header = clean_selector_header(header)
@@ -196,6 +204,10 @@ text = text.replace(html_anchor, panel_markup + html_anchor, 1)
 forbidden = ['interface-modes', 'interface-mode ', 'interface-mode\"', 'setInterfaceMode', 'is-mode-active', 'mobileSystem']
 leftovers = [token for token in forbidden if token in text]
 if leftovers:
+    for token in leftovers:
+        for number, line in enumerate(text.splitlines(), start=1):
+            if token in line:
+                print(f'LEFTOVER {token} line {number}: {line[:240]}')
     raise SystemExit('Obsolete interface-mode residue remains: ' + ', '.join(leftovers))
 if text.count('class="orbit-center-panel"') != 1:
     raise SystemExit('Center panel count is not exactly one')
